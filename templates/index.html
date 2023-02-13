@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content_body %}
+    
+  <header class="d-flex flex-wrap justify-content-end py-3 mb-0 border-bottom ku-border-bottom ">
+  {% block headers %}
+      <a href="/" class="d-flex align-items-center px-2 mb-3 mb-md-0 me-md-auto text-decoration-none">
+        <img class="bi me-2" width="50" height="62" src="{{ url_for('static',filename='img/favicon.jpg') }}" />
+        <span class="fs-2 ku_header"><strong>Генератор отчетов</strong></span> 
+      </a>
+      {% block menu_header %}
+      <ul class="nav nav-pills ku-menu-text justify-content-end">
+        <li class="nav-item"><a href="\" class="nav-link" aria-current="page">Главная </a></li>
+        <li class="nav-item"><a href="\hnure" class="nav-link">ХНУРЕ</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Scopus</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">WOS</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Вопросы</a></li>
+      </ul>
+      {% endblock menu_header %}
+  {% endblock headers %}
+  </header>    
+  
+  {% block main %}
+    <main>
+      <div class="container-fluid ku-content">
+          <hr class="ku-hr">
+      </div>
+      <div class="container">
+          <div class="row-cols justify-content-center align-items-start g-4">
+              <div class="row">
+              <div class="col-md-4 col-gy-3">
+                  <a class="ku-border-base text-decoration-none" href="\hnure">
+                  <img src="{{ url_for('static',filename='img/HNURE.jpg') }}" class="p-3 img-fluid" alt="">
+                  <p class="fs-3 pt-1 text-center"><strong>ХНУРЕ</strong></p>
+                  <p class="fs-4 text-center">Редактор списка сотрудников</p>
+                  </a>  
+              </div>
+              <div class="col-md-4 col-gy-3">
+                  <a class="ku-border-base text-decoration-none text-reset" href="#">
+                  <img src="{{ url_for('static',filename='img/Scopus.jpg')}}" class="p-3 img-fluid" alt="">
+                  <p class="text-decoration-none fs-3 pt-3 text-center fst-italic" style="color: rgb(255, 145, 0);"><strong> Scopus</strong></p>
+                  </a>
+              </div>
+              <div class="col-md-4 col-gy-3">
+                  <a class="ku-border-base text-decoration-none text-reset" href="#">
+                  <img src="{{ url_for('static',filename='img/Clarivate_Logo_-_Modified.jpg') }}" class="p-3 pt-5 img-fluid" alt="">
+                  <img src="{{ url_for('static',filename='img/wos.jpg')}}" class="p-3 pb-4 img-fluid" alt="">
+                  <p class="fs-3 pt-5 text-center "><strong> WOS </strong></p>
+                  </a> 
+              </div>
+              </div>
+          </div>    
+      </div>        
+    </main>  
+  {% endblock  main %}
+    
+  {% block footer%}
+    <footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top ku-footer-0">
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
+        </div>
+    </footer>        
+  {% endblock footer %}  
+{% endblock content_body %} 

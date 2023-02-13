@@ -1,0 +1,78 @@
+{% extends 'index.html' %}
+{% block headers  %}
+    {% block menu_header %}
+    <a href="https://nure.ua" target="_blank" class="d-flex align-items-center px-2 mb-2 mb-md-0 me-md-auto text-decoration-none">
+        <img class="bi me-2" width="60" height="60" src="{{ url_for('static',filename='img/HNURE.jpg') }}" />
+        <!--span class="fs-2 ku_header"><strong>Генератор отчетов</strong></span--> 
+      </a>
+    <div class="col-md-6">
+        {{ content.pagination.info }}
+        {{ content.pagination.links }}
+    </div>
+      {{ super() }}
+    {% endblock menu_header %}
+{% endblock headers %}
+{% block main %}  
+<div class="table-responsive">
+  <!-- table-hover	 -->
+    <!--table-borderless -->
+    <table class="table 
+    table-sm 
+    table-bordered
+    border border-2
+    border-success
+    table-light
+    align-middle">
+    <colgroup>
+        <col width="4.0%">
+        <col width="23.2%">
+        <col width="8.1%">
+        <col width="7.8%">
+        <col width="15.0%">
+        <col width="10.1%">
+        <col width="31.8%">
+      </colgroup>     
+    <thead class="table-info table-bordered border-primary">
+        <!--caption>Table Name</caption-->
+      <tr style="height:auto; ">
+        <th class="">ID<br>Автора</th>
+        <th class="">ФИО</th>
+        <th class="">Кафедра</th>
+        <th class=""> ID Scopus</th>
+        <th class="">ID ORCID</th>
+        <th class="">Reaserher_ID</th>
+        <th class="">ФИО (латиница)</th>
+      </tr>
+    </thead>
+      <tbody class="table-group-divider">
+          {% for author in content.nure_list-%}
+          <tr>
+            <td class="ku-item-center">{{ author[0] }}</td>
+            <td class=""><a class="text-decoration-none" href="#">{{ author[1] }}</a></td>
+            <td class="ku-item-center">{{ author[2] }}</td>
+            <td class=""><a  class="text-decoration-none" href="https://www.scopus.com/authid/detail.uri?authorId={{ author[3]}}" target="_blank">{{ author[3] }}</a></td>
+            <td class=""><a class="text-decoration-none" href="https://www.orcid.org/{{ author[4]}}" target="_blank">{{ author[4] }}</a></td>
+            <td class="">{% if author[5] %} {{ author[5] }} {% endif %} </td>
+            <td class="">{% if author[6] %} {{ author[6] }} {% endif %}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="container">
+    <div class="row justify-content-between px-3 pt-0 mb-md-0">
+      {{ content.pagination.links }} 
+    </div>
+  </div>
+{% endblock main %}
+{% block footer%}
+<footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top ku-footer">
+  <div class="col-md-4 d-flex align-items-center">
+    <!-- <a href="/" class="mb-2 me-2 mb-md-0 text-muted text-decoration-none lh-1"> -->
+      <!-- <svg class="bi" width="30" height="24"></svg> -->
+    <!-- </a>   -->
+    <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
+  </div>
+</footer> 
+{% endblock footer%}
+
