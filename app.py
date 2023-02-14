@@ -42,21 +42,43 @@ def KhNURE():
     content = {} # словарь для передачи в шаблон
     db=get_db()
     dbase = FDataBase(db)
-    total_list =dbase.get_nure_list()
-    total = len(total_list)
-    limit = PER_PAGE
     
+    limit = PER_PAGE
+        
     page = request.args.get(get_page_parameter(), type=int, default=1)
     offset = 0 if page == 1 else (page-1) * limit    
     
+    if request.method == 'GET':
+        deportment=request.args.get("id_dep")
+        fist_name=request.args.get("fist_name")
+        if deportment :
+            total_list = dbase.get_nure_one_dep_list(deportment)
+        elif fist_name:
+            total_list =dbase.get_nure_one_list(fist_name)
+        else:
+            total_list = dbase.get_nure_list()
+    else:
+        total_list = dbase.get_nure_list()
+    
+    if total_list:
+        total = len(total_list)
+        content['nure_list'] = total_list[offset:offset+limit]  
+    else:
+        content['nure_list'] = 0
+        total=0
+
+    content['nure_dep'] = dbase.get_nure_total_dep_list()
     content['pagination'] = Pagination(page=page, total=total,outer_window=0,record_name='записей',   #search=False,
                                 display_msg="Отображено <b>{start} - {end}</b> {record_name} из всего <b>{total}</b>", 
                                 per_page=limit, bs_version=5)   #,alignment='right')
-    content['nure_list'] = total_list[offset:offset+limit]
+    
     content['title'] = 'Редактор списка сотрудников'
 
     return render_template('hnure.html', content=content)
-       
+
+
+ 
+
 
 @app.route("/wos")
 def WOS():

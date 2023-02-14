@@ -5,17 +5,36 @@
         <img class="bi me-2" width="60" height="60" src="{{ url_for('static',filename='img/HNURE.jpg') }}" />
         <!--span class="fs-2 ku_header"><strong>Генератор отчетов</strong></span--> 
       </a>
-    <div class="col-md-6">
+    <div class="col-md-6 ">
         {{ content.pagination.info }}
         {{ content.pagination.links }}
     </div>
-      {{ super() }}
+    {{ super() }}
+    <div class="container">
+      <div class="d-flex px-5 justify-content-evenly align-items-center g-2">
+        <div class="col-md-4 px-3">
+          <form action="/hnure" class="d-flex" role="select">
+            <select name="id_dep" class="form-select form-select-sm" aria-label=".form-select-sm">
+              <option selected>Выбор кафедры ...</option>
+              {% for key,dep in content.nure_dep-%}
+                <option value="{{ key }}">{{ dep }}</option>
+              {% endfor %}
+            <button class="btn btn-outline-light" type="submit">Выбор</button>
+          </form>
+        </div>
+        <div class="col-md-4 px-2">
+          <form action="/hnure" class="d-flex justify-content-start" role="search">
+            <input class="form-control me-2" name="fist_name" type="search" placeholder="Поиск по ФИО" aria-label="Поиск">
+            <button class="btn btn-outline-light" type="submit">Поиск</button>
+          </form>
+          <!-- <div class="">Column</div> -->
+        </div>
+      </div>
+    </div>
     {% endblock menu_header %}
 {% endblock headers %}
 {% block main %}  
 <div class="table-responsive">
-  <!-- table-hover	 -->
-    <!--table-borderless -->
     <table class="table 
     table-sm 
     table-bordered
@@ -33,7 +52,6 @@
         <col width="31.8%">
       </colgroup>     
     <thead class="table-info table-bordered border-primary">
-        <!--caption>Table Name</caption-->
       <tr style="height:auto; ">
         <th class="">ID<br>Автора</th>
         <th class="">ФИО</th>
@@ -58,7 +76,7 @@
           {% endfor %}
       </tbody>
     </table>
-  </div>
+</div>
   <div class="container">
     <div class="row justify-content-between px-3 pt-0 mb-md-0">
       {{ content.pagination.links }} 
@@ -68,9 +86,6 @@
 {% block footer%}
 <footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top ku-footer">
   <div class="col-md-4 d-flex align-items-center">
-    <!-- <a href="/" class="mb-2 me-2 mb-md-0 text-muted text-decoration-none lh-1"> -->
-      <!-- <svg class="bi" width="30" height="24"></svg> -->
-    <!-- </a>   -->
     <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
   </div>
 </footer> 
