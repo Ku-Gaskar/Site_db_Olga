@@ -11,15 +11,16 @@
     </div>
     {{ super() }}
     <div class="container">
-      <div class="d-flex px-5 justify-content-evenly align-items-center g-2">
+      <div class="d-flex justify-content-end align-items-center g-2">
         <div class="col-md-4 px-3">
           <form action="/hnure" class="d-flex" role="select">
             <select name="id_dep" class="form-select form-select-sm" aria-label=".form-select-sm">
-              <option selected>Выбор кафедры ...</option>
+              <option selected>{{ content.nure_current_dep }}</option>
               {% for key,dep in content.nure_dep-%}
                 <option value="{{ key }}">{{ dep }}</option>
               {% endfor %}
-            <button class="btn btn-outline-light" type="submit">Выбор</button>
+            </select>
+            <button class="btn btn-outline-light mx-2" type="submit">Выбор</button>
           </form>
         </div>
         <div class="col-md-4 px-2">
@@ -63,17 +64,19 @@
       </tr>
     </thead>
       <tbody class="table-group-divider">
-          {% for author in content.nure_list-%}
+      <!-- {% if content.nure_list %}   -->
+        {% for author in content.nure_list-%}
           <tr>
             <td class="ku-item-center">{{ author[0] }}</td>
-            <td class=""><a class="text-decoration-none" href="#">{{ author[1] }}</a></td>
+            <td class=""><a class="text-decoration-none" href="hnure/{{ author[0] }}">{{ author[1] }}</a></td>
             <td class="ku-item-center">{{ author[2] }}</td>
             <td class=""><a  class="text-decoration-none" href="https://www.scopus.com/authid/detail.uri?authorId={{ author[3]}}" target="_blank">{{ author[3] }}</a></td>
             <td class=""><a class="text-decoration-none" href="https://www.orcid.org/{{ author[4]}}" target="_blank">{{ author[4] }}</a></td>
             <td class="">{% if author[5] %} {{ author[5] }} {% endif %} </td>
             <td class="">{% if author[6] %} {{ author[6] }} {% endif %}</td>
           </tr>
-          {% endfor %}
+        {% endfor %}
+      <!-- {% endif %}     -->
       </tbody>
     </table>
 </div>

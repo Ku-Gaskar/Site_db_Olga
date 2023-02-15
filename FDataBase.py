@@ -24,8 +24,9 @@ class FDataBase:
                                 on  ((tsh."id_Sciencer" = foo.id_autor))
                                 ORDER BY tsh."FIO") as res
                                 where res.id_depatment ="""
-    def get_nure_list(self):
+    def get_nure_list(self,limit=0,offset=0):
         try:
+            
             self.__cur.execute(self.__query_all_nure)
             return self.__cur.fetchall()
         except (Exception,Error) as error:
@@ -51,6 +52,14 @@ class FDataBase:
         try:
             one_dep_SQL=f"{self.__query_one_dep_nure}{deportment};"
             self.__cur.execute(one_dep_SQL)
+            return self.__cur.fetchall()
+        except (Exception,Error) as error:
+            print("Ошибка при работе чтения БД:", error)
+
+    def get_author_by_id(self,id):
+        try:
+            one_author_SQL=f"""SELECT * FROM ({self.__query_all_nure}) AS one_author WHERE one_author."id_Sciencer" = {id};"""
+            self.__cur.execute(one_author_SQL)
             return self.__cur.fetchall()
         except (Exception,Error) as error:
             print("Ошибка при работе чтения БД:", error)

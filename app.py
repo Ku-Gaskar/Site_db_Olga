@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, g, request, Blueprint
+from flask import Flask, render_template, url_for, g, request, Blueprint,redirect
 
 from flask_bootstrap import Bootstrap
 from FDataBase import FDataBase 
@@ -25,10 +25,18 @@ def connect_db():
     return conn
 
 def get_db():
-    db = getattr(g, '_database',None)
-    if db is None:
-       db = g._database = connect_db()
-    return db
+    '''Соединение с БД, если оно еще не установлено'''
+    if not hasattr(g, 'link_db'):
+        g.link_db = connect_db()
+    return g.link_db
+
+dbase=None
+
+@app.before_request
+def before_request():
+    global dbase
+    dbase = FDataBase(get_db())
+
 
 @app.route("/index")
 @app.route("/")
@@ -36,38 +44,46 @@ def index():
     return render_template('index.html',content = {'title':'Генератор отчетов'})
 
 
+@app.route("/hnure/<int:cur_page>",methods=['GET']) 
+def hnure(cur_page):
+    print(cur_page)
+    content={}
+    content['author'] =dbase.get_author_by_id(int(cur_page))
+    content['nure_dep'] = dbase.get_nure_total_dep_list()
+    return render_template('edit_author.html', content=content)
+
+
 @app.route("/hnure",methods=['GET'])
-#@app.route('/<section>/<int:cur_page>/', methods=['GET']
 def KhNURE():   
-    content = {} # словарь для передачи в шаблон
-    db=get_db()
-    dbase = FDataBase(db)
-    
+    content = {} # словарь для передачи в шаблон    
     limit = PER_PAGE
         
     page = request.args.get(get_page_parameter(), type=int, default=1)
     offset = 0 if page == 1 else (page-1) * limit    
     
+    content['nure_dep'] = dbase.get_nure_total_dep_list()
     if request.method == 'GET':
         deportment=request.args.get("id_dep")
         fist_name=request.args.get("fist_name")
-        if deportment :
-            total_list = dbase.get_nure_one_dep_list(deportment)
+        if deportment and deportment.isnumeric():
+                total_list = dbase.get_nure_one_dep_list(deportment)
+                content['nure_current_dep']= dict(content['nure_dep'])[int(deportment)] 
         elif fist_name:
             total_list =dbase.get_nure_one_list(fist_name)
         else:
             total_list = dbase.get_nure_list()
+            content['nure_current_dep']='Выбор кафедры ( ВСЕ )'
     else:
         total_list = dbase.get_nure_list()
+        content['nure_current_dep']='Выбор кафедры ( ВСЕ )'
     
     if total_list:
         total = len(total_list)
-        content['nure_list'] = total_list[offset:offset+limit]  
+        content['nure_list'] = total_list[offset:offset+limit]
     else:
         content['nure_list'] = 0
         total=0
 
-    content['nure_dep'] = dbase.get_nure_total_dep_list()
     content['pagination'] = Pagination(page=page, total=total,outer_window=0,record_name='записей',   #search=False,
                                 display_msg="Отображено <b>{start} - {end}</b> {record_name} из всего <b>{total}</b>", 
                                 per_page=limit, bs_version=5)   #,alignment='right')
@@ -75,10 +91,6 @@ def KhNURE():
     content['title'] = 'Редактор списка сотрудников'
 
     return render_template('hnure.html', content=content)
-
-
- 
-
 
 @app.route("/wos")
 def WOS():
@@ -89,9 +101,10 @@ def Scopus():
     return render_template('scopus.html')
 
 @app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db:  db.close()
+def close_db(error):
+    '''Закрываем соединение с БД, если оно было установлено'''
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
 
 
 if __name__ == "__main__":
