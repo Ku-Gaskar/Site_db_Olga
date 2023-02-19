@@ -1,9 +1,10 @@
-from flask import Flask, render_template, url_for, g, request, Blueprint,redirect
+from flask import Flask, render_template, url_for, g, request, Blueprint,redirect,flash
 
 from flask_bootstrap import Bootstrap
-from FDataBase import FDataBase 
+from FDataBase import FDataBase, Author
 import psycopg2
 from flask_paginate import Pagination, get_page_parameter
+import forms
 
 
 DATABASE='localhost'
@@ -41,19 +42,50 @@ def before_request():
 @app.route("/index")
 @app.route("/")
 def index():
-    return render_template('index.html',content = {'title':'Генератор отчетов'})
+    return render_template('index.j2',content = {'title':'Генератор отчетов'})
 
 
-@app.route("/hnure/<int:cur_page>",methods=['GET']) 
-def hnure(cur_page):
-    print(cur_page)
-    content={}
-    content['author'] =dbase.get_author_by_id(int(cur_page))
-    content['nure_dep'] = dbase.get_nure_total_dep_list()
-    return render_template('edit_author.html', content=content)
+@app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
+def delete(cur_page):
+
+    edit_form=forms.EditForm()    
+    edit_form.depat.choices=dbase.get_nure_total_dep_list()
+
+    if request.method == 'POST':
+        if edit_form.validate_on_submit():
+            flash("Вы успешно обновили данные", "success")
+            print('Delete')
+            return redirect(request.url)
+        else:
+            flash('Ошибка ввода данных', category = 'error')
+            return redirect(request.url)
+    else:    
+        content={}
+        content['author'] =dbase.get_author_by_id(int(cur_page))
+        edit_form.name_author.data=content['author'][0][1]
+        edit_form.scopus_id.data=content['author'][0][3]
+        edit_form.orcid_id.data=content['author'][0][4]
+        edit_form.researcher_id.data=content['author'][0][5]
+        edit_form.depat.data=dbase.get_dep_by_author(int(cur_page))[0][3]
+        return render_template ('delete.j2', form = edit_form, content=content)
+    
+    # content['cur_dep']=dbase.get_dep_by_author(int(cur_page))
+    
+    
 
 
-@app.route("/hnure",methods=['GET'])
+# @app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
+# def hnure(cur_page):
+#     if request.method == 'POST':
+#         print(cur_page)
+#     content={}
+#     content['author'] =dbase.get_author_by_id(int(cur_page))
+#     content['cur_dep']=dbase.get_dep_by_author(int(cur_page))
+#     content['nure_dep'] = dbase.get_nure_total_dep_list()
+#     return render_template('edit_author.j2', content=content)
+
+
+@app.route("/hnure",methods=['GET','POST'])
 def KhNURE():   
     content = {} # словарь для передачи в шаблон    
     limit = PER_PAGE
@@ -62,7 +94,7 @@ def KhNURE():
     offset = 0 if page == 1 else (page-1) * limit    
     
     content['nure_dep'] = dbase.get_nure_total_dep_list()
-    if request.method == 'GET':
+    if request.method == 'POST':
         deportment=request.args.get("id_dep")
         fist_name=request.args.get("fist_name")
         if deportment and deportment.isnumeric():
@@ -90,15 +122,15 @@ def KhNURE():
     
     content['title'] = 'Редактор списка сотрудников'
 
-    return render_template('hnure.html', content=content)
+    return render_template('hnure.j2', content=content)
 
 @app.route("/wos")
 def WOS():
-    return render_template('wos.html')
+    return render_template('wos.j2')
 
 @app.route("/scopus")
 def Scopus():
-    return render_template('scopus.html')
+    return render_template('scopus.j2')
 
 @app.teardown_appcontext
 def close_db(error):
@@ -110,7 +142,7 @@ def close_db(error):
 if __name__ == "__main__":
     #http_server = WSGIServer(('', 5000), app)
     #http_server.serve_forever()
-    app.run('localhost',debug=True)
+    app.run('192.168.1.110',debug=True)
     
 
 

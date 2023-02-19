@@ -1,0 +1,101 @@
+{% extends 'index.j2' %}
+
+{% block headers  %}
+    
+    <a href="https://nure.ua/?s={{ content.author[0][1] }}" target="_blank" class="d-flex align-items-center px-2 mb-2 mb-md-0 me-md-auto text-decoration-none">
+        <img class="bi me-2" width="60" height="60" src="{{ url_for('static',filename='img/44069009-0.jpeg') }}" />
+        <span class="fs-2 ku_header"><strong>{{ content.author[0][1] }}</strong></span> 
+    </a> 
+    <!-- {{ super() }} -->
+    {% block menu_header %}
+    {{ super() }}
+    {% endblock menu_header %}
+{% endblock headers %}
+
+{% block main %}
+  <div class="container-fluid ">   
+    <form class="row justify-content-center" id="main_form">
+      {# {{ form.hidden_tag() }}  #}
+      <div class="col-8 mt-5 p-2 border border-primary border-2 ">  
+        <div class="row row-cols-4 m-2 justify-content-start align-items-center g-2">
+          <div class="col-md-1 ps-5">
+              <label for="validationDefault01" class="form-label"><strong>ID</strong></label>
+          </div>
+          <div class="col-md-1">
+              <input type="text" class="form-control" id="validationDefault01" value="{{ content.author[0][0] }}" disabled>
+          </div>    
+          <div class="col-1 px-4">
+            <label for="validationDefault02" class="form-label"><strong>ФИО</strong></label>
+          </div>
+          <div class="col-md-7">
+            <input name="fio" type="text" class="form-control" id="validationDefault02" value="{{ content.author[0][1] }}" required>
+          </div>  
+        </div>
+        <div class="row m-2 justify-content-start align-items-center g-2">          
+          <div class="col-md-2 ps-5"> <label for="scopus_id" class="form-label"><strong>Scopus_ID</strong></label></div>
+          <div class="col-md-6 ps-5">
+            <div class="input-group">
+              <span class="input-group-text" id="inputscopus_id">https://www.scopus/...</span>
+              <input name="scopus" type="text" class="form-control" id="scopus_id" value="{{ content.author[0][3] }} " aria-describedby="inputscopus_id">
+            </div>  
+          </div>
+        </div>    
+        <div class="row m-2 justify-content-start align-items-center g-2">
+          <div class="col-md-2 ps-5"><label for="orcid_id" class="form-label"><strong>Orcid_ID</strong></label></div>
+          <div class="col-md-7 ps-5"> 
+            <div class="input-group">
+                <span class="input-group-text" id="inputorcid_id">https://www.orcid.org/</span>
+                <input name="orcid" type="text" class="form-control" id="orcid_id" value="{{ content.author[0][4] }}" aria-describedby="inputorcid_id" >
+            </div>
+          </div>  
+        </div>
+        <div class="row m-2 justify-content-start align-items-center g-2">
+          <div class="col-md-2 ps-5"> <strong>Researcher_ID</strong></label></div>
+          <div class="col-md-4 ps-5"> 
+            <input  name="reseacher" type="text" class="form-control" id="research_id" value="{% if content.author[0][5] %}
+                                                                                {{ content.author[0][5] }}
+                                                                            {% endif %}">
+          </div> 
+        </div>  
+        
+
+        <div class="row m-2 justify-content-start align-items-top g-2">
+          <div class="col-md-3 p-3">
+            <label for="depatment" class="form-label"><strong>Кафедра</strong></label>
+            <select name="dep_select" class="form-select" id="depatment" required>
+                <option selected value="{{ content.cur_dep[0][3] }}">{{ content.cur_dep[0][2] }}</option>
+                {% for key,dep in content.nure_dep-%}
+                  <option value="{{ key }}">{{ dep }}</option>
+                {% endfor %}
+            </select>
+          </div>
+            <div class="col-md-8 p-3 m-4 border border-grey">
+              <label for="fio_lat" class="form-label"><strong>ФИО латиница</strong></label>
+              <textarea name="fio_lat" class="form-control" id="fio_lat" rows="2"  disabled>{{ content.author[0][6] }}</textarea>
+              <div class="row mt-1 justify-content-start align-items-center g-2">
+                <!-- <div class="col-md-2 ps-5"><label for="research_id" class="form-label"><strong></strong></label></div> -->
+                <div class="col-md-7"><input type="text" name="add_lat_name" class="form-control" id="research_id" value=""></div>
+                <div class="col-md-2"><button class="btn btn-secondary" type="submit">Добавить</button></div>
+              </div>
+            </div>  
+        </div>  
+        <div class="row mt-1 justify-content-between align-items-center g-2"> 
+          <div class="col-4 p-4" >
+            <button class="btn btn-success" type="submit">Сохранить изменения</button>
+          </div>
+          <div class="col-4 p-4" >
+            
+            <a name="help" id="" class="btn btn-danger" href="/delete/{{ content.author[0][0] }}" role="button">Удалить</a>  
+          </div>
+        </div>
+
+      </div> 
+    </form>
+  {% endblock main %}
+
+
+  
+
+
+
+

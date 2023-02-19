@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'index.j2' %}
 {% block headers  %}
     {% block menu_header %}
     <a href="https://nure.ua" target="_blank" class="d-flex align-items-center px-2 mb-2 mb-md-0 me-md-auto text-decoration-none">
@@ -13,7 +13,8 @@
     <div class="container">
       <div class="d-flex justify-content-end align-items-center g-2">
         <div class="col-md-4 px-3">
-          <form action="/hnure" class="d-flex" role="select">
+          <form method="get" id="select_dep"  action="/hnure" class="d-flex" role="select">
+            {# {{ form.hidden_tag() }} #}
             <select name="id_dep" class="form-select form-select-sm" aria-label=".form-select-sm">
               <option selected>{{ content.nure_current_dep }}</option>
               {% for key,dep in content.nure_dep-%}
@@ -24,7 +25,7 @@
           </form>
         </div>
         <div class="col-md-4 px-2">
-          <form action="/hnure" class="d-flex justify-content-start" role="search">
+          <form method="get" id="seach_name" action="/hnure" class="d-flex justify-content-start" role="search">
             <input class="form-control me-2" name="fist_name" type="search" placeholder="Поиск по ФИО" aria-label="Поиск">
             <button class="btn btn-outline-light" type="submit">Поиск</button>
           </form>
@@ -59,7 +60,7 @@
         <th class="">Кафедра</th>
         <th class=""> ID Scopus</th>
         <th class="">ID ORCID</th>
-        <th class="">Reaserher_ID</th>
+        <th class="">Researcher_ID</th>
         <th class="">ФИО (латиница)</th>
       </tr>
     </thead>
