@@ -46,8 +46,7 @@ def index():
 
 
 @app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
-def delete(cur_page):
-
+def edit_author(cur_page):
     
     edit_form=forms.EditForm()    
     edit_form.depat.choices=dbase.get_nure_total_dep_list()
@@ -59,29 +58,27 @@ def delete(cur_page):
             if edit_form.submit_save.data:
                 flash("Вы успешно обновили данные", "success")
                 print('Save')
-                # return redirect(request.url)#'delete.j2', form = edit_form, content=content)
+
             elif edit_form.submit_add.data:
                 lat_one_name=edit_form.one_lat_name.data
                 if  lat_one_name:
                     edit_form.list_lat_name.data+='; '+lat_one_name
                     edit_form.one_lat_name.data=''
                     flash("Вы добавили фамилию латиницы", "success")               
-                    # render_template('delete.j2', form = edit_form, content=content)
                     print('Add')
                 else:
                     if edit_form.list_lat_name.data != content['author'][0][6]:
                         flash("Вы изменили список фамилий латиницы", "success")
                     else:
                         flash("Вы не добавили фамилию латиницы", "error")
-            elif edit_form.submit_escape.data:
-                return redirect(request.url)
+            elif edit_form.submit_escape.data:    
+                return redirect (request.url)
 
-                # return render_template('delete.j2', form = edit_form, content=content)
-
+        elif edit_form.submit_escape.data:
+            return redirect (request.url)
 
         else:
             flash('Ошибка ввода данных', category = 'error')
-            # return render_template('delete.j2', form = edit_form, content=content)
     else:    
         edit_form.name_author.data=content['author'][0][1]
         edit_form.scopus_id.data=content['author'][0][3]
@@ -90,22 +87,7 @@ def delete(cur_page):
         edit_form.depat.data=dbase.get_dep_by_author(int(cur_page))[0][3]
         edit_form.list_lat_name.data=content['author'][0][6]
 
-    return render_template ('delete.j2', form = edit_form, content=content)
-    
-    # content['cur_dep']=dbase.get_dep_by_author(int(cur_page))
-    
-    
-
-
-# @app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
-# def hnure(cur_page):
-#     if request.method == 'POST':
-#         print(cur_page)
-#     content={}
-#     content['author'] =dbase.get_author_by_id(int(cur_page))
-#     content['cur_dep']=dbase.get_dep_by_author(int(cur_page))
-#     content['nure_dep'] = dbase.get_nure_total_dep_list()
-#     return render_template('edit_author.j2', content=content)
+    return render_template ('edit_author.j2', form = edit_form, content=content)
 
 
 @app.route("/hnure",methods=['GET','POST'])
