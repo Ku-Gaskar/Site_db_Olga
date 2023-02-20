@@ -16,8 +16,12 @@ header,footer{
 }
 body{
     background-color:beige; 
-   
 }
+
+label{
+    font-weight: bold;
+}
+
 .itd_play {
     background-color: var(--color1);
     width: 60px;

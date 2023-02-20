@@ -48,26 +48,49 @@ def index():
 @app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
 def delete(cur_page):
 
+    
     edit_form=forms.EditForm()    
     edit_form.depat.choices=dbase.get_nure_total_dep_list()
+    content={}
+    content['author'] =dbase.get_author_by_id(int(cur_page))
 
     if request.method == 'POST':
         if edit_form.validate_on_submit():
-            flash("Вы успешно обновили данные", "success")
-            print('Delete')
-            return redirect(request.url)
+            if edit_form.submit_save.data:
+                flash("Вы успешно обновили данные", "success")
+                print('Save')
+                # return redirect(request.url)#'delete.j2', form = edit_form, content=content)
+            elif edit_form.submit_add.data:
+                lat_one_name=edit_form.one_lat_name.data
+                if  lat_one_name:
+                    edit_form.list_lat_name.data+='; '+lat_one_name
+                    edit_form.one_lat_name.data=''
+                    flash("Вы добавили фамилию латиницы", "success")               
+                    # render_template('delete.j2', form = edit_form, content=content)
+                    print('Add')
+                else:
+                    if edit_form.list_lat_name.data != content['author'][0][6]:
+                        flash("Вы изменили список фамилий латиницы", "success")
+                    else:
+                        flash("Вы не добавили фамилию латиницы", "error")
+            elif edit_form.submit_escape.data:
+                return redirect(request.url)
+
+                # return render_template('delete.j2', form = edit_form, content=content)
+
+
         else:
             flash('Ошибка ввода данных', category = 'error')
-            return redirect(request.url)
+            # return render_template('delete.j2', form = edit_form, content=content)
     else:    
-        content={}
-        content['author'] =dbase.get_author_by_id(int(cur_page))
         edit_form.name_author.data=content['author'][0][1]
         edit_form.scopus_id.data=content['author'][0][3]
         edit_form.orcid_id.data=content['author'][0][4]
         edit_form.researcher_id.data=content['author'][0][5]
         edit_form.depat.data=dbase.get_dep_by_author(int(cur_page))[0][3]
-        return render_template ('delete.j2', form = edit_form, content=content)
+        edit_form.list_lat_name.data=content['author'][0][6]
+
+    return render_template ('delete.j2', form = edit_form, content=content)
     
     # content['cur_dep']=dbase.get_dep_by_author(int(cur_page))
     
@@ -94,7 +117,7 @@ def KhNURE():
     offset = 0 if page == 1 else (page-1) * limit    
     
     content['nure_dep'] = dbase.get_nure_total_dep_list()
-    if request.method == 'POST':
+    if request.method == 'GET':
         deportment=request.args.get("id_dep")
         fist_name=request.args.get("fist_name")
         if deportment and deportment.isnumeric():
