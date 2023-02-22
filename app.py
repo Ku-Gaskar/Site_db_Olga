@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, g, request, Blueprint,redirect,flash
 
 from flask_bootstrap import Bootstrap
-from FDataBase import FDataBase, Author
+from FDataBase import FDataBase
 import psycopg2
 from flask_paginate import Pagination, get_page_parameter
 import forms
@@ -31,6 +31,17 @@ def get_db():
         g.link_db = connect_db()
     return g.link_db
 
+def update_db_author(cont,d,id):
+    a,b,c = True, True, True 
+    id_dep_old =  dbase.get_dep_by_author(int(id))[0][3]
+    if id_dep_old != d.depat:
+        a=dbase.update_dep_by_id(id,d.depat,id_dep_old)
+    if (cont['author'][0][1] != d.name_author) or (cont['author'][0][3] != d.scopus_id) or (cont['author'][0][4] != d.orcid_id
+        ) or (cont['author'][0][5] != d.researcher_id):
+        b=dbase.update_name_scopus_orcid_reasearcher_id_by_author_id(d,cont)
+
+    return True if a and b else False 
+
 dbase=None
 
 @app.before_request
@@ -47,45 +58,50 @@ def index():
 
 @app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
 def edit_author(cur_page):
-    
+    def set_form_edit(content:dict={'author':[(None,'','','','','','')]}):
+        edit_form.name_author.data=content['author'][0][1]
+        edit_form.scopus_id.data=content['author'][0][3]
+        edit_form.orcid_id.data=content['author'][0][4]
+        edit_form.researcher_id.data=content['author'][0][5]
+        edit_form.depat.data=dbase.get_dep_by_author(int(cur_page))[0][3]
+        edit_form.list_lat_name.data=content['author'][0][6] 
+        return
+
     edit_form=forms.EditForm()    
     edit_form.depat.choices=dbase.get_nure_total_dep_list()
     content={}
     content['author'] =dbase.get_author_by_id(int(cur_page))
 
     if request.method == 'POST':
+        if edit_form.submit_delete.data:
+            # flash("Вы успешно удалили данные", "success")
+            return redirect(url_for('.KhNURE'))
+        elif edit_form.submit_escape.data:
+            return redirect(request.url)
+
         if edit_form.validate_on_submit():
             if edit_form.submit_save.data:
-                flash("Вы успешно обновили данные", "success")
-                print('Save')
+                new_data =forms.EditStruct
+                edit_form.populate_obj(new_data)
+                if update_db_author(content,new_data,cur_page):
+                    flash("Вы успешно обновили данные", "success")
+                else:
+                    flash("Ошибка обновления данных", "error")
 
             elif edit_form.submit_add.data:
-                lat_one_name=edit_form.one_lat_name.data
-                if  lat_one_name:
-                    edit_form.list_lat_name.data+='; '+lat_one_name
+                if  edit_form.one_lat_name.data:
+                    edit_form.list_lat_name.data+='; ' + edit_form.one_lat_name.data
                     edit_form.one_lat_name.data=''
                     flash("Вы добавили фамилию латиницы", "success")               
-                    print('Add')
                 else:
                     if edit_form.list_lat_name.data != content['author'][0][6]:
                         flash("Вы изменили список фамилий латиницы", "success")
                     else:
                         flash("Вы не добавили фамилию латиницы", "error")
-            elif edit_form.submit_escape.data:    
-                return redirect (request.url)
-
-        elif edit_form.submit_escape.data:
-            return redirect (request.url)
-
         else:
             flash('Ошибка ввода данных', category = 'error')
     else:    
-        edit_form.name_author.data=content['author'][0][1]
-        edit_form.scopus_id.data=content['author'][0][3]
-        edit_form.orcid_id.data=content['author'][0][4]
-        edit_form.researcher_id.data=content['author'][0][5]
-        edit_form.depat.data=dbase.get_dep_by_author(int(cur_page))[0][3]
-        edit_form.list_lat_name.data=content['author'][0][6]
+        set_form_edit(content)
 
     return render_template ('edit_author.j2', form = edit_form, content=content)
 

@@ -1,10 +1,10 @@
 {% extends 'index.j2' %}
 {% macro input(field,text,class) -%}
         <div class="row m-2 justify-content-start align-items-center g-2">
-          <div class="col-md-2 ps-5">{{  field.label(class='form-label')}}</div>
+          <div class="col-md-2 ps-5">{{ field.label(class='form-label') }}</div>
           <div class="{{ class }} ps-5"> 
             <div class="input-group">
-                <span class="input-group-text" id="inputorcid_id">{{ text }}</span>
+                <span class="input-group-text">{{ text }}</span>
                 {% if field.errors %} 
                   {{ field(class='border-danger form-control') }}
             </div>        
@@ -79,16 +79,32 @@
             {{ form.submit_escape(class="btn btn-secondary") }}
           </div>
           <div class="col-4 p-4" >
-            <a name="help" id="" class="btn btn-danger" href="/delete/{{ content.author[0][0] }}" role="button">Удалить</a>  
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
+            {# <a name="help" id="" class="btn btn-danger" href="/delete/{{ content.author[0][0] }}" role="button">Удалить</a>   #}
           </div>
         </div>
       </div> 
-    </form>
+  <!-- Модальное окно -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border border-danger ">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Вы подтверждаете удаление автора?</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+          </div>
+          <div class="modal-body">
+            <p class="h4 text-center">{{ form.name_author.data}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            {{ form.submit_delete(class="btn btn-danger") }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
   {% endblock main %}
-
-
-  
-
 
 
 

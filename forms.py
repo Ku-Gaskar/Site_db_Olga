@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SelectField,SubmitField,IntegerField
 from wtforms.validators import Email, DataRequired, EqualTo,InputRequired,Optional,Regexp,Length
-from FDataBase import FDataBase
+
 
 # class LoginForm(Form):
 #     email = StringField('E-mail', validators=[Email(), DataRequired()])
@@ -9,6 +9,10 @@ from FDataBase import FDataBase
 
 # class RegistrationForm(LoginForm):
 #     password_repeat = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
+
+class EditStruct:
+        name_author:str = None
+
 
 
 class EditForm(FlaskForm):
@@ -26,3 +30,4 @@ class EditForm(FlaskForm):
     submit_escape = SubmitField("Отмена")
     submit_add = SubmitField("Добавить")
     submit_save = SubmitField("Сохранить изменения")
+    submit_delete=SubmitField("Удалить")
