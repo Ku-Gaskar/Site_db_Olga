@@ -13,7 +13,7 @@ DEBUG=True
 SECRET_KEY='trwyuwteutweur376437643764kjf'
 
 PER_PAGE=100     # записей на одной странице nure
- 
+NOT_DEP=10009    # id кафедры которой нет
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -33,14 +33,29 @@ def get_db():
 
 def update_db_author(cont,d,id):
     a,b,c = True, True, True 
-    id_dep_old =  dbase.get_dep_by_author(int(id))[0][3]
-    if id_dep_old != d.depat:
-        a=dbase.update_dep_by_id(id,d.depat,id_dep_old)
+    # обработка кафедр ----------------------------------------------
+    list_id_dep_old =  dbase.get_dep_by_author(int(id))
+    if list_id_dep_old[0][3] != d.depat:
+        a=dbase.update_dep_by_id(id,d.depat,list_id_dep_old[0][3])
+    if (len(list_id_dep_old) == 1 ) and (d.depat_two != NOT_DEP):
+        a=dbase.insert_dep_by_id_author(id,d.depat_two)
+    elif (len(list_id_dep_old) == 2) and (d.depat_two == NOT_DEP):
+        a=dbase.delete_dep_by_id_author(id,list_id_dep_old[1][3])
+    elif (len(list_id_dep_old) == 2) and (d.depat_two != NOT_DEP) and (d.depat_two != list_id_dep_old[1][3]):
+        a=dbase.update_dep_by_id(id,d.depat_two,list_id_dep_old[1][3])
+    #----------------------------------------------------------------    
     if (cont['author'][0][1] != d.name_author) or (cont['author'][0][3] != d.scopus_id) or (cont['author'][0][4] != d.orcid_id
         ) or (cont['author'][0][5] != d.researcher_id):
         b=dbase.update_name_scopus_orcid_reasearcher_id_by_author_id(d,cont)
+    if cont['author'][0][6]!= d.list_lat_name:
+        dbase.delete_lat_name_by_id_author(id)
+        name_lat_dict = {}
+        for lat_name in d.list_lat_name.split(';'):
+            name_lat_dict[lat_name.strip()] = id
+        for key,id_name in name_lat_dict.items():
+            c=dbase.insert_lat_name_by_author_id(key,id_name)
 
-    return True if a and b else False 
+    return True if a and b  and c else False 
 
 dbase=None
 
@@ -63,12 +78,19 @@ def edit_author(cur_page):
         edit_form.scopus_id.data=content['author'][0][3]
         edit_form.orcid_id.data=content['author'][0][4]
         edit_form.researcher_id.data=content['author'][0][5]
-        edit_form.depat.data=dbase.get_dep_by_author(int(cur_page))[0][3]
+        list_dep_author=dbase.get_dep_by_author(int(cur_page))
+        edit_form.depat.data=list_dep_author[0][3]
+        if len(list_dep_author) > 1:
+            edit_form.depat_two.data=list_dep_author[1][3]
+        else:
+            edit_form.depat_two.data=NOT_DEP
         edit_form.list_lat_name.data=content['author'][0][6] 
         return
 
     edit_form=forms.EditForm()    
-    edit_form.depat.choices=dbase.get_nure_total_dep_list()
+    list_all_dep=dbase.get_nure_total_dep_list()
+    edit_form.depat.choices=list_all_dep
+    edit_form.depat_two.choices=list_all_dep
     content={}
     content['author'] =dbase.get_author_by_id(int(cur_page))
 
@@ -90,7 +112,10 @@ def edit_author(cur_page):
 
             elif edit_form.submit_add.data:
                 if  edit_form.one_lat_name.data:
-                    edit_form.list_lat_name.data+='; ' + edit_form.one_lat_name.data
+                    if edit_form.list_lat_name.data:
+                        edit_form.list_lat_name.data += '; '+ edit_form.one_lat_name.data
+                    else:
+                        edit_form.list_lat_name.data = edit_form.one_lat_name.data
                     edit_form.one_lat_name.data=''
                     flash("Вы добавили фамилию латиницы", "success")               
                 else:

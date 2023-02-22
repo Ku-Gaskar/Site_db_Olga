@@ -54,10 +54,25 @@
         {{ input (form.orcid_id,'https://www.orcid.org/','col-md-7')}}
         {{ input (form.researcher_id,'R_ID','col-md-5')}}
         <div class="row m-2 justify-content-start align-items-top g-2">
-          <div class="col-md-3 p-3">
+          <div class="col-md-3 p-2">
             {{ form.depat.label(class='form-label')}}
             {{ form.depat(class='form-select') }}
+            {{ form.depat_two.label(class='form-label pt-3')}}          
+            {% if form.depat_two.data == 10009 %}
+              {{ form.depat_two(class='form-select',disabled=disabled) }}
+            {% else %}
+              {{ form.depat_two(class='form-select') }}
+            {% endif %}
+            <div class="form-check p-2">
+            {% if form.depat_two.data == 10009 %}
+              {{ form.part_time_worker (onmousedown="this.form.depat_two.disabled = this.checked")}}
+            {% else %}
+              {{ form.part_time_worker (checked=True,onmousedown="this.form.depat_two.disabled = this.checked")}}
+            {% endif %}
+              {{ form.part_time_worker.label}}
+            </div>
           </div>  
+          
           <div class="col-md-8 p-3 m-4 border border-grey">
             {{ form.list_lat_name.label }}
             {{ form.list_lat_name() }}            
@@ -104,7 +119,9 @@
     </div>
 
   </form>
+
   {% endblock main %}
+  
 
 
 

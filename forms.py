@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, TextAreaField, SelectField,SubmitField,IntegerField
+from wtforms import StringField, PasswordField, TextAreaField, SelectField,SubmitField,IntegerField,SelectMultipleField,BooleanField 
 from wtforms.validators import Email, DataRequired, EqualTo,InputRequired,Optional,Regexp,Length
 
 
@@ -22,12 +22,15 @@ class EditForm(FlaskForm):
             message='Формат: XXXX-XXXX-XXXX-XXXX')])
     researcher_id=StringField('Researcher_ID',validators=[Optional(),Regexp('^[A-Za-z]{1,}-[0-9]{3,}-[0-9]{4}$',
             message='Формат: A(AAA)-XXX(XXX)-XXXX')])#,Length(min=10, max=16)])
-    depat=SelectField('Кафедра',coerce=int)
+    depat=SelectField('Кафедра',coerce= int)
     
     list_lat_name=TextAreaField("ФИО латиница",render_kw={'class': 'form-control', 'rows': 3})
     one_lat_name=StringField(render_kw={'class': 'form-control'})
     
-    submit_escape = SubmitField("Отмена")
+    part_time_worker=BooleanField("Совместитель")
+    depat_two=SelectField('Кафедра 2',coerce= int)
+
+    submit_escape = SubmitField("Отмена/Обновить")
     submit_add = SubmitField("Добавить")
     submit_save = SubmitField("Сохранить изменения")
     submit_delete=SubmitField("Удалить")

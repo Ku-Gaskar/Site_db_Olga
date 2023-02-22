@@ -51,7 +51,9 @@ class FDataBase:
         return self.__read_execute(self.__query_all_nure)
 
     def get_nure_one_list(self,autor_):
-        one_author_SQL=f"""SELECT * FROM ({self.__query_all_nure}) AS one_author WHERE one_author."FIO" ILIKE '%{autor_}%';"""
+        one_author_SQL=f"""SELECT * FROM ({self.__query_all_nure}) AS one_author WHERE 
+                                                                one_author."FIO" ILIKE '%{autor_}%' or 
+                                                                one_author.name_l ILIKE '%{autor_}%' ;"""
         return self.__read_execute(one_author_SQL)
 
     def get_nure_total_dep_list(self):
@@ -92,7 +94,19 @@ class FDataBase:
             up_scopus_SQL+=f""" and  tsh."Researcher_ID" = '{old_id['author'][0][5]}' """
         up_scopus_SQL+="""returning tsh ."FIO"; """
         return self.__update_execute(up_scopus_SQL)
-
+    
+    def delete_lat_name_by_id_author(self,id):
+        
+        up_dep_SQL=f"""delete from public.lat_name_hnure AS t 
+                        where t.id_autor = {id} """
+        return self.__update_execute(up_dep_SQL)
+    
+    def insert_lat_name_by_author_id(self,lat_name,id):
+        
+        up_dep_SQL=f"""INSERT INTO public.lat_name_hnure AS t (id_autor,name_lat) 
+                values ({id},'{lat_name}') 
+                RETURNING name_lat; """      
+        return self.__update_execute(up_dep_SQL)
     
 
 
