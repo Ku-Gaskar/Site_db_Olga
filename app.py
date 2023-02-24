@@ -34,23 +34,15 @@ def get_db():
 def update_db_author(cont,d,id):
     a,b,c = True, True, True 
     if id == 0:
-        return True if dbase.insert_new_author(d) else False
+        id=dbase.insert_new_author(d)
+        if not id: return False
+        cont['author'] =dbase.get_author_by_id(id)
     # обработка кафедр ----------------------------------------------
-    # list_id_dep_old =  dbase.get_dep_by_author(int(id))
     a=dbase.delete_dep_by_id_author(id)
     a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat)
     if d.part_time_worker:
         a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
 
-    # if list_id_dep_old[0][3] != d.depat:
-    #     a=dbase.update_dep_by_id(id,d.depat,list_id_dep_old[0][3])
-    # if (len(list_id_dep_old) == 1 ) and (d.depat_two != NOT_DEP):
-    #     a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
-    # elif (len(list_id_dep_old) == 2) and (d.depat_two == NOT_DEP):
-    #     a=dbase.delete_dep_by_id_author(id,list_id_dep_old[1][3])
-    # elif (len(list_id_dep_old) == 2) and (d.depat_two != NOT_DEP) and (d.depat_two != list_id_dep_old[1][3]):
-    #     a=dbase.update_dep_by_id(id,d.depat_two,list_id_dep_old[1][3])
-    #----------------------------------------------------------------    
     if (cont['author'][0][1] != d.name_author) or (cont['author'][0][3] != d.scopus_id) or (cont['author'][0][4] != d.orcid_id
         ) or (cont['author'][0][5] != d.researcher_id):
         b=dbase.update_name_scopus_orcid_reasearcher_id_by_author_id(d,cont)
