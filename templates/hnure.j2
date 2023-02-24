@@ -12,18 +12,23 @@
     {{ super() }}
     <div class="container">
       <div class="d-flex justify-content-end align-items-center g-2">
-        <div class="col-md-4 px-3">
           <form method="get" id="select_dep"  action="/hnure" class="d-flex" role="select">
+          <a class="text-decoration-none" href="/hnure/0"> <span class="btn btn-primary mx-4" >Добавить нового автора</span></a>
+          <div class="col-md-6 ps-5">
+          <div class="input-group">
             {# {{ form.hidden_tag() }} #}
+            
             <select name="id_dep" class="form-select form-select-sm" aria-label=".form-select-sm">
               <option selected>{{ content.nure_current_dep }}</option>
+                <option value="Все каферы">Все каферы</option>
               {% for key,dep in content.nure_dep-%}
                 <option value="{{ key }}">{{ dep }}</option>
               {% endfor %}
             </select>
             <button class="btn btn-outline-light mx-2" type="submit">Выбор</button>
-          </form>
         </div>
+        </div>           
+          </form>
         <div class="col-md-4 px-2">
           <form method="get" id="seach_name" action="/hnure" class="d-flex justify-content-start" role="search">
             <input class="form-control me-2" name="fist_name" type="search" placeholder="Поиск по ФИО" aria-label="Поиск">

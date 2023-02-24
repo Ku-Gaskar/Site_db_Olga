@@ -14,19 +14,19 @@ class FDataBase:
         self.__db = db
         self.__cur=db.cursor()
         self.__query_all_nure = """select tsh."id_Sciencer",tsh."FIO" ,foo1.dep , tsh."ID_Scopus_Author",tsh."ORCID_ID" ,tsh."Researcher_ID",name_l from     public."Table_Sсience_HNURE" tsh 
-                                    full join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'\n') dep from  public.autors_in_departments aid 
+                                    left join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'; ') dep from  public.autors_in_departments aid 
                                     GROUP by aid.id_autors) as foo1
                                     on (tsh."id_Sciencer" = foo1.id_autors )
-                                    full join (select lnh.id_autor , array_to_string(array_agg(lnh.name_lat),'; ') name_l  FROM public.lat_name_hnure lnh
+                                    left join (select lnh.id_autor , array_to_string(array_agg(lnh.name_lat),'; ') name_l  FROM public.lat_name_hnure lnh
                                     GROUP by lnh.id_autor) as foo 
                                     on  (tsh."id_Sciencer" = foo.id_autor)
                                     ORDER BY tsh."id_Sciencer" """
 
-        self.__query_one_dep_nure = """select * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , tsh."ID_Scopus_Author",tsh."ORCID_ID" ,tsh."Researcher_ID",name_l, aid.id_depatment
+        self.__query_one_dep_nure = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , tsh."ID_Scopus_Author",tsh."ORCID_ID" ,tsh."Researcher_ID",name_l, aid.id_depatment
                                 from  public.autors_in_departments aid
                                 inner join public."Table_Sсience_HNURE" tsh 
                                 on (tsh."id_Sciencer"=aid.id_autors)
-                                full join (select lnh.id_autor , array_to_string(array_agg(lnh.name_lat),'; ') name_l  FROM public.lat_name_hnure lnh
+                                left join (select lnh.id_autor , array_to_string(array_agg(lnh.name_lat),'; ') name_l  FROM public.lat_name_hnure lnh
                                 GROUP by lnh.id_autor) as foo 
                                 on  ((tsh."id_Sciencer" = foo.id_autor))
                                 ORDER BY tsh."FIO") as res
@@ -96,17 +96,54 @@ class FDataBase:
         return self.__update_execute(up_scopus_SQL)
     
     def delete_lat_name_by_id_author(self,id):
-        
         up_dep_SQL=f"""delete from public.lat_name_hnure AS t 
                         where t.id_autor = {id} """
         return self.__update_execute(up_dep_SQL)
     
-    def insert_lat_name_by_author_id(self,lat_name,id):
-        
+    def insert_lat_name_by_author_id(self,lat_name,id):    
         up_dep_SQL=f"""INSERT INTO public.lat_name_hnure AS t (id_autor,name_lat) 
                 values ({id},'{lat_name}') 
                 RETURNING name_lat; """      
-        return self.__update_execute(up_dep_SQL)
+        return self.__update_execute(up_dep_SQL)    
+
+    def insert_dep_by_id_author(self,id_author,name_author,id_dep):
+        insert_dep_SQL=f"""INSERT INTO public.autors_in_departments AS t(id_autors,name_autor,id_depatment,name_department) 
+                SELECT * FROM (values ({id_author},'{name_author}',{id_dep},(select dep.name_depat from departments dep where dep.id_depat = {id_dep}))) v(id_autors,name_autor,id_depatment,name_department) 
+                WHERE NOT EXISTS  (SELECT FROM public.autors_in_departments AS d where d.id_autors = v.id_autors AND d.id_depatment = v.id_depatment) 
+                on conflict do nothing returning id_autors;"""      
+        return self.__update_execute(insert_dep_SQL)
     
+    def delete_dep_by_id_author(self,id):
+        del_dep_SQL=f"""DELETE FROM public.autors_in_departments WHERE id_autors = {id} RETURNING * ;"""
+        return self.__update_execute(del_dep_SQL)
+    
+    def insert_new_author(self,d):
+        tsh_SQL=f"""INSERT INTO public."Table_Sсience_HNURE" AS t("FIO","ID_Scopus_Author","ORCID_ID") 
+            SELECT * FROM (values ('{d.name_author}','{d.scopus_id}','{d.orcid_id}')) v("FIO","ID_Scopus_Author","ORCID_ID") 
+            WHERE NOT EXISTS  (SELECT FROM public."Table_Sсience_HNURE" AS d where d."FIO" = v."FIO") 
+            on conflict do nothing returning "id_Sciencer";"""
+        id_author=self.__update_execute(tsh_SQL)
+        
+        if not id_author: 
+            tsh_SQL=f"""SELECT t."id_Sciencer" FROM public."Table_Sсience_HNURE"  AS t
+                              WHERE  t."FIO" = '{d.name_author}' ;"""
+            id_author=self.__read_execute(tsh_SQL)       
+        id_author=id_author[0][0]
 
+            
+        aid_SQL=f"""INSERT INTO public.autors_in_departments AS t(id_autors,name_autor,id_depatment,name_department) 
+                SELECT * FROM (values ({id_author},'{d.name_author}',{d.depat},(select dep.name_depat from departments dep where dep.id_depat = {d.depat}))) v(id_autors,name_autor,id_depatment,name_department) 
+                WHERE NOT EXISTS  (SELECT FROM public.autors_in_departments AS d where d.id_autors = v.id_autors AND d.id_depatment = v.id_depatment) 
+                on conflict do nothing returning id_autors;"""      
+        b=self.__update_execute(aid_SQL)
 
+        if d.list_lat_name: 
+            for f_name in d.list_lat_name.split(';'):
+                f_name=f_name.strip()
+                if f_name:
+                    lnh_SQL=f"""INSERT INTO public.lat_name_hnure AS t(id_autor,name_lat) 
+                        SELECT * FROM (values ({id_author},'{f_name}')) v(id_autor,name_lat) 
+                        WHERE NOT EXISTS  (SELECT FROM public.lat_name_hnure AS d where d.id_autor = v.id_autor AND d.name_lat = v.name_lat) 
+                        on conflict do nothing returning id_autor;"""                          
+                    a=self.__update_execute(lnh_SQL)
+        return id_author

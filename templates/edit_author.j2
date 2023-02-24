@@ -1,19 +1,36 @@
 {% extends 'index.j2' %}
-{% macro input(field,text,class) -%}
+{% macro input(field,text,class1,class2,field1="",field2="") -%}
         <div class="row m-2 justify-content-start align-items-center g-2">
-          <div class="col-md-2 ps-5">{{ field.label(class='form-label') }}</div>
-          <div class="{{ class }} ps-5"> 
+          <div class="col-md-1">{{ field.label(class='form-label') }}</div>
+          <div class="{{ class1 }} ps-4"> 
             <div class="input-group">
-                <span class="input-group-text">{{ text }}</span>
-                {% if field.errors %} 
-                  {{ field(class='border-danger form-control') }}
-            </div>        
-                  <p class="ps-1" style="font-style: italic; color:brown"> {{ field.errors[0] }}</p>
+              <span class="input-group-text">{{ text }}</span>
+                {% if field.errors or field1.errors|default(none) or field2.errors|default(none)  %} 
+                  <div class="{{ class2 }}">{{ field(class='border-danger form-control' ) }}</div>
+                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ field1.id }},{{ field2.id }})">Добавить</span>  
+                  <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ field1.id }},{{ field2.id }})" >Отмена</span>  
+
+                  {% if field1 and field1.data !='' %}<div class="{{ class2 }}">{{ field1(class='border-danger form-control ',style="display:block;" ) }}</div>
+                  {% else %}<div class="col-md-2">{{ field1(class='border-danger form-control ',style="display:none;" ) }}</div>  {% endif %}                   
+                  {% if field2 and field2.data !='' %}<div class="{{ class2 }}"> {{ field2(class='border-danger form-control ',style="display:block;" ) }}</div>
+                  {% else %}<div class="{{ class2 }}">{{ field2(class='border-danger form-control ',style="display:none;" ) }}</div>  {% endif %} 
+            </div>         
+                  <p class="ps-1" style="font-style: italic;font-size:small;color:brown"> {{ field.errors[0]|default('')}} {{field1.errors[0]|default('')}} {{field2.errors[0]|default('')}}</p>
                 {% else %}    
-                  {{ field(class='form-control') }}
-            </div>
+                   <div class="{{ class2 }}">{{ field(class='form-control ') }}</div>
+                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ field1.id }},{{ field2.id }})">Добавить</span>  
+                  <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ field1.id }},{{ field2.id }})" >Отмена</span>  
+                  {% if field1 %} <div class="{{ class2 }}">{{ field1(class='form-control', style="display: none;") }}</div>{% endif %} 
+                  {% if field2 %} <div class="{{ class2 }}">{{ field2(class='form-control', style="display: none;") }}</div>{% endif %} 
+            </div> 
                 {% endif %} 
-          </div>  
+        </div>
+
+
+
+
+
+          {# </div>   #}
         </div>
 {% endmacro %}
 
@@ -31,13 +48,13 @@
 {% block main %}
     <form method="post" class="row justify-content-center" id="main_form">
       {{ form.hidden_tag() }} 
-      <div class="col-8 mt-5 p-2 border border-primary border-2 ">  
-  <div class="container-fluid "> 
-  {% for cat, msg in get_flashed_messages(True) %}
-    <div class="flash {{cat}} h5">{{msg}}</div>
-  {% endfor %}  
-        <div class="row row-cols-4 m-2 justify-content-start align-items-center g-2">
-          <div class="col-md-1 ps-5">
+      <div class="col-md-11 mt-4 p-1 border border-primary border-2 ">  
+        <div class="container-fluid "> 
+        {% for cat, msg in get_flashed_messages(True) %}
+          <div class="flash {{cat}} h5">{{msg}}</div>
+        {% endfor %}  
+        <div class="row m-1 justify-content-start align-items-center g-2">
+          <div class="col-md-1 ps-4">
               <label for="validationDefault01">ID</label> 
           </div>
           <div class="col-md-1">
@@ -46,30 +63,30 @@
           <div class="col-1 px-4">
             {{ form.name_author.label(class='form-label')}}     
           </div>
-          <div class="col-md-7">
+          <div class="col-md-5">
               {{ form.name_author(class="form-control") }}
           </div>  
         </div>
-        {{ input (form.scopus_id,'https://www.scopus/...','col-md-6')}}        
-        {{ input (form.orcid_id,'https://www.orcid.org/','col-md-7')}}
-        {{ input (form.researcher_id,'R_ID','col-md-5')}}
+        {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_2) }}
+        {{ input (form.orcid_id,'www.orcid.org/','col-md-11','col-md-3',form.orcid_id_1,form.orcid_id_2) }} 
+        {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1,form.researcher_id_2)}}
         <div class="row m-2 justify-content-start align-items-top g-2">
           <div class="col-md-3 p-2">
             {{ form.depat.label(class='form-label')}}
             {{ form.depat(class='form-select') }}
             {{ form.depat_two.label(class='form-label pt-3')}}          
-            {% if form.depat_two.data == 10009 %}
+            {% if form.depat_two.data == 10000 %}
               {{ form.depat_two(class='form-select',disabled=disabled) }}
             {% else %}
               {{ form.depat_two(class='form-select') }}
             {% endif %}
             <div class="form-check p-2">
-            {% if form.depat_two.data == 10009 %}
-              {{ form.part_time_worker (onmousedown="this.form.depat_two.disabled = this.checked")}}
+            {% if form.depat_two.data == 10000 %}
+              {{ form.part_time_worker }}
             {% else %}
-              {{ form.part_time_worker (checked=True,onmousedown="this.form.depat_two.disabled = this.checked")}}
+              {{ form.part_time_worker(checked=True)}}
             {% endif %}
-              {{ form.part_time_worker.label}}
+              {{ form.part_time_worker.label }}
             </div>
           </div>  
           
@@ -119,7 +136,50 @@
     </div>
 
   </form>
+  <script >
+    document.getElementById('part_time_worker').onchange = function() {
+    document.getElementById('depat_two').disabled = !this.checked;
+  };
 
+  var abc='';
+  var cde='';
+
+
+  function add_input_ps(ids_1,ids_2) {
+  if (document.getElementById(ids_1.id).style.display === 'none'){
+    document.getElementById(ids_1.id).style.display='block';
+    document.getElementById(ids_1.id).value = abc;
+  } 
+  else{
+      if(ids_2){
+      if (document.getElementById(ids_2.id).style.display==='none') {
+        document.getElementById(ids_2.id).style.display='block';
+        document.getElementById(ids_2.id).value= cde;
+        }
+      }
+    }
+  };
+  function del_input_ps(ids_1,ids_2) {
+    if (document.getElementById(ids_2.id).style.display === 'block')  {
+      document.getElementById(ids_2.id).style.display='none';
+      cde=document.getElementById(ids_2.id).value;
+      document.getElementById(ids_2.id).value='';
+    } 
+    else{
+        if (document.getElementById(ids_1.id).style.display==='block') {
+          document.getElementById(ids_1.id).style.display='none';
+          abc=document.getElementById(ids_1.id).value;
+          document.getElementById(ids_1.id).value='';
+          }
+    }
+  };
+</script>
+
+{# <script> 
+/*  document.getElementById('add_scopus_').onclick = add_input_ps('scopus_id_1');//, 'inputName1')
+  document.getElementById('del_scopus_').onclick = del_input_ps('scopus_id_1');//, 'inputName1')
+*/
+</script>         #}
   {% endblock main %}
   
 

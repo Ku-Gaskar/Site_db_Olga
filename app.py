@@ -13,7 +13,7 @@ DEBUG=True
 SECRET_KEY='trwyuwteutweur376437643764kjf'
 
 PER_PAGE=100     # записей на одной странице nure
-NOT_DEP=10009    # id кафедры которой нет
+NOT_DEP=10000    # id кафедры которой нет
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -33,16 +33,23 @@ def get_db():
 
 def update_db_author(cont,d,id):
     a,b,c = True, True, True 
+    if id == 0:
+        return True if dbase.insert_new_author(d) else False
     # обработка кафедр ----------------------------------------------
-    list_id_dep_old =  dbase.get_dep_by_author(int(id))
-    if list_id_dep_old[0][3] != d.depat:
-        a=dbase.update_dep_by_id(id,d.depat,list_id_dep_old[0][3])
-    if (len(list_id_dep_old) == 1 ) and (d.depat_two != NOT_DEP):
-        a=dbase.insert_dep_by_id_author(id,d.depat_two)
-    elif (len(list_id_dep_old) == 2) and (d.depat_two == NOT_DEP):
-        a=dbase.delete_dep_by_id_author(id,list_id_dep_old[1][3])
-    elif (len(list_id_dep_old) == 2) and (d.depat_two != NOT_DEP) and (d.depat_two != list_id_dep_old[1][3]):
-        a=dbase.update_dep_by_id(id,d.depat_two,list_id_dep_old[1][3])
+    # list_id_dep_old =  dbase.get_dep_by_author(int(id))
+    a=dbase.delete_dep_by_id_author(id)
+    a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat)
+    if d.part_time_worker:
+        a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
+
+    # if list_id_dep_old[0][3] != d.depat:
+    #     a=dbase.update_dep_by_id(id,d.depat,list_id_dep_old[0][3])
+    # if (len(list_id_dep_old) == 1 ) and (d.depat_two != NOT_DEP):
+    #     a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
+    # elif (len(list_id_dep_old) == 2) and (d.depat_two == NOT_DEP):
+    #     a=dbase.delete_dep_by_id_author(id,list_id_dep_old[1][3])
+    # elif (len(list_id_dep_old) == 2) and (d.depat_two != NOT_DEP) and (d.depat_two != list_id_dep_old[1][3]):
+    #     a=dbase.update_dep_by_id(id,d.depat_two,list_id_dep_old[1][3])
     #----------------------------------------------------------------    
     if (cont['author'][0][1] != d.name_author) or (cont['author'][0][3] != d.scopus_id) or (cont['author'][0][4] != d.orcid_id
         ) or (cont['author'][0][5] != d.researcher_id):
@@ -74,25 +81,29 @@ def index():
 @app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
 def edit_author(cur_page):
     def set_form_edit(content:dict={'author':[(None,'','','','','','')]}):
-        edit_form.name_author.data=content['author'][0][1]
-        edit_form.scopus_id.data=content['author'][0][3]
-        edit_form.orcid_id.data=content['author'][0][4]
-        edit_form.researcher_id.data=content['author'][0][5]
-        list_dep_author=dbase.get_dep_by_author(int(cur_page))
-        edit_form.depat.data=list_dep_author[0][3]
-        if len(list_dep_author) > 1:
-            edit_form.depat_two.data=list_dep_author[1][3]
-        else:
-            edit_form.depat_two.data=NOT_DEP
-        edit_form.list_lat_name.data=content['author'][0][6] 
-        return
+        if (cur_page!=0):
+            edit_form.name_author.data=content['author'][0][1]
+            edit_form.scopus_id.data=content['author'][0][3]
+            edit_form.orcid_id.data=content['author'][0][4]
+            edit_form.researcher_id.data=content['author'][0][5]
+            list_dep_author=dbase.get_dep_by_author(int(cur_page))
+            edit_form.depat.data=list_dep_author[0][3]
+            if len(list_dep_author) > 1:
+                edit_form.depat_two.data=list_dep_author[1][3]
+            else:
+                edit_form.depat_two.data=NOT_DEP
+            edit_form.list_lat_name.data=content['author'][0][6] 
+        return content
 
     edit_form=forms.EditForm()    
     list_all_dep=dbase.get_nure_total_dep_list()
     edit_form.depat.choices=list_all_dep
     edit_form.depat_two.choices=list_all_dep
     content={}
-    content['author'] =dbase.get_author_by_id(int(cur_page))
+    if cur_page != 0:
+        content['author'] =dbase.get_author_by_id(int(cur_page))
+    else:
+        content=set_form_edit()
 
     if request.method == 'POST':
         if edit_form.submit_delete.data:
@@ -169,6 +180,7 @@ def KhNURE():
     content['title'] = 'Редактор списка сотрудников'
 
     return render_template('hnure.j2', content=content)
+
 
 @app.route("/wos")
 def WOS():
