@@ -99,7 +99,11 @@ def edit_author(cur_page):
 
     if request.method == 'POST':
         if edit_form.submit_delete.data:
-            # flash("Вы успешно удалили данные", "success")
+            a=dbase.hiden_author_by_id(cur_page)
+            if a:
+                flash("Вы успешно удалили "+ content['author'][0][1], "success")
+            else:
+                flash("Не удалось удалить "+ content['author'][0][1], "error")
             return redirect(url_for('.KhNURE'))
         elif edit_form.submit_escape.data:
             return redirect(request.url)
@@ -132,6 +136,12 @@ def edit_author(cur_page):
         set_form_edit(content)
 
     return render_template ('edit_author.j2', form = edit_form, content=content)
+
+# @app.route("/del_author/<int:id",methods=['GET'])
+# def hiden_author_(id):
+#     a=dbase.hiden_author_by_id(id)
+#     redirect(url_for('/hnure'))
+#     pass   
 
 
 @app.route("/hnure",methods=['GET','POST'])
@@ -192,7 +202,7 @@ def close_db(error):
 if __name__ == "__main__":
     #http_server = WSGIServer(('', 5000), app)
     #http_server.serve_forever()
-    app.run('192.168.1.110',debug=True)
+    app.run('192.168.1.102',debug=True)
     
 
 

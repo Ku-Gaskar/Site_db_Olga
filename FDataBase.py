@@ -20,17 +20,18 @@ class FDataBase:
                                     left join (select lnh.id_autor , array_to_string(array_agg(lnh.name_lat),'; ') name_l  FROM public.lat_name_hnure lnh
                                     GROUP by lnh.id_autor) as foo 
                                     on  (tsh."id_Sciencer" = foo.id_autor)
+                                    where tsh.works = True    
                                     ORDER BY tsh."id_Sciencer" """
 
-        self.__query_one_dep_nure = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , tsh."ID_Scopus_Author",tsh."ORCID_ID" ,tsh."Researcher_ID",name_l, aid.id_depatment
+        self.__query_one_dep_nure = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , tsh."ID_Scopus_Author",tsh."ORCID_ID" ,tsh."Researcher_ID",name_l, aid.id_depatment,tsh.works
                                 from  public.autors_in_departments aid
                                 inner join public."Table_Sсience_HNURE" tsh 
                                 on (tsh."id_Sciencer"=aid.id_autors)
                                 left join (select lnh.id_autor , array_to_string(array_agg(lnh.name_lat),'; ') name_l  FROM public.lat_name_hnure lnh
                                 GROUP by lnh.id_autor) as foo 
-                                on  ((tsh."id_Sciencer" = foo.id_autor))
+                                on  (tsh."id_Sciencer" = foo.id_autor)
                                 ORDER BY tsh."FIO") as res
-                                where res.id_depatment ="""
+                                where res.works = true and res.id_depatment ="""
     
     def __read_execute(self,_SQL_query:str):
             try:            
@@ -53,7 +54,7 @@ class FDataBase:
     def get_nure_one_list(self,autor_):
         one_author_SQL=f"""SELECT * FROM ({self.__query_all_nure}) AS one_author WHERE 
                                                                 one_author."FIO" ILIKE '%{autor_}%' or 
-                                                                one_author.name_l ILIKE '%{autor_}%' ;"""
+                                                                one_author.name_l ILIKE '%{autor_}%';"""
         return self.__read_execute(one_author_SQL)
 
     def get_nure_total_dep_list(self):
@@ -147,3 +148,10 @@ class FDataBase:
                         on conflict do nothing returning id_autor;"""                          
                     a=self.__update_execute(lnh_SQL)
         return id_author
+    
+    def hiden_author_by_id(self,id_author): 
+        hi_aut_SQL=f"""update public."Table_Sсience_HNURE"  tsh set works = false 
+            where tsh."id_Sciencer" = {id_author}
+            returning "id_Sciencer" ; """ 
+        return self.__update_execute(hi_aut_SQL)
+

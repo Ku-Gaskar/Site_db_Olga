@@ -134,8 +134,9 @@
         </div>
       </div>
     </div>
-
   </form>
+
+
   <script >
     document.getElementById('part_time_worker').onchange = function() {
     document.getElementById('depat_two').disabled = !this.checked;
@@ -143,7 +144,6 @@
 
   var abc='';
   var cde='';
-
 
   function add_input_ps(ids_1,ids_2) {
   if (document.getElementById(ids_1.id).style.display === 'none'){
@@ -173,13 +173,18 @@
           }
     }
   };
+
+
+//правильный возврат из формы по кнопке HNURE
+  window.addEventListener('click', filter, false)
+  function filter(e){
+    if (e.target.id === 'menu_hnure'){ // провека что кликнули на ссылку
+      e.preventDefault();          // отменяем переход 
+      window.location.href = JSON.parse(localStorage['href_hnure']); // переходите по ссылке
+    }
+  };
 </script>
 
-{# <script> 
-/*  document.getElementById('add_scopus_').onclick = add_input_ps('scopus_id_1');//, 'inputName1')
-  document.getElementById('del_scopus_').onclick = del_input_ps('scopus_id_1');//, 'inputName1')
-*/
-</script>         #}
   {% endblock main %}
   
 
