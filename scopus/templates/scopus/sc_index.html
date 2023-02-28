@@ -1,0 +1,70 @@
+{% extends 'scopus/base.html' %}
+{% block content_body %}
+    
+  <header class="d-flex flex-wrap justify-content-end py-3 mb-0 border-bottom ku-border-bottom ">
+  {% block headers %}
+      <a href="https://www.scopus.com" target="_blank" class="d-flex align-items-center px-2 mb-3 mb-md-0 me-md-auto text-decoration-none">
+        <img class="bi me-2" width="50" height="62" src="{{ url_for('.static',filename='img/Scopus.jpg') }}" />
+        <span class="fs-2 ku_header" style="color: rgb(255, 145, 0);"><strong>Scopus</strong></span> 
+      </a>
+      {% block menu_header %}
+      <ul class="nav nav-pills ku-menu-text justify-content-end">
+        <li class="nav-item"><a href="\" class="nav-link" aria-current="page">Главная </a></li>
+        <li class="nav-item"><a id='menu_hnure' href="/hnure" class="nav-link">ХНУРЕ</a></li>
+        <li class="nav-item"><a id='menu_scopus' href="/scopus" class="nav-link">Scopus</a></li>
+        <li class="nav-item"><a id="menu_wos" href="#" class="nav-link">WOS</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Вопросы</a></li>
+      </ul>
+      {% endblock menu_header %}
+  {% endblock headers %}
+  </header>    
+  
+  {% block main %}
+  <div class="content"> 
+    <div class="container-fluid">
+      <div class="row  m-5 justify-content-center align-items-center g-2">
+        <div class="col-md-8">
+          <div class="card border-primary mb-3">
+            <div class="card-header border-primary">
+              Данные по аффилиации на {{ content['data_up'] }} 
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Kharkiv National University of Radio Electronics</h4>
+              <h6 class="card-text" style="font-style: italic;">Документов : {{ content['doc_sum'][0] }}</h6>
+              <h6 class="card-text" style="font-style: italic;">Цитирования: {{ content['doc_sum'][1] }}</h6>
+              <h6 class="card-text" style="font-style: italic;">H - индекс : {{ content['h_ind'] }}</h6>
+            
+            </div>
+            
+            <div class="card-footer text-muted text-center ">
+              <div class="btn-group">
+              
+              <div class="dropdown px-3">
+                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                  Обновить базу
+                </a>
+
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Обновить базу статей по университету</a></li>
+                  <li><a class="dropdown-item" href="#">Обновить кол-во док., цитирования, h-индекс по авторам</a></li>
+                  <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                </ul>
+              </div>
+                <div><a href="#" class="btn btn-success mx-5">Отчеты</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>
+  {% endblock  main %}
+    
+  {% block footer%}
+    <footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
+        </div>
+    </footer>        
+  {% endblock footer %}  
+{% endblock content_body %} 

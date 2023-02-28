@@ -90,17 +90,7 @@ label{
     border: 3px solid var(--color2);
    
 }
-/* .ku-footer-0{
-    position:absolute;
-    left:0px;
-    bottom:0px;
-    height:auto;
-    width:100%;      
-}
 
-.ku-footer{
-        position:relative;
-} */
 th, .ku-item-center {
     text-align: center;
 }
