@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, g, request, Blueprint,redirect,flash
+from flask import Flask, render_template, url_for, g, request, Blueprint,redirect,flash,abort
 
 from flask_bootstrap import Bootstrap
 from FDataBase import FDataBase
@@ -8,7 +8,7 @@ from flask_login import LoginManager,login_user,login_required,logout_user, curr
 from UserLogin import UserLogin
 from werkzeug.security import generate_password_hash , check_password_hash 
 import forms
-
+from scopus.scopus import scopus
 
 DATABASE='localhost'
 PORT = '5432'
@@ -20,10 +20,13 @@ NOT_DEP=10000    # id кафедры которой нет
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+
 login_manager=LoginManager(app)
 login_manager.login_view='login'
 login_manager.login_message = "Авторизуйтесь для доступа к закрытым страницам"
 login_manager.login_message_category = "success"
+
+app.register_blueprint(scopus,url_prefix="/scopus")
 
 #Bootstrap(app)
 
@@ -90,7 +93,7 @@ def login():
         if user and check_password_hash(user['psw'],request.form['password']):
             userLogin=UserLogin().create(user)
             login_user(userLogin)
-            return redirect(request.args.get("next") or url_for("index")) 
+            return redirect(request.args.get("next") or url_for('.KhNURE')) 
         flash('Пароль не верный','error')
     return render_template('login.j2',form=form,content = {'title':'Вход в систему'})    
 
@@ -132,7 +135,7 @@ def edit_author(cur_page):
 
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
-        return redirect(url_for('login'))
+        return  redirect(url_for('login',next=request.full_path))
     
     edit_form=forms.EditForm()    
     list_all_dep=dbase.get_nure_total_dep_list()
@@ -232,13 +235,13 @@ def KhNURE():
     return render_template('hnure.j2', content=content)
 
 
-@app.route("/wos")
-def WOS():
-    return render_template('wos.j2')
+# @app.route("/wos")
+# def WOS():
+#     return render_template('wos.j2')
 
-@app.route("/scopus")
-def Scopus():
-    return render_template('scopus.j2')
+# @app.route("/scopus")
+# def Scopus():
+#     return render_template('scopus.j2')
 
 @app.teardown_appcontext
 def close_db(error):
