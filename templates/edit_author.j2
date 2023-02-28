@@ -10,9 +10,9 @@
                   <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ field1.id }},{{ field2.id }})">Добавить</span>  
                   <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ field1.id }},{{ field2.id }})" >Отмена</span>  
 
-                  {% if field1 and field1.data !='' %}<div class="{{ class2 }}">{{ field1(class='border-danger form-control ',style="display:block;" ) }}</div>
+                  {% if not field1.data %}<div class="{{ class2 }}">{{ field1(class='border-danger form-control ',style="display:block;" ) }}</div>
                   {% else %}<div class="col-md-2">{{ field1(class='border-danger form-control ',style="display:none;" ) }}</div>  {% endif %}                   
-                  {% if field2 and field2.data !='' %}<div class="{{ class2 }}"> {{ field2(class='border-danger form-control ',style="display:block;" ) }}</div>
+                  {% if not field2.data %}<div class="{{ class2 }}"> {{ field2(class='border-danger form-control ',style="display:block;" ) }}</div>
                   {% else %}<div class="{{ class2 }}">{{ field2(class='border-danger form-control ',style="display:none;" ) }}</div>  {% endif %} 
             </div>         
                   <p class="ps-1" style="font-style: italic;font-size:small;color:brown"> {{ field.errors[0]|default('')}} {{field1.errors[0]|default('')}} {{field2.errors[0]|default('')}}</p>
@@ -20,8 +20,16 @@
                    <div class="{{ class2 }}">{{ field(class='form-control ') }}</div>
                   <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ field1.id }},{{ field2.id }})">Добавить</span>  
                   <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ field1.id }},{{ field2.id }})" >Отмена</span>  
-                  {% if field1 %} <div class="{{ class2 }}">{{ field1(class='form-control', style="display: none;") }}</div>{% endif %} 
-                  {% if field2 %} <div class="{{ class2 }}">{{ field2(class='form-control', style="display: none;") }}</div>{% endif %} 
+                    {% if not field1.data  %}
+                      <div class="{{ class2 }}">{{ field1(class='form-control', style="display: none;") }}</div>
+                    {% else %}  
+                      <div class="{{ class2 }}">{{ field1(class='form-control', style="display: block;") }}</div>
+                    {% endif %} 
+                  {% if not field2.data %} 
+                    <div class="{{ class2 }}">{{ field2(class='form-control', style="display: none;") }}</div>
+                  {% else %}
+                    <div class="{{ class2 }}">{{ field2(class='form-control', style="display: block;") }}</div>
+                  {% endif %} 
             </div> 
                 {% endif %} 
         </div>
@@ -33,6 +41,7 @@
           {# </div>   #}
         </div>
 {% endmacro %}
+{# <div class="content"> #}
 
 {% block headers  %}
     <a href="https://nure.ua/?s={{ content.author[0][1] }}" target="_blank" class="d-flex align-items-center px-2 mb-2 mb-md-0 me-md-auto text-decoration-none">
@@ -46,10 +55,11 @@
 {% endblock headers %}
 
 {% block main %}
-    <form method="post" class="row justify-content-center" id="main_form">
+    <main class="content">
+    <form method="post" action="" class="row justify-content-center " id="main_form">
       {{ form.hidden_tag() }} 
-      <div class="col-md-11 mt-4 p-1 border border-primary border-2 ">  
-        <div class="container-fluid "> 
+      <div class="col-md-10 mt-4 p-1 border border-primary border-2">  
+        <div class="container-fluid"> 
         {% for cat, msg in get_flashed_messages(True) %}
           <div class="flash {{cat}} h5">{{msg}}</div>
         {% endfor %}  
@@ -68,7 +78,7 @@
           </div>  
         </div>
         {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_2) }}
-        {{ input (form.orcid_id,'www.orcid.org/','col-md-11','col-md-3',form.orcid_id_1,form.orcid_id_2) }} 
+        {{ input (form.orcid_id,'www.orcid.org/','col-md-10','col-md-3',form.orcid_id_1,form.orcid_id_2) }} 
         {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1,form.researcher_id_2)}}
         <div class="row m-2 justify-content-start align-items-top g-2">
           <div class="col-md-3 p-2">
@@ -115,7 +125,9 @@
             {# <a name="help" id="" class="btn btn-danger" href="/delete/{{ content.author[0][0] }}" role="button">Удалить</a>   #}
           </div>
         </div>
+      </div>
       </div> 
+  </form>
   <!-- Модальное окно -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -133,10 +145,9 @@
           </div>
         </div>
       </div>
-    </div>
-  </form>
 
 
+</main>
   <script >
     document.getElementById('part_time_worker').onchange = function() {
     document.getElementById('depat_two').disabled = !this.checked;
@@ -184,8 +195,11 @@
     }
   };
 </script>
-
+{# </div> #}
   {% endblock main %}
+  {% block footer%}
+  {{ super()}}
+  {% endblock  footer%}
   
 
 

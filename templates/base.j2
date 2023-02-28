@@ -7,11 +7,15 @@
     <title>{{ content.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.jpg') }}" type="image/x-icon">    
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/Login-form.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.jpg') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static',filename='fonts/font-awesome.min.css') }}">
+
 </head>
 <body>
     {% block content_body %}
     {% endblock content_body %}
     <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>  
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>  
 </body>
 </html>

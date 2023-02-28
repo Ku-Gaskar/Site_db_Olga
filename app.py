@@ -4,6 +4,9 @@ from flask_bootstrap import Bootstrap
 from FDataBase import FDataBase
 import psycopg2
 from flask_paginate import Pagination, get_page_parameter
+from flask_login import LoginManager,login_user,login_required,logout_user, current_user
+from UserLogin import UserLogin
+from werkzeug.security import generate_password_hash , check_password_hash 
 import forms
 
 
@@ -17,7 +20,10 @@ NOT_DEP=10000    # id кафедры которой нет
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
+login_manager=LoginManager(app)
+login_manager.login_view='login'
+login_manager.login_message = "Авторизуйтесь для доступа к закрытым страницам"
+login_manager.login_message_category = "success"
 
 #Bootstrap(app)
 
@@ -37,15 +43,22 @@ def update_db_author(cont,d,id):
         id=dbase.insert_new_author(d)
         if not id: return False
         cont['author'] =dbase.get_author_by_id(id)
-    # обработка кафедр ----------------------------------------------
-    a=dbase.delete_dep_by_id_author(id)
-    a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat)
+    # удаление автора -----------
     if d.part_time_worker:
         a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
+        return True if a else False
+    
+    # обработка кафедр ----------
+    a=dbase.delete_dep_by_id_author(id)
+    a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat)
 
-    if (cont['author'][0][1] != d.name_author) or (cont['author'][0][3] != d.scopus_id) or (cont['author'][0][4] != d.orcid_id
+    # обработка scopus_id
+    b=dbase.delete_scopus_id_by_author_id(id)
+    b=dbase.insert_scopus_id_by_author_id(id,d)
+                                          
+    if (cont['author'][0][1] != d.name_author) or (cont['author'][0][4] != d.orcid_id
         ) or (cont['author'][0][5] != d.researcher_id):
-        b=dbase.update_name_scopus_orcid_reasearcher_id_by_author_id(d,cont)
+        b=dbase.update_name_orcid_reasearcher_id_by_author_id(d,cont)
     if cont['author'][0][6]!= d.list_lat_name:
         dbase.delete_lat_name_by_id_author(id)
         name_lat_dict = {}
@@ -57,6 +70,31 @@ def update_db_author(cont,d,id):
     return True if a and b  and c else False 
 
 dbase=None
+
+@login_manager.user_loader
+def load_user(user_id):
+    return UserLogin().fromDB(user_id,dbase)
+
+
+
+
+# @app.errorhandler(401)
+# def login_error(error):
+#     return redirect('login')
+
+@app.route('/login', methods=['POST','GET'])
+def login():
+    form=forms.LoginForm()
+    if form.validate_on_submit():
+        user=dbase.getUserByName(request.form['username'])
+        if user and check_password_hash(user['psw'],request.form['password']):
+            userLogin=UserLogin().create(user)
+            login_user(userLogin)
+            return redirect(request.args.get("next") or url_for("index")) 
+        flash('Пароль не верный','error')
+    return render_template('login.j2',form=form,content = {'title':'Вход в систему'})    
+
+
 
 @app.before_request
 def before_request():
@@ -70,12 +108,17 @@ def index():
     return render_template('index.j2',content = {'title':'Генератор отчетов'})
 
 
-@app.route("/hnure/<int:cur_page>",methods=['GET','POST']) 
+@app.route("/hnure/<int:cur_page>",methods=['GET','POST'])
+@login_required 
 def edit_author(cur_page):
     def set_form_edit(content:dict={'author':[(None,'','','','','','')]}):
         if (cur_page!=0):
             edit_form.name_author.data=content['author'][0][1]
-            edit_form.scopus_id.data=content['author'][0][3]
+            if content['author'][0][3]:
+                list_sc= content['author'][0][3].split(';')
+                edit_form.scopus_id.data=list_sc[0]
+                if len(list_sc) >1 :edit_form.scopus_id_1.data=list_sc[1]
+                if len(list_sc) >2 :edit_form.scopus_id_2.data=list_sc[2]
             edit_form.orcid_id.data=content['author'][0][4]
             edit_form.researcher_id.data=content['author'][0][5]
             list_dep_author=dbase.get_dep_by_author(int(cur_page))
@@ -87,6 +130,10 @@ def edit_author(cur_page):
             edit_form.list_lat_name.data=content['author'][0][6] 
         return content
 
+    if current_user.get_id() != '1':
+        flash('Авторизуйтесь как admin','error')
+        return redirect(url_for('login'))
+    
     edit_form=forms.EditForm()    
     list_all_dep=dbase.get_nure_total_dep_list()
     edit_form.depat.choices=list_all_dep
@@ -145,6 +192,7 @@ def edit_author(cur_page):
 
 
 @app.route("/hnure",methods=['GET','POST'])
+@login_required
 def KhNURE():   
     content = {} # словарь для передачи в шаблон    
     limit = PER_PAGE
@@ -198,12 +246,23 @@ def close_db(error):
     if hasattr(g, 'link_db'):
         g.link_db.close()
 
+def my_split(content:str) -> list[str]:
+    if not content:
+        return []
+    return content.split(';')  
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))   
 
 if __name__ == "__main__":
     #http_server = WSGIServer(('', 5000), app)
     #http_server.serve_forever()
+    app.jinja_env.filters['my_split'] = my_split
     app.run('192.168.1.102',debug=True)
     
-
+    
 
 

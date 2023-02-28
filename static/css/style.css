@@ -15,7 +15,13 @@ header,footer{
     background-size: contain;
 }
 body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     background-color:beige; 
+}
+.content {
+flex:1;
 }
 
 label{
@@ -84,7 +90,7 @@ label{
     border: 3px solid var(--color2);
    
 }
-.ku-footer-0{
+/* .ku-footer-0{
     position:absolute;
     left:0px;
     bottom:0px;
@@ -94,7 +100,7 @@ label{
 
 .ku-footer{
         position:relative;
-}
+} */
 th, .ku-item-center {
     text-align: center;
 }

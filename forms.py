@@ -42,3 +42,8 @@ class EditForm(FlaskForm):
     submit_add = SubmitField("Добавить")
     submit_save = SubmitField("Сохранить изменения")
     submit_delete=SubmitField("Удалить")
+
+class LoginForm(FlaskForm):
+      username=StringField('Логин', validators=[DataRequired()])
+      password = PasswordField('Пароль', validators=[DataRequired()])
+      submit=SubmitField("Войти")
