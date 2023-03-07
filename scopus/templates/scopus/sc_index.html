@@ -7,6 +7,8 @@
         <img class="bi me-2" width="50" height="62" src="{{ url_for('.static',filename='img/Scopus.jpg') }}" />
         <span class="fs-2 ku_header" style="color: rgb(255, 145, 0);"><strong>Scopus</strong></span> 
       </a>
+      {% block heder_context %}     
+      {% endblock heder_context %}      
       {% block menu_header %}
       <ul class="nav nav-pills ku-menu-text justify-content-end">
         <li class="nav-item"><a href="\" class="nav-link" aria-current="page">Главная </a></li>
@@ -50,7 +52,7 @@
                   <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
                 </ul>
               </div>
-                <div><a href="#" class="btn btn-success mx-5">Отчеты</a></div>
+                <div><a href= "./sc_report" class="btn btn-success mx-5">Отчеты</a></div>
               </div>
             </div>
           </div>

@@ -1,0 +1,102 @@
+{% extends 'scopus/sc_index.html' %}
+{% block heder_context %}     
+    <div class="col-md-4 ">
+        {{ content.pagination.info }}
+        {{ content.pagination.links }}
+    </div>
+{% endblock heder_context %}      
+
+{% block main %}
+<div class="content">
+  <div class="container-fluid">
+      <div class="row m-1 justify-content-between align-items-top g-0">
+          <div class="col-md-3  border-top border-secondary p-2">
+          <h5 class=" text-center p-2">Настройка отчета</h5>
+          <form  method="post" id="form_report">
+            {{ form.hidden_tag() }} 
+          <div class="d-flex pt-2 border-top border-secondary" role="search">
+            {{ form.sc_search(class="form-control me-2",placeholder="Поиск")}}
+            {{ form.sc_buttons_search(class="btn btn-outline-primary",onclick="updateURL()") }}
+          </div>
+            {{ form.sc_radio_auth_atcl(class="form-check py-2",style="list-style:none;",onclick="swithTable()") }}
+          <div class="row align-items-center py-2 gx-2 border-top border-bottom border-secondary">
+            <div class="col-md-4 ">{{ form.sc_select_dep.label(class="form-label mt-2")}}</div>
+            <div class="col-md-8 ">{{ form.sc_select_dep(class="form-select")}}</div>
+          </div> 
+          <div class="row align-items-end pt-2">
+            <div class="col-md-5 ">
+            {{ form.sc_select_year.label(class="form-label")}}
+            {{ form.sc_select_year(class="form-select")}}
+            </div> 
+            <div class="col-md-5 ps-3">
+              <div class="form-check pt-3">
+                {{ form.sc_article(class="form-check-input")}}
+                {{ form.sc_article.label(class="form-check-label")}}
+              </div>
+              <div class="form-check">
+                {{ form.sc_book(class="form-check-input")}}
+                {{ form.sc_book.label(class="form-check-label")}}
+              </div>
+              <div class="form-check">
+                {{ form.sc_conf(class="form-check-input")}}
+                {{ form.sc_conf.label(class="form-check-label")}}
+              </div>
+            </div>
+          </div>
+          <div class="form-check form-switch pt-3">
+                {{ form.sc_bool_limit(class="form-check-input",onclick="limitFunction()")}}
+                {{ form.sc_bool_limit.label(class="form-check-label")}}
+          </div>
+        {% if form.sc_bool_limit.data %}
+          <div id="limitInput" style="display:block">          
+        {% else %}    
+          <div id="limitInput" style="display:none">
+        {% endif %}
+            <div class="row justify-content-center pt-2">
+              <div class="col-md-8">{{ form.sc_input_limit.label(class="form")}}</div>
+              <div class="col-md-4">{{ form.sc_input_limit(class="form-control")}}</div>
+            </div>
+          </div>
+          <div class="border-top border-secondary my-2"></div>
+          <div class="row justify-content-around"> 
+              <div class="col-md-4">{{ form.sc_buttons_ok(class="btn btn-primary",onclick="updateURL()")}}</div>
+              <div class="col-md-4">{{ form.sc_buttons_cancel(class="btn btn-secondary")}}</div>
+          </div>
+          </form>
+          </div>
+          <div class="col-md-9 ps-2">
+            <div class="table-responsive-md">
+              {{ table_table(content.table,content.table_data) }}
+            </div>          
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+function limitFunction() {
+  if (document.getElementById("sc_bool_limit").checked == true){
+    document.getElementById("limitInput").style.display = "block";
+  } else {
+    document.getElementById("limitInput").style.display = "none";
+  }
+}
+
+function updateURL() {
+    if (history.pushState) {
+        var baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+//        var newUrl = baseUrl + '?tyapk=awesome';
+        history.pushState(null, null, baseUrl);
+    }
+    else {
+        console.warn('History API не поддерживается');
+    }
+}
+
+
+function swithTable(){
+//  updateURL();
+  document.getElementById('sc_buttons_ok').click();
+}
+</script> 
+{% endblock main %}

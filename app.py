@@ -13,7 +13,7 @@ from scopus.scopus import scopus
 DATABASE='localhost'
 PORT = '5432'
 DEBUG=True
-SECRET_KEY='trwyuwteutweur376437643764kjf'
+SECRET_KEY='fa85ab790e11c98bc7b81685ea4a29992f20b45a'
 
 PER_PAGE=100     # записей на одной странице nure
 NOT_DEP=10000    # id кафедры которой нет
