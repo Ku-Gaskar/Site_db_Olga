@@ -54,10 +54,10 @@ class SC_Dbase(FDataBase):
 
         if form.sc_select_dep.data == ALL_DEP:
              return self.__read_db(f"""select * from ({self.__SQL_sc_All_aurhors}) as r
-                                        {where_(form.sc_bool_limit and (form.sc_input_limit.data > 0))} ;""")
+                                        {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
         else:
             return self.__read_db(f"""select * from ({self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data}) as r 
-                                        {where_(form.sc_bool_limit and (form.sc_input_limit.data > 0))} ;""")
+                                        {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
 #            return self.__read_db(f"""{self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data} order by res.id """)
                 
     def get_stamp_table(self,id):

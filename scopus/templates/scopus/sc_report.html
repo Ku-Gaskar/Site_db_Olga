@@ -96,12 +96,12 @@
           <div class="col-md-9 ps-2">
             <div class="table-responsive-md">
               {{ table_table(content.table,content.table_data) }}
+              {{ content.pagination.links }}
             </div>          
           </div>
       </div>
   </div>
 </div>
-
 <script>
 function enabled_block() {
     document.getElementById("limitInput").style.display = "none";
