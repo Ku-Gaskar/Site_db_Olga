@@ -17,6 +17,7 @@ class DataScForm:
     sc_article=None
     sc_book=None
     sc_conf=None
+    sc_other=None
     sc_bool_limit=None
     sc_input_limit=None
     sc_buttons_cancel=None
@@ -35,6 +36,7 @@ class SC_Form(FlaskForm):
     sc_article=BooleanField('Статьи',default=True)
     sc_book=BooleanField('Книги',default=True)
     sc_conf=BooleanField('Конференции',default=True)
+    sc_other=BooleanField('Другие ...',default=True)
     sc_bool_limit=BooleanField('Лимит на кол-во статей',default=False)
     sc_input_limit=IntegerField('Не менее статей автора:',validators=[NumberRange(min=0,max=99)],default=0)
     sc_buttons_cancel=SubmitField('Сбросить')

@@ -3,6 +3,8 @@ from datetime import datetime
 from psycopg2 import Error
 from scopus.sc_forms import DataScForm, SC_Form
 
+ALL_DEP='9999'
+
 
 class SC_Dbase(FDataBase):
 
@@ -46,41 +48,76 @@ class SC_Dbase(FDataBase):
         from (select s.note::int sn  from scopus s order by sn desc ) foo) res where  res.sn > res.c;""") 
         return res[0][0] if res else ''
 
-    def get_all_authors(self):
-        return self.__read_db(self.__SQL_sc_All_aurhors)
+    def select_authors_by_form(self, form:SC_Form):
+        where_=lambda x:f""" where  r.doc::int >= {form.sc_input_limit.data} order by r.doc::int desc """ if x else ''               
 
-    def select_authors_by_form(self, form):
-        if form.sc_select_dep.data == '9999':
-             return self.get_all_authors()
+
+        if form.sc_select_dep.data == ALL_DEP:
+             return self.__read_db(f"""select * from ({self.__SQL_sc_All_aurhors}) as r
+                                        {where_(form.sc_bool_limit and (form.sc_input_limit.data > 0))} ;""")
         else:
-            return self.__read_db(self.__SQL_sc_authors_by_dep + str(form.sc_select_dep.data)+" order by res.id")
+            return self.__read_db(f"""select * from ({self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data}) as r 
+                                        {where_(form.sc_bool_limit and (form.sc_input_limit.data > 0))} ;""")
+#            return self.__read_db(f"""{self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data} order by res.id """)
                 
     def get_stamp_table(self,id):
         return self.__read_one_db(f"""select * from stamp_tables st 
                                   where st.id_table = '{id}';""")
          
     def get_count_all_article(self,my_form:SC_Form.data):
-        return self.__read_one_db(f"""select count(*)  from public.scopus s
+        if my_form['sc_select_dep'] == ALL_DEP:
+            return self.__read_one_db(f"""select count(*)  from public.scopus s
                                     {self.__set_where_sc_SQL_string(my_form)};""")[0]
+    
+        else:
+            return self.__read_one_db(f""" with t_author as ({self.__SQL_sc_authors_by_dep}{my_form['sc_select_dep']}),
+                        aut_atc  as (select * from scopus_autors sa ,t_author 
+                                    where sa.id_sc_autor = t_author.id_scopus)
+                        
+                        select  count(DISTINCT s.eid) from scopus s, aut_atc
+                                    {self.__set_where_sc_SQL_string(my_form)} and s.eid = aut_atc.eid; """)[0]
+            
+    
+    and_str = lambda self,x: 'and ' if len(x) > 10 else ''
+    or_str  = lambda self,x: 'or ' if len(x) > 10 else ''
     
     def __set_where_sc_SQL_string(self,my_form:DataScForm)->str:
         strSQLwhere = {'where':' where '}  
-        if not my_form['sc_article'] and not my_form['sc_book'] and not my_form['sc_conf']:
-            strSQLwhere['where']+="not document_type in ('Article','Conference Paper','Book Chapter') "
+        if not my_form['sc_other'] and not my_form['sc_book'] and not my_form['sc_conf'] and not my_form['sc_article']:
+            strSQLwhere['where']+="document_type = 'NONE TYPE' "            
         else:
-            dic_type = {'Article':my_form['sc_article'],'Conference Paper':my_form['sc_conf'],'Book Chapter':my_form['sc_book']}              
-            strSQLwhere['where']+=f"""document_type in ({','.join(f"'{key}'"  for key,vol in dic_type.items() if vol)} ) """
-
-        if not 'Все' in  my_form['sc_select_year']:
-            strSQLwhere['where'] += f""" and s."year" in ({','.join(f"'{y}'" for y in my_form['sc_select_year'])}) """
+            if my_form['sc_other']:
+                strSQLwhere['where']+=f"{'(' if my_form['sc_article'] + my_form['sc_book'] + my_form['sc_conf'] else ''} not document_type in ('Article','Conference Paper','Book Chapter','Book')  "
+        
+            if my_form['sc_article'] or my_form['sc_book'] or my_form['sc_conf']:    
+                dic_type = {'Article':my_form['sc_article'],'Conference Paper':my_form['sc_conf'],'Book Chapter':my_form['sc_book'],'Book':my_form['sc_book']}              
+                strSQLwhere['where']+=f""" {self.or_str(strSQLwhere['where'])} document_type in ({','.join(f"'{key}'"  for key,vol in dic_type.items() if vol)} 
+                                            {')' if my_form['sc_other']  else ''}) """
+        
+        if not ('Все' in  my_form['sc_select_year'] or not my_form['sc_select_year']):
+            strSQLwhere['where'] += f""" {self.and_str(strSQLwhere['where'])} s."year" in ({','.join(f"'{y}'" for y in my_form['sc_select_year'])}) """
 
         return strSQLwhere['where']
     
-    def get_limit_all_article(self,offset,limit,my_form:DataScForm):
 
-        return self.__read_db(f""" select eid ,title ,author ,"year" ,document_type ,journal from scopus s 
+
+
+    def get_limit_all_article(self,offset,limit,my_form:DataScForm):
+        if my_form['sc_select_dep'] == ALL_DEP:
+            return self.__read_db(f""" select s.eid ,s.title ,s.author ,s."year" ,s.document_type ,s.journal from scopus s 
                                 {self.__set_where_sc_SQL_string(my_form)}
                                 offset {offset} limit {limit};""")
+        else:
+            strSQLquery=f""" with t_author as ({self.__SQL_sc_authors_by_dep}{my_form['sc_select_dep']}),
+                                  aut_atc  as (select * from scopus_autors sa ,t_author 
+                                               where sa.id_sc_autor = t_author.id_scopus)
+                                  
+                                  select DISTINCT s.eid ,s.title ,s.author ,s."year" ,s.document_type ,s.journal from scopus s,aut_atc
+                                                {self.__set_where_sc_SQL_string(my_form)} and s.eid = aut_atc.eid
+                                                 offset {offset} limit {limit}; """
+
+            return self.__read_db(strSQLquery)
+
 
     def get_sc__search(self,myform:DataScForm ):
         if myform.sc_radio_auth_atcl == 'author':

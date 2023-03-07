@@ -75,6 +75,9 @@ def scopusReport():
         if form.sc_buttons_ok.data:
             session['sc_form_report'] = form.data
             
+
+
+            
         if form.sc_buttons_search.data and form.sc_search.data:
             total_list=sc_dbase.get_sc__search(my_sc)
             total=len(total_list)
