@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, g, request,redirect,flash
 from scopus.SC_Dbase import SC_Dbase
 from scopus.sc_forms import SC_Form,DataScForm
 from flask_paginate import Pagination, get_page_parameter
-import json
+from scopus.sc_excel import ScopusExportExcel
 
 
 scopus=Blueprint('scopus',__name__,template_folder='templates',static_folder='static')
@@ -63,22 +63,30 @@ def scopusReport():
         total_list=total_list[offset:offset+limit]
     else:
         total_list=sc_dbase.get_limit_all_article(offset,limit,form.data)
-        total=sc_dbase.get_count_all_article(form.data)
-
+        total=sc_dbase.get_count_all_article(form.data)    
+    
     if form.validate_on_submit():
         if form.sc_buttons_cancel.data:
             if 'sc_form_report' in session : session.pop('sc_form_report')
             return redirect(request.base_url)
-        my_sc= DataScForm()
+
+        my_sc:DataScForm = DataScForm()
         form.populate_obj(my_sc)
+
+        if my_sc.sc_rep_article:
+            sc_exporter:ScopusExportExcel = ScopusExportExcel()
+            total_list=sc_dbase.get_articles_export(my_sc)
+            sc_exporter.create_report_article(total_list)
+
+        elif my_sc.sc_rep_authors:
+            pass
+        elif my_sc.sc_rep_sum:
+            pass
         
-        if form.sc_buttons_ok.data:
+        if my_sc.sc_buttons_ok:
             session['sc_form_report'] = form.data
             
-
-
-            
-        if form.sc_buttons_search.data and form.sc_search.data:
+        if my_sc.sc_buttons_search and my_sc.sc_search:
             total_list=sc_dbase.get_sc__search(my_sc)
             total=len(total_list)
             # if my_sc.sc_radio_auth_atcl == 'author' :

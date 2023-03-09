@@ -9,21 +9,28 @@ ALL_DEP='9999'
 class SC_Dbase(FDataBase):
 
     __SQL_sc_All_aurhors="""select tsh ."id_Sciencer" ,tsh ."FIO",dep, ais.id_scopus,ais.doc ,ais.note,ais.h_ind  from  "Table_Sсience_HNURE" tsh 
-                                full join author_in_scopus ais on (tsh."id_Sciencer" = ais.id_author)
-                                left join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'; ') dep from  public.autors_in_departments aid 
-                                GROUP by aid.id_autors) as foo1
-                                on (tsh."id_Sciencer" = foo1.id_autors )
-                                where tsh.works 
-                                order by tsh ."id_Sciencer" """ 
+                                 full join author_in_scopus ais on (tsh."id_Sciencer" = ais.id_author)
+                                 left join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'; ') dep from  public.autors_in_departments aid 
+                                 GROUP by aid.id_autors) as foo1
+                                 on (tsh."id_Sciencer" = foo1.id_autors )
+                                 where tsh.works 
+                                 order by tsh ."id_Sciencer" """ 
 
-    __SQL_sc_authors_by_dep="""select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , ais.id_scopus ,ais.doc ,ais.note,ais.h_ind , aid.id_depatment,tsh.works
+    __SQL_sc_article_export = """SELECT DISTINCT /*on (title)*/  title, s.author, aid.name_autor, aid.name_department, "year", aid.id_depatment ,tsh.works, s.eid
+                        FROM public.scopus  s
+                        full join public.scopus_autors sa on (sa.eid = s.eid  )
+                        left join public."Table_Sсience_HNURE" tsh on (sa.id_sc_autor = tsh."ID_Scopus_Author")
+                        left join public.autors_in_departments aid on (aid.id_autors = tsh."id_Sciencer"  )
+                        order by title """
+
+    __SQL_sc_authors_by_dep = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , ais.id_scopus ,ais.doc ,ais.note,ais.h_ind , aid.id_depatment,tsh.works
                                 from  public.autors_in_departments aid
                                 inner join public."Table_Sсience_HNURE" tsh 
                                 on (tsh."id_Sciencer"=aid.id_autors)
                                 left join public.author_in_scopus ais 
                                 on (tsh."id_Sciencer" = ais.id_author )
                                 ORDER BY tsh."FIO") as res
-                                where res.works and res.id_depatment = """       
+                                where res.works """   # and res.id_depatment = """       
     
     def __read_db(self,SQL_String): 
         return self._FDataBase__read_execute(SQL_String)
@@ -49,33 +56,35 @@ class SC_Dbase(FDataBase):
         return res[0][0] if res else ''
 
     def select_authors_by_form(self, form:SC_Form):
-        where_=lambda x:f""" where  r.doc::int >= {form.sc_input_limit.data} order by r.doc::int desc """ if x else ''               
+        where_=lambda x:f""" where  r.doc::int >= {form.sc_input_limit.data} order by r.doc::int desc """ if x else ' order by r.id'               
 
 
-        if form.sc_select_dep.data == ALL_DEP:
-             return self.__read_db(f"""select * from ({self.__SQL_sc_All_aurhors}) as r
-                                        {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
-        else:
-            return self.__read_db(f"""select * from ({self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data}) as r 
-                                        {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
-#            return self.__read_db(f"""{self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data} order by res.id """)
+        # if form.sc_select_dep.data == ALL_DEP:
+        #       return self.__read_db(f"""select * from ({self.__SQL_sc_All_aurhors}) as r
+        #                                  {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
+        # else:
+        return self.__read_db(f"""select * from ({self.__SQL_sc_authors_by_dep}
+                            {f' and res.id_depatment = {form.sc_select_dep.data} ' if form.sc_select_dep.data != ALL_DEP else '' }) as r 
+                            {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
+            # return self.__read_db(f"""{self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data} order by res.id """)
                 
     def get_stamp_table(self,id):
         return self.__read_one_db(f"""select * from stamp_tables st 
                                   where st.id_table = '{id}';""")
          
     def get_count_all_article(self,my_form:SC_Form.data):
-        if my_form['sc_select_dep'] == ALL_DEP:
-            return self.__read_one_db(f"""select count(*)  from public.scopus s
-                                    {self.__set_where_sc_SQL_string(my_form)};""")[0]
+        # if my_form['sc_select_dep'] == ALL_DEP:
+        #     return self.__read_one_db(f"""select count(*)  from public.scopus s
+        #                             {self.__set_where_sc_SQL_string(my_form)};""")[0]
     
-        else:
-            return self.__read_one_db(f""" with t_author as ({self.__SQL_sc_authors_by_dep}{my_form['sc_select_dep']}),
+        # else:
+            return self.__read_one_db(f""" with t_author as ({self.__SQL_sc_authors_by_dep}
+                                     {f" and res.id_depatment = {my_form['sc_select_dep']} " if my_form['sc_select_dep'] != ALL_DEP else ''}),
                         aut_atc  as (select * from scopus_autors sa ,t_author 
                                     where sa.id_sc_autor = t_author.id_scopus)
                         
                         select  count(DISTINCT s.eid) from scopus s, aut_atc
-                                    {self.__set_where_sc_SQL_string(my_form)} and s.eid = aut_atc.eid; """)[0]
+                                    {self.__set_where_sc_SQL_string(my_form)} and s.eid = aut_atc.eid; """)[0] #
             
     
     and_str = lambda self,x: 'and ' if len(x) > 10 else ''
@@ -98,30 +107,33 @@ class SC_Dbase(FDataBase):
             strSQLwhere['where'] += f""" {self.and_str(strSQLwhere['where'])} s."year" in ({','.join(f"'{y}'" for y in my_form['sc_select_year'])}) """
 
         return strSQLwhere['where']
-    
-
 
 
     def get_limit_all_article(self,offset,limit,my_form:DataScForm):
-        if my_form['sc_select_dep'] == ALL_DEP:
-            return self.__read_db(f""" select s.eid ,s.title ,s.author ,s."year" ,s.document_type ,s.journal from scopus s 
-                                {self.__set_where_sc_SQL_string(my_form)}
-                                offset {offset} limit {limit};""")
-        else:
-            strSQLquery=f""" with t_author as ({self.__SQL_sc_authors_by_dep}{my_form['sc_select_dep']}),
+        # if my_form['sc_select_dep'] == ALL_DEP:
+        #     return self.__read_db(f""" select s.eid ,s.title ,s.author ,s."year" ,s.document_type ,s.journal from scopus s 
+        #                         {self.__set_where_sc_SQL_string(my_form)}
+        #                         offset {offset} limit {limit};""")
+        # else:
+            strSQLquery=f""" with t_author as ({self.__SQL_sc_authors_by_dep}{f" and res.id_depatment = {my_form['sc_select_dep']}" if my_form['sc_select_dep'] != ALL_DEP else ''}),
                                   aut_atc  as (select * from scopus_autors sa ,t_author 
-                                               where sa.id_sc_autor = t_author.id_scopus)
-                                  
-                                  select DISTINCT s.eid ,s.title ,s.author ,s."year" ,s.document_type ,s.journal from scopus s,aut_atc
-                                                {self.__set_where_sc_SQL_string(my_form)} and s.eid = aut_atc.eid
-                                                 offset {offset} limit {limit}; """
+                                               where sa.id_sc_autor = t_author.id_scopus)                                
+                                  select DISTINCT ON (s.eid) s.eid ,s.title ,s.author ,s."year" ,s.document_type ,s.journal from scopus s,aut_atc
+                                                {self.__set_where_sc_SQL_string(my_form)} and s.eid = aut_atc.eid 
+                                                 offset {offset} limit {limit}; """  #and s.eid = aut_atc.eid
 
             return self.__read_db(strSQLquery)
 
 
+    def get_articles_export(self,my_form:DataScForm):
+        strSQLquery=f"""select * ({self.__SQL_sc_article_export}) res
+                        {self.__set_where_sc_SQL_string(my_form)}  and res.works"""
+        return self.__read_db(strSQLquery)
+
+
     def get_sc__search(self,myform:DataScForm ):
         if myform.sc_radio_auth_atcl == 'author':
-            return self.__read_db(f"""select * from ({self.__SQL_sc_All_aurhors}) as too 
+            return self.__read_db(f"""select * from ({self.__SQL_sc_authors_by_dep}) as too 
                                         where too."FIO" ILIKE '%{myform.sc_search}%' """)
         else:
             return self.__read_db(f"""select eid ,title ,author ,"year" ,document_type ,journal from scopus s  

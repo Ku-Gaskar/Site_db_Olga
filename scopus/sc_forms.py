@@ -22,6 +22,11 @@ class DataScForm:
     sc_input_limit=None
     sc_buttons_cancel=None
     sc_buttons_ok=None
+    sc_rep_article=None
+    sc_rep_authors=None
+    sc_rep_sum=None
+
+
 
 
 
@@ -41,3 +46,7 @@ class SC_Form(FlaskForm):
     sc_input_limit=IntegerField('Не менее статей автора:',validators=[NumberRange(min=0,max=99)],default=0)
     sc_buttons_cancel=SubmitField('Сбросить')
     sc_buttons_ok=SubmitField('Применить')
+
+    sc_rep_article=SubmitField('Публикации с авторами (с учетом фильтра)')
+    sc_rep_authors=SubmitField('Авторы со статьями (с учетом фильтра)')
+    sc_rep_sum=SubmitField('Cумма цитирований авторов по кафедрам (без учета фильтра)')

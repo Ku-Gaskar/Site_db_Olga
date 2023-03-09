@@ -91,6 +91,24 @@
               <div class="col-md-4">{{ form.sc_buttons_ok(class="btn btn-primary",onclick="updateURL()")}}</div>
               <div class="col-md-4">{{ form.sc_buttons_cancel(class="btn btn-secondary")}}</div>
           </div>
+            <div class="dropdown m-3 ps-4">
+              <button class="btn btn-outline-success  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Экспортировать в Exell
+              </button>
+              <ul class="dropdown-menu">
+                {% if form.sc_radio_auth_atcl.data == 'author' %}
+                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="updateURL()", disabled=disabled ) }}</li>                    
+                {% else %}
+                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="updateURL()") }}</li>                    
+                {% endif %}
+                {% if form.sc_radio_auth_atcl.data == 'author' %}
+                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="updateURL()") }}</li>
+                {% else %}
+                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="updateURL()", disabled = disabled) }}</li>
+                {% endif %}
+                <li>{{ form.sc_rep_sum(class="dropdown-item fw-weight-bold",onclick="updateURL()") }}</li>
+              </ul>
+            </div>
           </form>
           </div>
           <div class="col-md-9 ps-2">
