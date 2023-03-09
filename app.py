@@ -9,6 +9,9 @@ from UserLogin import UserLogin
 from werkzeug.security import generate_password_hash , check_password_hash 
 import forms
 from scopus.scopus import scopus
+from gevent.pywsgi import WSGIServer
+
+
 
 DATABASE='localhost'
 PORT = '5432'
@@ -261,10 +264,10 @@ def logout():
     return redirect(url_for('index'))   
 
 if __name__ == "__main__":
-    #http_server = WSGIServer(('', 5000), app)
-    #http_server.serve_forever()
-    app.jinja_env.filters['my_split'] = my_split
-    app.run('192.168.1.102',debug=True)
+    http_server = WSGIServer(('192.168.1.102',5000), app)
+    http_server.serve_forever()
+#    app.jinja_env.filters['my_split'] = my_split
+#    app.run('192.168.1.102',debug=True) 
     
     
 
