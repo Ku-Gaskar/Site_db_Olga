@@ -43,8 +43,8 @@ def get_db():
         g.link_db = connect_db()
     return g.link_db
 
-def update_db_author(cont,d,id):
-    a,b,c = True, True, True 
+def update_db_author(cont,d:forms.EditStruct,id):
+    a,c = True, True 
     if id == 0:
         id=dbase.insert_new_author(d)
         if not id: return False
@@ -59,8 +59,17 @@ def update_db_author(cont,d,id):
     a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat)
 
     # обработка scopus_id
-    b=dbase.delete_scopus_id_by_author_id(id)
-    b=dbase.insert_scopus_id_by_author_id(id,d)
+    db_list_scopus=dbase.get_table_author_in_scopus_by_id_author(id)
+    dbase.delete_scopus_id_by_author_id(id)
+    if db_list_scopus:
+        for row in db_list_scopus:
+            if d.scopus_id and (d.scopus_id == row[1]):
+                dbase.insert_scopus_id_struct(row)
+            elif d.scopus_id_1 and (d.scopus_id_1 == row[1]):
+                dbase.insert_scopus_id_struct(row)
+            elif d.scopus_id_2 and (d.scopus_id_2 == row[1]):
+                dbase.insert_scopus_id_struct(row)           
+    dbase.insert_scopus_id_by_author_id(id,d)
                                           
     if (cont['author'][0][1] != d.name_author) or (cont['author'][0][4] != d.orcid_id
         ) or (cont['author'][0][5] != d.researcher_id):
@@ -73,7 +82,7 @@ def update_db_author(cont,d,id):
         for key,id_name in name_lat_dict.items():
             c=dbase.insert_lat_name_by_author_id(key,id_name)
 
-    return True if a and b  and c else False 
+    return True if a and c else False 
 
 dbase:FDataBase = None
 

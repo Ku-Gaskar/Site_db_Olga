@@ -1,9 +1,13 @@
 
-import openpyxl
+
+
 from openpyxl import Workbook
+from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+
+
 import os
 import re
 from datetime import date
@@ -45,28 +49,6 @@ class ExportExcel():
             self._path = path
         self.wb : Workbook  = Workbook()
         self.ws : Worksheet = self.wb.active
-        #self.file_stream = io.BytesIO()
-        
-
-            
-    def close_book(self):
-        current_date = str(date.today())
-        i=1
-        Namefile = f'{self._path}\\scopus_report_{current_date}.xlsx'
-        Name_=Namefile[:-5]
-        while os.path.isfile(Namefile):
-             Namefile=f"{Name_}({str(i)}).xlsx"
-             i+=1
-        self.wb.save(Namefile)
-        self.wb.close()
-        return Namefile
-    
-    def delete_book(self,Namefile):
-        try:
-            os.remove(Namefile)
-        except:
-            print(f"Не возможно удалить файл {Namefile}")
-
  
     def set_Header(self,i_row,Doc_Name):
      for i_col,val in enumerate(Doc_Name):
@@ -79,6 +61,11 @@ class ExportExcel():
     def set_Width(self,d):
         for i,val in enumerate(d):
             self.ws.column_dimensions[get_column_letter(i+1)].width = val
+
+    def drawColorYellow(self,i):
+        for tyty in self.ws['A'+ str(i)+':H'+ str(i)]:
+            for strk in tyty:
+                strk.fill = PatternFill('solid',fgColor='FFFF00')
 #----------------------------------------------------------------
 
 class ScopusExportExcel(ExportExcel):
@@ -100,19 +87,19 @@ class ScopusExportExcel(ExportExcel):
                 self.ws['E'+str(i_index)]=record[1]
                 i_index+=1
                 count+=1
+                if (fist_aticle != record[7]) and (not record[2]) and (not record[3]):
+                    self.drawColorYellow(i_index-1)
                 fist_aticle=record[7]
+            if not record[2]  and not record[3]:
+                continue  
             self.ws['E'+str(i_index)]=record[2]
             self.ws['F'+str(i_index)]=record[3]
             i_index+=1
 
 
-    def create_report_article(self, total_list):#my_sc:DataScForm):
+    def create_report_article(self, total_list):
         self.write_full_aticl(total_list)
-        # self.file_stream.write(self.wb)
-        # self.file_stream.seek(0)    
-        return  self.close_book()
+        return save_virtual_workbook(self.wb)  
 
-    def create_report_author(self, total_list):#my_sc:DataScForm):
+    def create_report_author(self, total_list):
         pass
-        # self.write_full_aticl(total_list)
-        # self.close_book()

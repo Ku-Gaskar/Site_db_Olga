@@ -11,7 +11,25 @@ from wtforms.validators import Email, DataRequired, EqualTo,InputRequired,Option
 #     password_repeat = PasswordField('Повторите пароль', validators=[DataRequired(), EqualTo('password')])
 
 class EditStruct:
-        name_author:str = None
+    name_author=None
+    scopus_id   = None
+    scopus_id_1 = None
+    scopus_id_2 = None
+    orcid_id   = None
+    orcid_id_1 = None
+    orcid_id_2 = None
+    researcher_id   = None
+    researcher_id_1 = None
+    researcher_id_2 = None
+    depat=None
+    list_lat_name=None
+    one_lat_name=None
+    part_time_worker=None
+    depat_two=None
+    submit_escape = None
+    submit_add = None
+    submit_save = None
+    submit_delete= None
 
 
 

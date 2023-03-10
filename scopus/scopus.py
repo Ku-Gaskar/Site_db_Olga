@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, g, request,redirect,flash,current_app,session,send_file,send_from_directory
+from flask import Blueprint, render_template, url_for, g, request,redirect,flash,current_app,session,send_file,Response
 from scopus.SC_Dbase import SC_Dbase
 from scopus.sc_forms import SC_Form,DataScForm
 from flask_paginate import Pagination, get_page_parameter
@@ -25,6 +25,16 @@ def before_request():
 #     global sc_dbase
 #     sc_dbase=None
 #     return request
+
+# @scopus.after_request
+# def after_request(response:Response):
+#     t=dict(response.headers._list)
+#     if ('Content-Disposition' in t) and ('attachment; filename=sc_report_' in t['Content-Disposition']):
+#         return redirect(url_for('.scopusReport'))
+
+#     print(f"after_request() called,{' '.join(k+':'+i  for k,i in  t.items())}")
+#     return response
+
 
 
 @scopus.route('/', methods=['GET', 'POST'])
@@ -78,10 +88,15 @@ def scopusReport():
         if my_sc.sc_rep_article:
             sc_exporter:ScopusExportExcel = ScopusExportExcel()
             list_export=sc_dbase.get_articles_export(form.data)
-            file_name=sc_exporter.create_report_article(list_export)
+            # file_name=sc_exporter.create_report_article(list_export)
 
             fm=f"sc_report_{date.today()}.xlsx"
-            return send_file(file_name, as_attachment=True,download_name=fm)
+            return Response(sc_exporter.create_report_article(list_export),
+                            headers={'Content-Disposition': f'attachment; filename={fm}',
+                                     'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+        
+            
+            # return send_file(file_name, as_attachment=True,download_name=fm)
             # fileName="scopus_report_2023-03-09.xlsx"
             # send_from_directory(os.getcwd(), fileName, as_attachment=True)
             #             #, download_name=fm)#,

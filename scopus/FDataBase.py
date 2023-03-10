@@ -186,7 +186,16 @@ class FDataBase:
     def delete_scopus_id_by_author_id(self,id_author):
         del_dep_SQL=f"""DELETE FROM public.author_in_scopus WHERE id_author = {id_author} RETURNING * ;"""
         return self.__update_execute(del_dep_SQL)
-
+    
+    def get_table_author_in_scopus_by_id_author(self,id_author):
+        return self.__read_execute(f"SELECT * FROM public.author_in_scopus WHERE id_author = {id_author}""")
+    
+    def insert_scopus_id_struct(self,scopus_struct):
+            sc_id_SQL=f"""INSERT INTO public.author_in_scopus AS t(id_author,id_scopus,doc,note,h_ind) 
+                SELECT * FROM (values ({scopus_struct[0]},'{scopus_struct[1]}','{scopus_struct[2]}','{scopus_struct[3]}','{scopus_struct[4]}')) v(id_author,id_scopus,doc,note,h_ind) 
+                WHERE NOT EXISTS  (SELECT FROM public.author_in_scopus AS d where d.id_author = v.id_author AND d.id_scopus = v.id_scopus) 
+                on conflict do nothing returning id_author;"""
+            return self.__update_execute(sc_id_SQL)
 
     def insert_scopus_id_by_author_id(self,id_author,d):
         list_scopus_id=(d.scopus_id,d.scopus_id_1,d.scopus_id_2)

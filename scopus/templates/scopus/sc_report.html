@@ -94,7 +94,7 @@
             <div class="dropdown m-3 ps-4">
               <button class="btn btn-outline-success  dropdown-toggle" id="exp_" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
                 <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner" style="opacity:0;"></span>
-                Экспортировать в Exell
+                Экспортировать в Exсel
               </button>
               
               <ul class="dropdown-menu">
@@ -136,12 +136,8 @@ function enabled_block() {
 function limitFunction() {
   if (document.getElementById("sc_bool_limit").checked == true){
     document.getElementById("limitInput").style.display = "block";
-//    document.getElementById("sc_select_dep").disabled = true;
-//    document.querySelector('label[for="sc_select_dep"]').style.opacity=0.5;
   } else {
     document.getElementById("limitInput").style.display = "none";
-    //document.getElementById("sc_select_dep").disabled = false;
-  //  document.querySelector('label[for="sc_select_dep"]').style.opacity=1;
     } 
 };
 
@@ -157,9 +153,10 @@ function updateURL() {
 };
 
 function set_spinner(){
-  /*document.getElementById("spinner").style.opacity = 1;
-  document.getElementById("exp_").disabled=true;*/
+  document.getElementById("spinner").style.opacity = 1;
+  document.getElementById("exp_").disabled=true;
   updateURL();  
+  setTimeout(() => {location.reload();}, 3000);
 };
 
 function swithTable(){
