@@ -75,7 +75,7 @@ def update_db_author(cont,d,id):
 
     return True if a and b  and c else False 
 
-dbase=None
+dbase:FDataBase = None
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -264,10 +264,10 @@ def logout():
     return redirect(url_for('index'))   
 
 if __name__ == "__main__":
-    http_server = WSGIServer(('192.168.1.102',5000), app)
-    http_server.serve_forever()
-#    app.jinja_env.filters['my_split'] = my_split
-#    app.run('192.168.1.102',debug=True) 
+    # http_server = WSGIServer(('192.168.1.102',5000), app)
+    # http_server.serve_forever()
+   app.jinja_env.filters['my_split'] = my_split
+   app.run('192.168.1.102',debug=True) 
     
     
 

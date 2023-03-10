@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, url_for, g, request,redirect,flash,current_app,session
+from flask import Blueprint, render_template, url_for, g, request,redirect,flash,current_app,session,send_file,send_from_directory
 from scopus.SC_Dbase import SC_Dbase
 from scopus.sc_forms import SC_Form,DataScForm
 from flask_paginate import Pagination, get_page_parameter
 from scopus.sc_excel import ScopusExportExcel
-
+import os
+from datetime import date
 
 scopus=Blueprint('scopus',__name__,template_folder='templates',static_folder='static')
 sc_dbase:SC_Dbase = None
@@ -34,6 +35,7 @@ def index():
     content['doc_sum']=sc_dbase.get_doc_sum()
     content['h_ind'] = sc_dbase.get_h_ind()
     return render_template('scopus/sc_index.html',content = content)
+
 
 @scopus.route('/sc_report', methods=['GET', 'POST'])
 def scopusReport():
@@ -75,9 +77,17 @@ def scopusReport():
 
         if my_sc.sc_rep_article:
             sc_exporter:ScopusExportExcel = ScopusExportExcel()
-            total_list=sc_dbase.get_articles_export(my_sc)
-            sc_exporter.create_report_article(total_list)
+            list_export=sc_dbase.get_articles_export(form.data)
+            file_name=sc_exporter.create_report_article(list_export)
 
+            fm=f"sc_report_{date.today()}.xlsx"
+            return send_file(file_name, as_attachment=True,download_name=fm)
+            # fileName="scopus_report_2023-03-09.xlsx"
+            # send_from_directory(os.getcwd(), fileName, as_attachment=True)
+            #             #, download_name=fm)#,
+            #             # attachment_filename=fm,
+            #             # 
+            # sc_exporter.delete_book(file_name)
         elif my_sc.sc_rep_authors:
             pass
         elif my_sc.sc_rep_sum:

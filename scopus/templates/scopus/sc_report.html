@@ -92,21 +92,23 @@
               <div class="col-md-4">{{ form.sc_buttons_cancel(class="btn btn-secondary")}}</div>
           </div>
             <div class="dropdown m-3 ps-4">
-              <button class="btn btn-outline-success  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button class="btn btn-outline-success  dropdown-toggle" id="exp_" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner" style="opacity:0;"></span>
                 Экспортировать в Exell
               </button>
+              
               <ul class="dropdown-menu">
                 {% if form.sc_radio_auth_atcl.data == 'author' %}
-                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="updateURL()", disabled=disabled ) }}</li>                    
+                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="set_spinner()", disabled=disabled ) }}</li>                    
                 {% else %}
-                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="updateURL()") }}</li>                    
+                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>                    
                 {% endif %}
                 {% if form.sc_radio_auth_atcl.data == 'author' %}
-                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="updateURL()") }}</li>
+                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>
                 {% else %}
-                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="updateURL()", disabled = disabled) }}</li>
+                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="set_spinner()", disabled = disabled) }}</li>
                 {% endif %}
-                <li>{{ form.sc_rep_sum(class="dropdown-item fw-weight-bold",onclick="updateURL()") }}</li>
+                <li>{{ form.sc_rep_sum(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>
               </ul>
             </div>
           </form>
@@ -152,8 +154,13 @@ function updateURL() {
     else {
         console.warn('History API не поддерживается');
     }
-}
+};
 
+function set_spinner(){
+  /*document.getElementById("spinner").style.opacity = 1;
+  document.getElementById("exp_").disabled=true;*/
+  updateURL();  
+};
 
 function swithTable(){
   enabled_block();
