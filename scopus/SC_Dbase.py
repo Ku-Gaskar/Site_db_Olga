@@ -123,3 +123,9 @@ class SC_Dbase(FDataBase):
                                               s.author ILIKE '%{myform.sc_search}%'; """)
 
 
+    def get_sum_export(self):        
+        return self.__read_db("""select  name_autor,name_department,note from
+	            (select * from autors_in_departments aid 
+	            left join author_in_scopus on( aid.id_autors  = id_author)) too
+            where  too.note::int > 0
+            order  by name_department""")

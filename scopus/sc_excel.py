@@ -36,7 +36,8 @@ from scopus.sc_forms import DataScForm
 class ExportExcel():
    
     def __init__(self,path=''):
-   
+        self.mas_note=(20.0, 12.0, 60.0, 12)
+        self.title_note=('Кафедра','Сумма','ФИО','Цитирования')
         self.all_title=('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра')
         self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0)
         self.mas_Doc_Name=('#','Название статьи','Авторы','Цитирования')
@@ -74,7 +75,7 @@ class ScopusExportExcel(ExportExcel):
         self.ws.title ='ALL_Aticles'
         self.set_Width(self.mas_Doc)
         self.set_Header(1,self.all_title)
-        fist_aticle=''
+        fist_aticle='-1'
         i_index=1
         count=1 
         for record in total_list:
@@ -103,3 +104,36 @@ class ScopusExportExcel(ExportExcel):
 
     def create_report_author(self, total_list):
         pass
+
+    def create_report_sum(self,total_list):
+        self.ws.title ='Сумма цитирований по кафедрам'
+        self.set_Width(self.mas_note)
+        self.set_Header(1,self.title_note)
+        fist_aticle='-1'
+        i_index=1
+        dep_ind=2
+        count=0
+        for record in total_list:
+            if fist_aticle != record[1]:   #('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра')
+                i_index+=1
+                fist_aticle = record[1]
+                self.ws['A'+str(i_index)]=record[1] if record[1]  else 'Не найдена'
+                i_index+=1
+                if i_index != 3:
+                    self.ws['B'+str(dep_ind)]=count                    
+                #    count=int(record[2])
+                    dep_ind=i_index-1
+                #else:
+                    #i_index+=1                    
+                count=int(record[2])
+                self.ws['C'+str(i_index)]=record[0]
+                self.ws['D'+str(i_index)]=record[2]
+
+            else: 
+                i_index+=1                    
+                self.ws['C'+str(i_index)]=record[0]
+                self.ws['D'+str(i_index)]=record[2]
+                count+=int(record[2])
+        
+        self.ws['B'+str(dep_ind)]=count                    
+        return save_virtual_workbook(self.wb) 

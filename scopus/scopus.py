@@ -26,16 +26,6 @@ def before_request():
 #     sc_dbase=None
 #     return request
 
-# @scopus.after_request
-# def after_request(response:Response):
-#     t=dict(response.headers._list)
-#     if ('Content-Disposition' in t) and ('attachment; filename=sc_report_' in t['Content-Disposition']):
-#         return redirect(url_for('.scopusReport'))
-
-#     print(f"after_request() called,{' '.join(k+':'+i  for k,i in  t.items())}")
-#     return response
-
-
 
 @scopus.route('/', methods=['GET', 'POST'])
 def index():
@@ -88,24 +78,21 @@ def scopusReport():
         if my_sc.sc_rep_article:
             sc_exporter:ScopusExportExcel = ScopusExportExcel()
             list_export=sc_dbase.get_articles_export(form.data)
-            # file_name=sc_exporter.create_report_article(list_export)
-
             fm=f"sc_report_{date.today()}.xlsx"
             return Response(sc_exporter.create_report_article(list_export),
                             headers={'Content-Disposition': f'attachment; filename={fm}',
                                      'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
-        
             
-            # return send_file(file_name, as_attachment=True,download_name=fm)
-            # fileName="scopus_report_2023-03-09.xlsx"
-            # send_from_directory(os.getcwd(), fileName, as_attachment=True)
-            #             #, download_name=fm)#,
-            #             # attachment_filename=fm,
-            #             # 
-            # sc_exporter.delete_book(file_name)
         elif my_sc.sc_rep_authors:
             pass
         elif my_sc.sc_rep_sum:
+            sc_exporter:ScopusExportExcel = ScopusExportExcel()
+            list_export=sc_dbase.get_sum_export()
+            fm=f"sc_sum_{date.today()}.xlsx"
+            return Response(sc_exporter.create_report_sum(list_export),
+                            headers={'Content-Disposition': f'attachment; filename={fm}',
+                                     'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+
             pass
         
         if my_sc.sc_buttons_ok:
