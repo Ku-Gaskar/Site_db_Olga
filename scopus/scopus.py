@@ -81,10 +81,15 @@ def scopusReport():
             fm=f"sc_report_{date.today()}.xlsx"
             return Response(sc_exporter.create_report_article(list_export),
                             headers={'Content-Disposition': f'attachment; filename={fm}',
-                                     'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
-            
+                                     'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})            
         elif my_sc.sc_rep_authors:
-            pass
+            sc_exporter:ScopusExportExcel = ScopusExportExcel()
+            dd=form.data
+            list_export=sc_dbase.get_sc_author_with_article(dd)   
+            fm=f"sc_author_{date.today()}.xlsx"
+            return Response(sc_exporter.create_author_with_article(list_export,dd),
+                            headers={'Content-Disposition': f'attachment; filename={fm}',
+                                     'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})            
         elif my_sc.sc_rep_sum:
             sc_exporter:ScopusExportExcel = ScopusExportExcel()
             list_export=sc_dbase.get_sum_export()
@@ -93,7 +98,7 @@ def scopusReport():
                             headers={'Content-Disposition': f'attachment; filename={fm}',
                                      'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
 
-            pass
+            
         
         if my_sc.sc_buttons_ok:
             session['sc_form_report'] = form.data
@@ -113,4 +118,4 @@ def scopusReport():
     
     content['table'] = sc_dbase.get_stamp_table(form.sc_radio_auth_atcl.data)
     content['table_data'] = total_list
-    return render_template('scopus/sc_report.html',content = content,form = form, enumerate=enumerate)
+    return render_template('scopus/sc_report.j2',content = content,form = form, enumerate=enumerate)

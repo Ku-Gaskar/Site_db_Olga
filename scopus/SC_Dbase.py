@@ -16,6 +16,7 @@ class SC_Dbase(FDataBase):
     #                              where tsh.works 
     #                              order by tsh ."id_Sciencer" """ 
 
+
     __SQL_sc_article_select = """SELECT DISTINCT /*on (title)*/  title, s.author, aid.name_autor, aid.name_department, "year", aid.id_depatment ,tsh.works, s.eid, document_type,journal
                         FROM public.scopus  s
                         full join public.scopus_autors sa on (sa.eid = s.eid  )
@@ -30,7 +31,14 @@ class SC_Dbase(FDataBase):
                                 left join public.author_in_scopus ais 
                                 on (tsh."id_Sciencer" = ais.id_author )
                                 ORDER BY tsh."FIO") as res
-                                where res.works """   # and res.id_depatment = """       
+                                where res.works """  
+    __SQL_sc_author_with_article ="""select distinct  tsh ."id_Sciencer" id ,tsh ."FIO",s.title ,s."year" , aid.name_department , aid.id_depatment from  "Table_Sсience_HNURE" tsh 
+                                left join author_in_scopus ais on (tsh."id_Sciencer"  = ais.id_author)
+                                inner join  scopus_autors sa  on (ais.id_scopus  = sa.id_sc_autor) 
+                                inner join  scopus s on (s.eid = sa.eid)
+                                inner join  autors_in_departments aid on (tsh."id_Sciencer"  = aid.id_autors)	 
+                        where id_scopus = id_sc_autor and works  
+                        order by "id_Sciencer" """
     
     def __read_db(self,SQL_String): 
         return self._FDataBase__read_execute(SQL_String)
@@ -81,9 +89,9 @@ class SC_Dbase(FDataBase):
     or_str  = lambda self,x: 'or ' if len(x) > 10 else ''
     
     def __set_where_sc_SQL_type_year(self,my_form:DataScForm)->str:
-        strSQLwhere = {'where':'where'}  
+        strSQLwhere = {'where':'where '}  
         if not my_form['sc_other'] and not my_form['sc_book'] and not my_form['sc_conf'] and not my_form['sc_article']:
-            strSQLwhere['where']+="document_type = 'NONE TYPE' "            
+            strSQLwhere['where']+=" document_type = 'NONE TYPE' "            
         elif my_form['sc_other'] and my_form['sc_book'] and my_form['sc_conf'] and my_form['sc_article']:
             pass
         else:
@@ -129,3 +137,8 @@ class SC_Dbase(FDataBase):
 	            left join author_in_scopus on( aid.id_autors  = id_author)) too
             where  too.note::int > 0
             order  by name_department""")
+    
+    def get_sc_author_with_article(self,myform:DataScForm):
+        sql = f"""select {f'DISTINCT ON (id,"FIO",title) ' if myform['sc_select_dep'] == ALL_DEP else ""} id ,"FIO",title ,"year" ,name_department , id_depatment from ({self.__SQL_sc_author_with_article}) 
+                    as a  {f'where id_depatment = {myform["sc_select_dep"]}' if myform['sc_select_dep'] != ALL_DEP else ""}  order by a.id """
+        return self.__read_db(sql)

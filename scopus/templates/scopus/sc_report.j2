@@ -91,13 +91,13 @@
               <div class="col-md-4">{{ form.sc_buttons_ok(class="btn btn-primary",onclick="updateURL()")}}</div>
               <div class="col-md-4">{{ form.sc_buttons_cancel(class="btn btn-secondary")}}</div>
           </div>
-            <div class="dropdown m-3 ps-4">
+            <div class="dropdown m-3 ps-4" id="dropdown1" >
               <button class="btn btn-outline-success  dropdown-toggle" id="exp_" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
                 <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner" style="opacity:0;"></span>
                 Экспортировать в Exсel
               </button>
               
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" id="drmenu" >
                 {% if form.sc_radio_auth_atcl.data == 'author' %}
                   <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="set_spinner()", disabled=disabled ) }}</li>                    
                 {% else %}
@@ -122,6 +122,15 @@
       </div>
   </div>
 </div>
+<!-- <style>
+
+.dropdown-menu:hover {
+    
+    opacity: 1;
+    display:block;
+    transition: opacity .1s .1s;
+}
+</style> -->
 <script>
 function enabled_block() {
     document.getElementById("limitInput").style.display = "none";
@@ -156,7 +165,12 @@ function set_spinner(){
   document.getElementById("spinner").style.opacity = 1;
   document.getElementById("exp_").disabled=true;
   updateURL();  
-  setTimeout(() => {location.reload();}, 3000);
+  setTimeout(() => {
+  document.getElementById("spinner").style.opacity = 0;
+  document.getElementById("exp_").disabled=false;
+  document.getElementById("exp_").classList.remove('show');
+  document.getElementById("drmenu").classList.remove('show'); 
+  }, 5000);
 };
 
 function swithTable(){

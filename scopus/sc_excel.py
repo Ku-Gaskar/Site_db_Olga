@@ -8,6 +8,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 
 
+
 import os
 import re
 from datetime import date
@@ -36,11 +37,12 @@ from scopus.sc_forms import DataScForm
 class ExportExcel():
    
     def __init__(self,path=''):
+        self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0)
         self.mas_note=(20.0, 12.0, 60.0, 12)
+        self.mas_aut_=(4,45,10,90,10)
         self.title_note=('Кафедра','Сумма','ФИО','Цитирования')
         self.all_title=('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра')
-        self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0)
-        self.mas_Doc_Name=('#','Название статьи','Авторы','Цитирования')
+        self.title_aut_=('#','Автор','Кафедра','Название статьи','год')
         self.bd = Side(style='thick', color="000000")
         self.bl = Side(style='thin', color="000000")
    
@@ -137,3 +139,45 @@ class ScopusExportExcel(ExportExcel):
         
         self.ws['B'+str(dep_ind)]=count                    
         return save_virtual_workbook(self.wb) 
+    
+    def create_author_with_article(self,list_export,dd:DataScForm):
+        def count_limit(dd:DataScForm,id):
+            if not dd['sc_bool_limit']: return False
+            count = 0
+            for rec in list_export:
+                if rec[0] == id: count+=1
+            return count < dd['sc_input_limit']
+
+            
+        self.ws.title ='Авторы со статьями по кафедрам'
+        self.set_Width(self.mas_aut_)
+        self.set_Header(1,self.title_aut_)
+        i_index=1
+        fist_aut='-1'
+        count_aut=1
+        count=1
+        id_Limit=None
+        for record in list_export:
+            if fist_aut != record[0]:   #('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра') 
+                if id_Limit == record[0]: continue
+                if count_limit(dd,record[0]):
+                    id_Limit = record[0]
+                    continue
+                else: 
+                    id_Limit=None
+                i_index+=2
+                fist_aut = record[0]
+                self.ws['A'+str(i_index)]=count_aut
+                self.ws['B'+str(i_index)]=record[1]
+                self.ws['C'+str(i_index)]=record[4]
+                count=1
+                count_aut+=1
+            # else: 
+            i_index+=1                    
+            self.ws['C'+str(i_index)]=count
+            self.ws['D'+str(i_index)]=record[2]
+            self.ws['E'+str(i_index)]=record[3]
+            count+=1       
+        
+        return save_virtual_workbook(self.wb) 
+
