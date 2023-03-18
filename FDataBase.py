@@ -52,7 +52,11 @@ class FDataBase:
                 self.__db.commit()
                 return self.__cur.fetchall()
             except (Exception,Error) as error:
-                print("Ошибка при обновлении БД:", error)    
+                print("Ошибка при обновлении БД:", error)
+
+    and_str = lambda self,x: 'and ' if len(x) > 10 else ''
+    or_str  = lambda self,x: 'or ' if len(x) > 10 else ''
+    
 
 # админка------------------------------------------------
 
@@ -191,7 +195,6 @@ class FDataBase:
         return self.__read_execute(f"SELECT * FROM public.author_in_scopus WHERE id_author = {id} ")
     
     def insert_scopus_id_struct(self,list_data):
-        
         sql=f"""INSERT INTO public.author_in_scopus AS t(id_author,id_scopus,doc,note,h_ind) 
                 SELECT * FROM (values ({list_data[0]},'{list_data[1]}','{list_data[2]}','{list_data[3]}','{list_data[4]}')) v(id_author,id_scopus,doc,note,h_ind) 
                 WHERE NOT EXISTS  (SELECT FROM public.author_in_scopus AS d where d.id_author = v.id_author AND d.id_scopus = v.id_scopus) 

@@ -9,6 +9,8 @@ from UserLogin import UserLogin
 from werkzeug.security import generate_password_hash , check_password_hash 
 import forms
 from scopus.scopus import scopus
+from wos.wos import wos
+
 from gevent.pywsgi import WSGIServer
 
 
@@ -30,6 +32,7 @@ login_manager.login_message = "Авторизуйтесь для доступа 
 login_manager.login_message_category = "success"
 
 app.register_blueprint(scopus,url_prefix="/scopus")
+app.register_blueprint(wos,url_prefix="/wos")
 
 #Bootstrap(app)
 
@@ -68,7 +71,12 @@ def update_db_author(cont,d:forms.EditStruct,id):
             elif d.scopus_id_1 and (d.scopus_id_1 == row[1]):
                 dbase.insert_scopus_id_struct(row)
             elif d.scopus_id_2 and (d.scopus_id_2 == row[1]):
-                dbase.insert_scopus_id_struct(row)           
+                dbase.insert_scopus_id_struct(row)
+            else:
+                row=list(row)
+                row[1]=d.scopus_id
+                dbase.insert_scopus_id_struct(row)
+                
     dbase.insert_scopus_id_by_author_id(id,d)
                                           
     if (cont['author'][0][1] != d.name_author) or (cont['author'][0][4] != d.orcid_id

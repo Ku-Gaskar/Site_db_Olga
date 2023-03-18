@@ -4,11 +4,12 @@
     // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Python: текущий файл",
+            "name": "Python: Сайт ХНУРЕ",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "app.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }

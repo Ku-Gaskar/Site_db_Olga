@@ -12,7 +12,7 @@
         <li class="nav-item"><a href="\" class="nav-link" aria-current="page">Главная </a></li>
         <li class="nav-item"><a id='menu_hnure' href="\hnure" class="nav-link">ХНУРЕ</a></li>
         <li class="nav-item"><a id='menu_scopus' href="/scopus" class="nav-link">Scopus</a></li>
-        <li class="nav-item"><a id="menu_wos" href="#" class="nav-link">WOS</a></li>
+        <li class="nav-item"><a id="menu_wos" href="/wos" class="nav-link">WOS</a></li>
         <li class="nav-item"><a href="#" class="nav-link">Вопросы</a></li>
       </ul>
       {% endblock menu_header %}
@@ -41,7 +41,7 @@
                   </a>
               </div>
               <div class="col-md-4 col-gy-3">
-                  <a id="menu_wos_1" class="ku-border-base text-decoration-none text-reset" href="#">
+                  <a id="menu_wos_1" class="ku-border-base text-decoration-none text-reset" href="/wos">
                   <img src="{{ url_for('static',filename='img/Clarivate_Logo_-_Modified.jpg') }}" class="p-3 pt-5 img-fluid" alt="">
                   <img src="{{ url_for('static',filename='img/wos.jpg')}}" class="p-3 pb-4 img-fluid" alt="">
                   <p class="fs-3 pt-5 text-center "><strong> WOS </strong></p>

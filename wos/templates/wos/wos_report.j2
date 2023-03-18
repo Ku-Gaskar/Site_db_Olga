@@ -1,0 +1,189 @@
+{% extends 'wos/wos_index.j2' %}
+{% block heder_context %}     
+    <div class="col-md-4 ">
+        {{ content.pagination.info }}
+        {{ content.pagination.links }}
+    </div>
+{% endblock heder_context %}      
+
+{% block main %}
+<div class="content">
+  <div class="container-fluid">
+      <div class="row m-1 justify-content-between align-items-top g-0">
+          <div class="col-md-3  border-top border-secondary p-2">
+          <h5 class=" text-center p-2">Настройка отчета</h5>
+          <form  method="post" id="form_report">
+            {{ form.hidden_tag() }} 
+          <div class="d-flex pt-2 border-top border-secondary" role="search">
+            {{ form.sc_search(class="form-control me-2",placeholder="Поиск") }}
+            {{ form.sc_buttons_search(class="btn btn-outline-primary",onclick="updateURL()") }}
+          </div>
+            {{ form.sc_radio_auth_atcl(class="form-check py-2",style="list-style:none;",onclick="swithTable()") }}
+          <div class="row align-items-center py-2 gx-2 border-top border-bottom border-secondary">
+            <div class="col-md-4 ">{{ form.sc_select_dep.label(class="form-label mt-2") }}</div>
+            <div class="col-md-8 ">{{ form.sc_select_dep(class="form-select") }}</div>
+          </div> 
+          <div class="row align-items-end pt-2">
+            <div class="col-md-5 ">
+            {% if form.sc_radio_auth_atcl.data == 'article' %}
+              {{ form.sc_select_year.label(class="form-label",style="opacity:1;") }}
+              {{ form.sc_select_year(class="form-select") }}
+            {% else %}
+              {{ form.sc_select_year.label(class="form-label",style="opacity:0.5;") }}
+              {{ form.sc_select_year(class="form-select", disabled = disabled) }}
+            {% endif %}
+            </div> 
+            <div class="col-md-5 ps-3">
+              <div class="form-check pt-3">
+                {% if form.sc_radio_auth_atcl.data == 'article' %}
+                  {{ form.sc_article(class="form-check-input") }}
+                {% else %}
+                  {{ form.sc_article(class="form-check-input", disabled = disabled) }}
+                {% endif %}
+                {{ form.sc_article.label(class="form-check-label") }}
+              </div>
+              <div class="form-check">
+                {% if form.sc_radio_auth_atcl.data == 'article' %}
+                  {{ form.sc_book(class="form-check-input") }}
+                {% else %}
+                  {{ form.sc_book(class="form-check-input",disabled=disabled) }}
+                {% endif %}
+                {{ form.sc_book.label(class="form-check-label") }}
+              </div>
+              <div class="form-check">
+                {% if form.sc_radio_auth_atcl.data == 'article' %}
+                  {{ form.sc_conf(class="form-check-input") }}
+                {% else %}
+                  {{ form.sc_conf(class="form-check-input",disabled=disabled) }}
+                {% endif %}
+                {{ form.sc_conf.label(class="form-check-label") }}
+              </div>
+              <div class="form-check">
+                {% if form.sc_radio_auth_atcl.data == 'article' %}
+                  {{ form.sc_other(class="form-check-input") }}
+                {% else %}
+                  {{ form.sc_other(class="form-check-input",disabled=disabled) }}
+                {% endif %}
+                {{ form.sc_other.label(class="form-check-label") }}
+              </div>
+            </div>
+          </div>
+          <div class="form-check form-switch pt-3">
+          {% if form.sc_radio_auth_atcl.data == 'author'%}
+                {{ form.sc_bool_limit(class="form-check-input",onclick="limitFunction()")}}
+          {% else %}
+                {{ form.sc_bool_limit(class="form-check-input",onclick="limitFunction()",disabled=disabled) }}
+          {% endif %}
+                {{ form.sc_bool_limit.label(class="form-check-label")}}
+          </div>
+        {% if form.sc_bool_limit.data %}
+          <div id="limitInput" style="display:block">          
+        {% else %}    
+          <div id="limitInput" style="display:none">
+        {% endif %}
+            <div class="row justify-content-center pt-2">
+              <div class="col-md-8">{{ form.sc_input_limit.label(class="form")}}</div>
+              <div class="col-md-4">{{ form.sc_input_limit(class="form-control")}}</div>
+            </div>
+          </div>
+          <div class="border-top border-secondary my-2"></div>
+          <div class="row justify-content-around"> 
+              <div class="col-md-4">{{ form.sc_buttons_ok(class="btn btn-primary",onclick="updateURL()")}}</div>
+              <div class="col-md-4">{{ form.sc_buttons_cancel(class="btn btn-secondary")}}</div>
+          </div>
+            <div class="dropdown m-3 ps-4" id="dropdown1" >
+              <button class="btn btn-outline-success  dropdown-toggle" id="exp_" type="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" id="spinner" style="opacity:0;"></span>
+                Экспортировать в Exсel
+              </button>
+              
+              <ul class="dropdown-menu" id="drmenu" >
+                {% if form.sc_radio_auth_atcl.data == 'author' %}
+                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="set_spinner()", disabled=disabled ) }}</li>                    
+                {% else %}
+                  <li>{{ form.sc_rep_article(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>                    
+                {% endif %}
+                {% if form.sc_radio_auth_atcl.data == 'author' %}
+                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>
+                {% else %}
+                  <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="set_spinner()", disabled = disabled) }}</li>
+                {% endif %}
+                <li>{{ form.sc_rep_sum(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>
+              </ul>
+            </div>
+          </form>
+          </div>
+          <div class="col-md-9 ps-2">
+            <div class="table-responsive-md">
+              {{ table_table(content.table,content.table_data) }}
+              {{ content.pagination.links }}
+            </div>          
+          </div>
+      </div>
+  </div>
+</div>
+
+<script>
+function enabled_block() {
+    document.getElementById("limitInput").style.display = "none";
+    document.getElementById("sc_select_dep").disabled = false;
+    document.getElementById("sc_select_year").disabled = false;
+    document.getElementById("sc_article").disabled = false;
+    document.getElementById("sc_book").disabled = false;
+    document.getElementById("sc_conf").disabled = false;
+    document.getElementById("sc_other").disabled = false;
+};
+
+function limitFunction() {
+  if (document.getElementById("sc_bool_limit").checked == true){
+    document.getElementById("limitInput").style.display = "block";
+  } else {
+    document.getElementById("limitInput").style.display = "none";
+    } 
+};
+
+function updateURL() {
+    enabled_block()
+    if (history.pushState) {
+        var baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        history.pushState(null, null, baseUrl);
+    }
+    else {
+        console.warn('History API не поддерживается');
+    }
+};
+
+function set_spinner(){
+  document.getElementById("spinner").style.opacity = 1;
+  document.getElementById("exp_").disabled=true;
+  updateURL();  
+  setTimeout(() => {
+  document.getElementById("spinner").style.opacity = 0;
+  document.getElementById("exp_").disabled=false;
+  document.getElementById("exp_").classList.remove('show');
+  document.getElementById("drmenu").classList.remove('show');
+  
+  if (document.querySelector('input[name="sc_radio_auth_atcl"]:checked').value === 'author'){
+    document.getElementById("sc_select_year").disabled = true;
+    document.getElementById("sc_article").disabled = true;
+    document.getElementById("sc_book").disabled = true;
+    document.getElementById("sc_conf").disabled = true;
+    document.getElementById("sc_other").disabled = true;
+    };
+
+  }, 5000);
+};
+
+function swithTable(){
+  enabled_block();
+  if (document.querySelector('input[name="sc_radio_auth_atcl"]:checked').value === 'article'){
+    document.getElementById('sc_bool_limit').disabled=true;
+    }
+  else{
+    document.getElementById('sc_bool_limit').disabled=false;
+    }
+    document.getElementById('sc_buttons_ok').click();
+  };
+
+</script> 
+{% endblock main %}

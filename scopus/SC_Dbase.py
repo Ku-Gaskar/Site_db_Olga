@@ -59,21 +59,16 @@ class SC_Dbase(FDataBase):
 
     def get_h_ind(self):
         res=self.__read_db("""select count(*) h_ind from (select  foo.sn, row_number() over() c 
-        from (select s.note::int sn  from scopus s order by sn desc ) foo) res where  res.sn > res.c;""") 
+        from (select s.note::int sn  from scopus s order by sn desc ) foo) res where  res.sn >= res.c;""") 
         return res[0][0] if res else ''
 
     def select_authors_by_form(self, form:SC_Form):
         where_=lambda x:f""" where  r.doc::int >= {form.sc_input_limit.data} order by r.doc::int desc """ if x else ' order by r.id'               
 
-
-        # if form.sc_select_dep.data == ALL_DEP:
-        #       return self.__read_db(f"""select * from ({self.__SQL_sc_All_aurhors}) as r
-        #                                  {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
-        # else:
         return self.__read_db(f"""select * from ({self.__SQL_sc_authors_by_dep}
                             {f' and res.id_depatment = {form.sc_select_dep.data} ' if form.sc_select_dep.data != ALL_DEP else '' }) as r 
                             {where_(form.sc_bool_limit.data and (form.sc_input_limit.data > 0))} ;""")
-            # return self.__read_db(f"""{self.__SQL_sc_authors_by_dep}{form.sc_select_dep.data} order by res.id """)
+            
                 
     def get_stamp_table(self,id):
         return self.__read_one_db(f"""select * from stamp_tables st 
@@ -85,8 +80,7 @@ class SC_Dbase(FDataBase):
                                         {w_ty} {f"{self.and_str(w_ty)} works" if my_form['sc_select_dep']!=ALL_DEP else ""} """)[0]
 
 
-    and_str = lambda self,x: 'and ' if len(x) > 10 else ''
-    or_str  = lambda self,x: 'or ' if len(x) > 10 else ''
+
     
     def __set_where_sc_SQL_type_year(self,my_form:DataScForm)->str:
         strSQLwhere = {'where':'where '}  

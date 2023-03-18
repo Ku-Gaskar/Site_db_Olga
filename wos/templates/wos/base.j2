@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ content.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/Login-form.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.jpg') }}" type="image/x-icon">
+    {# <link rel="stylesheet" href="{{ url_for('static',filename='fonts/font-awesome.min.css') }}"> #}
+</head>
+{% macro table_table(tbl,tbl_data) %}
+        <table class="table 
+        table-striped-columns
+        table-hover	
+        table-sm 
+        table-bordered border border-2 border-success
+        table-light
+        align-middle">
+        <colgroup>
+        {% for col_width in tbl[0] %}                
+          <col width="{{ col_width }}%">
+        {% endfor %}
+          </colgroup>     
+        <thead class="table-info table-bordered border-primary">
+          <tr style="height:auto; ">
+          {% for col_title in tbl[1] %}                    
+            <th>{{ col_title }}</th>
+          {% endfor %}
+          </tr>
+        </thead>
+            <tbody class="table-group-divider">
+              {% for item in tbl_data -%}
+                <tr class="table-primary border border-success" >
+                  {% for i,tbl_class in enumerate(tbl[2]) -%}                          
+                  <td class="{{ tbl_class }}">
+                    {% if item[i] %}
+                      {% if tbl[3][i] %}
+                        <a class="text-decoration-none" target="_blank" href="{{ tbl[3][i] }}{{ item[i] }}{% if tbl[5][i] %}{{ tbl[5][i] }}{% endif %}">{{ item[i] }}</a>
+                      {% else %}
+                        {{ item[i] }} 
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                  {% endfor %}
+              {% endfor %}
+            </tbody>
+        </table>
+{% endmacro %}
+<body>
+    {% block content_body %}
+    {% endblock content_body %}
+    <script src="{{ url_for('static',filename='js/bootstrap.bundle.min.js') }}"></script>  
+    <script src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>  
+</body>
+</html>

@@ -38,9 +38,6 @@ class FDataBase:
                                 on (tsh."id_Sciencer" = foo2.id_author )
                                 ORDER BY tsh."FIO") as res
                                 where res.works = true and res.id_depatment ="""
-    and_str = lambda self,x: 'and ' if len(x) > 10 else ''
-    or_str  = lambda self,x: 'or ' if len(x) > 10 else ''
-    
         
     def __read_execute(self,_SQL_query:str):
             try:            
@@ -56,6 +53,10 @@ class FDataBase:
                 return self.__cur.fetchall()
             except (Exception,Error) as error:
                 print("Ошибка при обновлении БД:", error)    
+
+    and_str = lambda self,x: 'and ' if len(x) > 10 else ''
+    or_str  = lambda self,x: 'or ' if len(x) > 10 else ''
+
 
 # админка------------------------------------------------
 

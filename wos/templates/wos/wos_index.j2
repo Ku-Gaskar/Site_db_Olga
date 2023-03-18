@@ -1,11 +1,11 @@
-{% extends 'scopus/base.html' %}
+{% extends 'wos/base.j2' %}
 {% block content_body %}
     
   <header class="d-flex flex-wrap justify-content-end py-3 mb-0 border-bottom ku-border-bottom ">
   {% block headers %}
-      <a href="https://www.scopus.com" target="_blank" class="d-flex align-items-center px-2 mb-3 mb-md-0 me-md-auto text-decoration-none">
-        <img class="bi me-2" width="50" height="62" src="{{ url_for('.static',filename='img/Scopus.jpg') }}" />
-        <span class="fs-2 ku_header" style="color: rgb(255, 145, 0);"><strong>Scopus</strong></span> 
+      <a href="https://www.webofscience.com/" target="_blank" class="d-flex align-items-center px-2 mb-3 mb-md-0 me-md-auto text-decoration-none">
+        <img class="bi me-1" width="auto" height="35" src="{{ url_for('.static',filename='img/Clarivate_Logo.jpg') }}" />
+        <span class="fs-3 ku_header"><strong>WOS</strong></span> 
       </a>
       {% block heder_context %}     
       {% endblock heder_context %}      
@@ -52,7 +52,7 @@
                   <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
                 </ul>
               </div>
-                <div><a href= "./sc_report" class="btn btn-success mx-5">Отчеты</a></div>
+                <div><a href= "./wos_report" class="btn btn-success mx-5">Отчеты</a></div>
               </div>
             </div>
           </div>
@@ -68,5 +68,10 @@
           <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
         </div>
     </footer>        
-  {% endblock footer %}  
+  {% endblock footer %} 
+  <style >
+  .sr-only {
+  display: none;
+}
+  </style>
 {% endblock content_body %} 
