@@ -122,15 +122,7 @@
       </div>
   </div>
 </div>
-<!-- <style>
 
-.dropdown-menu:hover {
-    
-    opacity: 1;
-    display:block;
-    transition: opacity .1s .1s;
-}
-</style> -->
 <script>
 function enabled_block() {
     document.getElementById("limitInput").style.display = "none";
@@ -169,7 +161,16 @@ function set_spinner(){
   document.getElementById("spinner").style.opacity = 0;
   document.getElementById("exp_").disabled=false;
   document.getElementById("exp_").classList.remove('show');
-  document.getElementById("drmenu").classList.remove('show'); 
+  document.getElementById("drmenu").classList.remove('show');
+  
+  if (document.querySelector('input[name="sc_radio_auth_atcl"]:checked').value === 'author'){
+    document.getElementById("sc_select_year").disabled = true;
+    document.getElementById("sc_article").disabled = true;
+    document.getElementById("sc_book").disabled = true;
+    document.getElementById("sc_conf").disabled = true;
+    document.getElementById("sc_other").disabled = true;
+    };
+
   }, 5000);
 };
 

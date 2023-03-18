@@ -36,7 +36,7 @@ from scopus.sc_forms import DataScForm
 #----------------------------------------------------------------
 class ExportExcel():
    
-    def __init__(self,path=''):
+    def __init__(self):
         self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0)
         self.mas_note=(20.0, 12.0, 60.0, 12)
         self.mas_aut_=(4,45,10,90,10)
@@ -45,11 +45,7 @@ class ExportExcel():
         self.title_aut_=('#','Автор','Кафедра','Название статьи','год')
         self.bd = Side(style='thick', color="000000")
         self.bl = Side(style='thin', color="000000")
-   
-        if not path:
-            self._path = os.getcwd()
-        else:
-            self._path = path
+
         self.wb : Workbook  = Workbook()
         self.ws : Worksheet = self.wb.active
  
