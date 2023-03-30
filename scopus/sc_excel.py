@@ -5,7 +5,8 @@ from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.utils import get_column_letter
-from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+from openpyxl.styles import PatternFill, Border, Side, Alignment,Font,Color
+from openpyxl.styles.colors import BLUE
 
 
 
@@ -50,12 +51,13 @@ class ExportExcel():
         self.ws : Worksheet = self.wb.active
  
     def set_Header(self,i_row,Doc_Name):
-     for i_col,val in enumerate(Doc_Name):
+     for i_col,val in enumerate(Doc_Name):        
         adr=get_column_letter(i_col+1)+str(i_row)
-        self.ws[adr].value = val
-        self.ws[adr].alignment =Alignment(horizontal='center',vertical='center')
+        if val: self.ws[adr].value = val
+        self.ws[adr].alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
         self.ws[adr].font = Font(bold=True)
         self.ws[adr].border = Border(left=self.bd, top=self.bd, right=self.bd, bottom=self.bd)
+        self.ws[adr].fill = PatternFill('solid',fgColor='ffbf80')
 
     def set_Width(self,d):
         for i,val in enumerate(d):
@@ -176,4 +178,49 @@ class ScopusExportExcel(ExportExcel):
             count+=1       
         
         return save_virtual_workbook(self.wb) 
+    
 
+    def create_green_table(self,records):
+        self.ws.title ='Экспорт_базы_данных'
+        widthColumn=(8,35,20,14,8,11,9,8,11,9,7,12,7,18,9,7,22,100)
+        list_range_merge=('A1:A2','B1:B2','C1:C2','D1:D2','E1:G1','H1:J1','K1:K2','L1:L2','M1:M2','N1:P1','Q1:Q2','R1:R2')
+        title_1=('Ідентифікатор співробітника','Прізвище ім`я та по батькові','ORCID ID','ID Scopus','Scopus','','',
+                 'Web of Science','','','ElАr KhNURE','Каф','Раб','Googlescholar','','','Профіль на NURE.UA','NameLat')
+        title_2=('','','','','документи','цитування','індекс Гірша','документи','цитування','індекс Гірша',
+                 '','','','ID','Кількість цитувань','H-Index','','')
+             
+        self.set_Width(widthColumn)
+        for range_merge in list_range_merge:
+            self.ws.merge_cells(range_merge)
+        self.set_Header(1,title_1)
+        self.set_Header(2,title_2)
+        self.ws.freeze_panes = self.ws['A3']
+        y_index=3
+        for item in records:
+            for x_index,data_cell in enumerate(item,1):
+                x = x_index if x_index < 11 else  x_index + 1 if 11 <= x_index < 13  else x_index + 5
+                address = get_column_letter(x)+str(y_index)
+                
+                if x_index == 3 and data_cell:
+                    self.ws[address].hyperlink = f'https://orcid.org/{data_cell}'
+                    self.ws[address].font= Font(color=Color(BLUE))
+                elif x_index == 4 and  data_cell:
+                    self.ws[address].hyperlink = f'https://www.scopus.com/authid/detail.uri?authorId={data_cell}'
+                    self.ws[address].font= Font(color=Color(BLUE))
+                elif x_index == 12:
+                    data_cell = 'Да' if data_cell else 'Нет'                
+
+                self.ws[address] = data_cell
+
+                # форматирование таблицы--------------------------------------------
+
+                if 2 < x_index < 13 :
+                    self.ws[address].alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+                else:
+                    self.ws[address].alignment = Alignment(vertical='center',wrap_text=True)
+
+                self.ws[address].border = Border(left=self.bl, top=self.bl, right=self.bl, bottom=self.bl)
+                self.ws[address].fill = PatternFill('solid',fgColor='66FF66') 
+            y_index+=1    
+
+        return save_virtual_workbook(self.wb) 

@@ -5,13 +5,23 @@ from flask_paginate import Pagination, get_page_parameter
 from scopus.sc_excel import ScopusExportExcel
 import os
 from datetime import date
+import app_logger
+from flask_login import login_required,current_user
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+
 
 scopus=Blueprint('scopus',__name__,template_folder='templates',static_folder='static')
 sc_dbase:SC_Dbase = None
 
+
 PER_PAGE=100
 
-
+logger=app_logger.get_logger(__name__)
 
 
 @scopus.before_request
@@ -120,3 +130,69 @@ def scopusReport():
     content['table'] = sc_dbase.get_stamp_table(form.sc_radio_auth_atcl.data)
     content['table_data'] = total_list
     return render_template('scopus/sc_report.j2',content = content,form = form, enumerate=enumerate)
+
+@scopus.route('/sc_update_DocCitH')
+@login_required 
+def sc_update_DocCitH():
+    if current_user.get_id() != '1':
+        flash('Авторизуйтесь как admin','error')
+        return  redirect(url_for('login',next=request.full_path))
+
+    content={}
+    content['title']='Scopus - Update'
+    chrome_options = Options()
+    chrome_options.add_argument("--disable-extensions")
+    driver = webdriver.Chrome(chrome_options=chrome_options)
+    list_scopus_id=sc_dbase.get_list_scopusID()
+    for item in list_scopus_id:
+        url=f'https://www.scopus.com/authid/detail.uri?authorId={item[1]}' 
+        driver.implicitly_wait(20)  # Установить 20 секунд времени ожидания
+        try:
+            driver.get(url)
+        except:
+            print (f"URL недействителен: {url}")
+            logger.warning(f"URL недействителен  id_author={item[0]}; URL---> '{url}'")
+            continue  
+        try:
+            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,'highcharts-information-region-1'))) 
+        except:
+            print (f"Страница не загружена: {url}")
+            logger.warning(f"Страница не загружена: id_author={item[0]}; URL---> '{url}'")
+
+            continue          
+
+        try:
+            s1=driver.find_elements(By.CSS_SELECTOR,'span[data-testid="unclickable-count"]')            
+            if s1:
+                author={'note':s1[0].text.replace(' ',''),'doc':s1[1].text.replace(' ',''),'h_index':s1[2].text.replace(' ','')}
+                if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4])):
+                    str_warning=f"""Предупреждение  данные уменьшены id={item[0]}: цитирования  {item[3]} -> {author['note']};  
+                                                                        документов: {item[2]} -> {author['doc']};
+                                                                        h-index: {item[4]} -> {author['h_index']} """
+                    logger.warning(str_warning)
+                    print (str_warning)
+                elif (int(author['note']) == int(item[3])) and (int(author['doc']) == int(item[2])) and (int(author['h_index']) == int(item[4])):
+                    continue
+
+                sc_dbase.update_cit_doc_hIndex(author,item[0])
+
+        except:  
+            logger.warning(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
+            print(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
+            continue             
+    
+    driver.close()
+
+    return render_template('base.j2',content=content)
+
+@scopus.route('/export_green_table')
+def export_green_table():
+    sc_exporter:ScopusExportExcel = ScopusExportExcel()
+    list_export=sc_dbase.get_full_data_export()
+    
+    fm=f"Table_Green_{date.today()}.xlsx"
+    return Response(sc_exporter.create_green_table(list_export),
+                    headers={'Content-Disposition': f'attachment; filename={fm}',
+                             'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+
+   

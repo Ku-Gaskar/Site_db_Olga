@@ -10,8 +10,10 @@ from werkzeug.security import generate_password_hash , check_password_hash
 import forms
 from scopus.scopus import scopus
 from wos.wos import wos
+import app_logger
 
 from gevent.pywsgi import WSGIServer
+
 
 
 
@@ -33,6 +35,7 @@ login_manager.login_message_category = "success"
 
 app.register_blueprint(scopus,url_prefix="/scopus")
 app.register_blueprint(wos,url_prefix="/wos")
+
 
 #Bootstrap(app)
 
@@ -283,6 +286,9 @@ def logout():
 if __name__ == "__main__":
     # http_server = WSGIServer(('192.168.1.102',5000), app)
     # http_server.serve_forever()
+   logger = app_logger.get_logger(__name__)
+   logger.info("Программа стартует") 
+ 
    app.jinja_env.filters['my_split'] = my_split
    app.run('192.168.1.102',debug=True) 
     
