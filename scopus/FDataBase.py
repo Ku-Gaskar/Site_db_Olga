@@ -49,9 +49,9 @@ class FDataBase:
             except (Exception,Error) as error:
                 print("Ошибка при чтении БД:", error)
         
-    def __update_execute(self,_sql_query:str):
+    def __update_execute(self,_sql_query:str,data:tuple=None):
             try:
-                self.__cur.execute(_sql_query)
+                self.__cur.execute(_sql_query,data)
                 self.__db.commit()
                 return self.__cur.fetchall()
             except (Exception,Error) as error:

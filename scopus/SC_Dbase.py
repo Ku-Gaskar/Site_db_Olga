@@ -62,16 +62,19 @@ class SC_Dbase(FDataBase):
     def __read_db(self,SQL_String): 
         return self._FDataBase__read_execute(SQL_String)
     
-    def __read_one_db(self,SQL_String):
+    def __read_one_db(self,SQL_String,data=None):
         try:            
-            self._FDataBase__cur.execute(SQL_String)
+            self._FDataBase__cur.execute(SQL_String,data)
             return self._FDataBase__cur.fetchone()
         except (Exception,Error) as error:
             print("Ошибка при чтении БД:", error)
+
+    
 #----------------------------------------------------------------
     def get_data_update_scopus(self):
         res=self.__read_db("select max(s.data_update) from scopus s") 
-        return res[0][0].strftime("%Y-%m-%d  %H:%M:%S") if res else ''
+        
+        return res[0][0].strftime("%Y-%m-%d  %H:%M:%S") if res[0][0] else ''
     
     def get_doc_sum(self):
         return self.__read_one_db("select count(s.eid) doc ,sum (s.note::int) from scopus s;")
@@ -79,7 +82,7 @@ class SC_Dbase(FDataBase):
     def get_h_ind(self):
         res=self.__read_db("""select count(*) h_ind from (select  foo.sn, row_number() over() c 
         from (select s.note::int sn  from scopus s order by sn desc ) foo) res where  res.sn >= res.c;""") 
-        return res[0][0] if res else ''
+        return res[0][0]  #if res[0][0] else ''
 
     def select_authors_by_form(self, form:SC_Form):
         where_=lambda x:f""" where  r.doc::int >= {form.sc_input_limit.data} order by r.doc::int desc """ if x else ' order by r.id'               
@@ -165,3 +168,30 @@ class SC_Dbase(FDataBase):
         
     def get_full_data_export(self):
         return self.__read_db(self.__SQL_full_data_green_table)
+    
+    def update_article(self,article:tuple):
+        sql = """INSERT INTO public.scopus AS t(eid,title,journal,year,volume,number,pages,doi,note,publisher,document_type,author) 
+            SELECT * FROM (values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)) v(eid,title,journal,year,volume,number,pages,doi,note,publisher,document_type,author) 
+            WHERE NOT EXISTS  (SELECT FROM public.scopus AS d where d.eid = v.eid) 
+            on conflict do nothing returning "eid";""" 
+        res=self._FDataBase__update_execute(sql,article)
+        if res: 
+            return res[0]
+        else:
+            sql="""UPDATE public.scopus AS s SET note = %s, data_update = now()
+                            WHERE  s.eid = %s 
+                            RETURNING  s.eid;""" 
+            return self.__read_one_db(sql,(article[8],article[0]))
+
+    def update_sc_in_autors(self,id_autor,eid):
+        sql = """INSERT INTO public.scopus_autors AS t(id_sc_autor,eid) 
+                SELECT * FROM (values (%s,%s)) v(id_sc_autor,eid) 
+                WHERE NOT EXISTS  (SELECT FROM public.scopus_autors AS d where d.eid = v.eid and d.id_sc_autor = v.id_sc_autor) 
+                on conflict do nothing returning "eid";""" 
+        res=self._FDataBase__update_execute(sql,(id_autor,eid))
+        if res: return res[0][0]
+        else: return '0'
+
+    def deleteArticle(self):
+        self._FDataBase__update_execute('delete from public.scopus_autors')
+        self._FDataBase__update_execute('delete from public.scopus')

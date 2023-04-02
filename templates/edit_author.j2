@@ -1,5 +1,5 @@
 {% extends 'index.j2' %}
-{% macro input(field,text,class1,class2,field1="",field2="") -%}
+{% macro input(field,text,class1,class2,field1="",field2="",f1_inp="1",f2_inp="1") -%}
         <div class="row m-2 justify-content-start align-items-center g-2">
           <div class="col-md-1">{{ field.label(class='form-label') }}</div>
           <div class="{{ class1 }} ps-4"> 
@@ -18,18 +18,18 @@
                   <p class="ps-1" style="font-style: italic;font-size:small;color:brown"> {{ field.errors[0]|default('')}} {{field1.errors[0]|default('')}} {{field2.errors[0]|default('')}}</p>
                 {% else %}    
                    <div class="{{ class2 }}">{{ field(class='form-control ') }}</div>
-                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ field1.id }},{{ field2.id }})">Добавить</span>  
-                  <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ field1.id }},{{ field2.id }})" >Отмена</span>  
                     {% if not field1.data  %}
-                      <div class="{{ class2 }}">{{ field1(class='form-control', style="display: none;") }}</div>
+                      <div  id="{{ f1_inp }}"  style="display: none;" class="{{ class2 }}">{{ field1(class='form-control') }}</div>
                     {% else %}  
-                      <div class="{{ class2 }}">{{ field1(class='form-control', style="display: block;") }}</div>
+                      <div id="{{ f1_inp }}"  style="display: block;"  class="{{ class2 }}">{{ field1(class='form-control') }}</div>
                     {% endif %} 
                   {% if not field2.data %} 
-                    <div class="{{ class2 }}">{{ field2(class='form-control', style="display: none;") }}</div>
+                    <div id="{{ f2_inp }}"  style="display: none;"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
                   {% else %}
-                    <div class="{{ class2 }}">{{ field2(class='form-control', style="display: block;") }}</div>
+                    <div id="{{ f2_inp }}"  style="display: block;"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
                   {% endif %} 
+                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить</span>  
+                  <span id="button_del"  class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ f1_inp }},{{ f2_inp }})" >Удалить</span>  
             </div> 
                 {% endif %} 
         </div>
@@ -77,9 +77,9 @@
               {{ form.name_author(class="form-control") }}
           </div>  
         </div>
-        {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_2) }}
-        {{ input (form.orcid_id,'www.orcid.org/','col-md-10','col-md-3',form.orcid_id_1,form.orcid_id_2) }} 
-        {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1,form.researcher_id_2)}}
+        {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_1,'sc_f1_inp','sc_f2_inp') }}
+        {{ input (form.orcid_id,'www.orcid.org/','col-md-10','col-md-3',form.orcid_id_1, form.orcid_id_2, 'orc_f1_inp', 'orc_f2_inp') }} 
+        {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1, form.researcher_id_2, 're_f1_inp','re_f2_inp')}}
         <div class="row m-2 justify-content-start align-items-top g-2">
           <div class="col-md-3 p-2">
             {{ form.depat.label(class='form-label')}}
@@ -153,34 +153,42 @@
     document.getElementById('depat_two').disabled = !this.checked;
   };
 
-  var abc='';
-  var cde='';
+  let abc='';
+  let cde='';
 
   function add_input_ps(ids_1,ids_2) {
-  if (document.getElementById(ids_1.id).style.display === 'none'){
-    document.getElementById(ids_1.id).style.display='block';
-    document.getElementById(ids_1.id).value = abc;
+    const input_1=document.getElementById(ids_1.id);
+    const input_2=document.getElementById(ids_2.id);
+
+
+  if (input_1.style.display === 'none'){
+    input_1.style.display='block';
+    input_1.value = abc;
   } 
   else{
       if(ids_2){
-      if (document.getElementById(ids_2.id).style.display==='none') {
-        document.getElementById(ids_2.id).style.display='block';
-        document.getElementById(ids_2.id).value= cde;
+      if (input_2.style.display === 'none') {
+        input_2.style.display = 'block';
+        input_2.value= cde;
         }
       }
     }
   };
+
   function del_input_ps(ids_1,ids_2) {
-    if (document.getElementById(ids_2.id).style.display === 'block')  {
-      document.getElementById(ids_2.id).style.display='none';
-      cde=document.getElementById(ids_2.id).value;
-      document.getElementById(ids_2.id).value='';
+    const input_2=document.getElementById(ids_2.id);
+    const input_1=document.getElementById(ids_1.id);
+
+    if (input_2.style.display === 'block')  {
+      input_2.style.display='none';
+      cde=input_2.value;
+      input_2.value='';
     } 
     else{
-        if (document.getElementById(ids_1.id).style.display==='block') {
-          document.getElementById(ids_1.id).style.display='none';
-          abc=document.getElementById(ids_1.id).value;
-          document.getElementById(ids_1.id).value='';
+        if (input_1.style.display ==='block') {
+          input_1.style.display='none';
+          abc=input_1.value;
+          input_1.value='';
           }
     }
   };
@@ -195,12 +203,8 @@
     }
   };
 </script>
-{# </div> #}
   {% endblock main %}
-  {% block footer%}
-  {{ super()}}
-  {% endblock  footer%}
-  
+
 
 
 

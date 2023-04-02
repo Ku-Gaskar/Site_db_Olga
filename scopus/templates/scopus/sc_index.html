@@ -26,6 +26,9 @@
     <div class="container-fluid">
       <div class="row  m-5 justify-content-center align-items-center g-2">
         <div class="col-md-8">
+        {% for cat, msg in get_flashed_messages(True) %}
+          <div class="flash {{cat}} h5">{{msg}}</div>
+        {% endfor %}
           <div class="card border-primary mb-3">
             <div class="card-header border-primary">
               Данные по аффилиации на {{ content['data_up'] }} 
@@ -48,12 +51,13 @@
             <div class="card-footer text-muted text-center ">
               <div class="btn-group">              
               <div class="dropdown px-3">
-                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                   Обновить базу
                 </a>
 
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Обновить базу статей по университету</a></li>
+                  <li><a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#modalId">Обновить базу статей по университету</a></li>
+                  <li><a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#modalId_Delete">Очистить таблицы статей Scopus</a></li>
                   <li><a class="dropdown-item" href="./sc_update_DocCitH">Обновить кол-во док., цитирования, h-индекс по авторам</a></li>
                   <li><a class="dropdown-item" role="button"  onclick="getGreenTable()" >Экспорт "зеленой" таблицы</a></li>
                   <!-- href="./export_green_table"  "  -->
@@ -66,10 +70,95 @@
         </div>
       </div>  
     </div>
-
   </div>
   {% endblock  main %}
-    
+
+
+
+  <!-- Modal  help-->
+  <div class="modal fade modal-lg" id="modalId" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="modalTitleId">Обновление</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            {% include 'scopus/help_load.html' %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalId_load">Готово</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ---------------------------------------------------- -->
+  
+  <!-- Modal  delete------------------------------------------>
+  <div class="modal fade modal-lg" id="modalId_Delete" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="modalTitleId">Удаление списка статей (документов)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+           <h4 style="color:crimson;">Вы уверены в своих действиях?</h4>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+          <a type="button" href="./deteteArticleScopus" class="btn btn-primary" >Да</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ------------------------------------------------ -->
+
+<!-- Модальное окно -->
+<div class="modal fade" id="modalId_load" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalId_loadLabel">Загрузка файлов на сервер</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>    
+    <form method="POST" action="./upload" enctype="multipart/form-data">
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="sc_load_files" class="form-label">Выбирете все файлы  "scopus*.bib" и "scopus*.csv"</label>
+          <input type="file" multiple class="form-control" name="sc_load_files[]" id="sc_load_files" placeholder="" aria-describedby="fileHelpId">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" value="Upload" data-bs-dismiss="modal" onclick="goSpinnerWait()" class="btn btn-primary">Приступить к обновлению БД</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- 
+  <script>
+    var modalId = document.getElementById('modalId');
+  
+    modalId.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        let button = event.relatedTarget;
+        // Extract info from data-bs-* attributes
+        let recipient = button.getAttribute('data-bs-whatever');
+  
+      // Use above variables to manipulate the DOM
+    });
+  </script>
+   -->
+  
+
   {% block footer%}
     <footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top">
         <div class="col-md-4 d-flex align-items-center">
@@ -77,11 +166,26 @@
         </div>
     </footer>        
   {% endblock footer %}
-  
+
   
   <script>
+  // function sendFiles(){
+  //   let fileInput = document.getElementById('fileInput');
+  //   let files = fileInput.files;
+  //   let formData = new FormData();
+  //   for (let i = 0; i < files.length; i++) {
+  //     formData.append('files[]', files[i]);
+  //   }
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open('POST', '/upload');
+  //   xhr.send(formData);
+  // }
+
   const exp_sp=document.getElementById('export_spiner')  
-  
+  function goSpinnerWait(){
+    exp_sp.hidden=false;
+  }
+
   function getGreenTable(){
     // вешаем ожидание от сервера
     exp_sp.hidden=false;
