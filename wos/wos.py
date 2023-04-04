@@ -2,12 +2,22 @@ from flask import Blueprint, render_template, url_for, g, request,redirect,flash
 from wos.WOS_Dbase import WOS_Dbase
 from scopus.sc_forms import SC_Form,DataScForm
 from flask_paginate import Pagination, get_page_parameter
+from flask_login import login_required,current_user
+from werkzeug.utils import secure_filename
+
+
 from scopus.sc_excel import ScopusExportExcel
 import os
 from datetime import date
+from io import TextIOBase  
+import re
+import app_logger
+
 
 wos = Blueprint('wos',__name__,template_folder='templates',static_folder='static')
 wos_dbase:WOS_Dbase = None
+
+logger=app_logger.get_logger(__name__)
 
 PER_PAGE=100
 
@@ -26,13 +36,18 @@ def before_request():
 
 
 @wos.route('/', methods=['GET', 'POST'])
+@wos.route('/index', methods=['GET', 'POST'])
 def index():
     content={}
     content['title']='Web of Seince'
     content['data_up'] =wos_dbase.get_data_update_wos()
     doc_sum=wos_dbase.get_doc_sum()
-    content['doc_sum']=(f'{doc_sum[0]:,d}'.replace(',',' '),f'{doc_sum[1]:,d}'.replace(',',' '))
-    content['h_ind'] = wos_dbase.get_h_ind()
+    if doc_sum[0]: 
+        content['doc_sum']=(f'{doc_sum[0]:,d}'.replace(',',' '),f'{doc_sum[1]:,d}'.replace(',',' '))
+        content['h_ind'] = wos_dbase.get_h_ind()
+    else:
+         content['doc_sum']=('0','0')
+         content['h_ind'] ='0'
     return render_template('wos/wos_index.j2',content = content)
 
 
@@ -118,3 +133,123 @@ def scopusReport():
     content['table'] = wos_dbase.get_stamp_table_wos(f'wos_{form.sc_radio_auth_atcl.data}')
     content['table_data'] = total_list
     return render_template('wos/wos_report.j2',content = content,form = form, enumerate=enumerate)
+
+@wos.route('/upload', methods=['POST','GET'])
+@login_required 
+def upload_file():
+    
+    #----------------------------------------------------------------
+    def search_in_table_hnure_for_author(author,orcid):
+        if orcid:
+            id_author=wos_dbase.select_idAuthor_by_orcid(orcid)
+            if id_author: return  id_author
+            # cursor.execute("""SELECT "id_Sciencer" FROM public."Table_Sсience_HNURE" AS tsh WHERE tsh."ORCID_ID" = %s;""",(orcid,))
+            # res=cursor.fetchall()
+            # if res: return res
+        
+        return wos_dbase.select_idAuthor_by_latName(author)
+        # cursor.execute("""SELECT * FROM public.lat_name_hnure AS lnh WHERE lnh.name_lat = %s;""",(author,))
+        # return cursor.fetchall()   
+    #----------------------------------------------------------------
+    def data_preparation(one_autor:str):
+        #-- - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - -
+        def find_one(one_:str,name:str):
+            #request=f"^{name} = "+chr(92)+"{([\s\S]+?*)\}"
+            patern='\n'+name+' = {'
+            start=one_.find(patern)
+            if start==-1: return ''
+            start+=len(patern)
+            end=one_.find('}',start)
+            return one_[start:end].replace('   ',' ').replace('  ',' ').replace('\n','')
+        #-- - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - -
+        LIST_columns=('Unique-ID','Title','Journal','Year','Author','Volume','Number','Pages','DOI','Times-Cited',
+              'Publisher','Type')
+        LIST_id=('ResearcherID-Numbers','ORCID-Numbers')
+            #f_str=re.findall("^"+name+r"\{([\s\S]+?*)\}",one_)
+            #return f_str[0].replace('\n','').replace('  ',' ') if f_str else '
+        data=[]    
+        for name in LIST_columns:
+            data.append(find_one(one_autor,name))
+
+        researcher_dict=dict(re.findall(r'([\w]+, [\w]+).{0,}?/([A-Za-z]{1,}-[0-9]{3,}-[0-9]{4})',find_one(one_autor,LIST_id[0])))
+        orcid_dict=dict(re.findall(r'([\w]+, [\w]+).{0,}?/([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4})',find_one(one_autor,LIST_id[1])))    
+        return data,researcher_dict,orcid_dict
+
+    def wos_update_bib(file:TextIOBase):
+        buff=file.read()
+        for One_Autor in buff.split("@"):
+            if len(One_Autor)<40: continue
+            data1=data_preparation(One_Autor)
+            data, r_id, r_orcid = data1
+            id_article=wos_dbase.insert_article(data)
+            if id_article:
+                for author in data[4].split(" and "):
+                    author_orcid,author_r_id='',''
+                    if author in r_orcid: author_orcid=r_orcid[author]   
+                    if author in r_id: author_r_id=r_id[author]
+                    author_id_hnure = search_in_table_hnure_for_author(author,author_orcid) 
+                    if  len(author_id_hnure) > 1:
+                        logger.warning(f"ERROR: more than 1 -> {len(author_id_hnure)} :\n{data[0]} --> {author_id_hnure}")
+                        #print(f"ERROR: more than 1 -> {len(author_id_hnure)} :\n{author_id_hnure}")
+                        
+                        author_id_hnure=int(author_id_hnure[0][0])
+                    elif len(author_id_hnure)==1:
+                        author_id_hnure=int(author_id_hnure[0][0])
+                    else: 
+                        author_id_hnure=None
+
+                    wos_dbase.insert_author_in_table_wosAutors((data[0],author_orcid ,author_r_id,author,author_id_hnure)) 
+                    # cursor.execute("""INSERT INTO public.wos_autors AS t(unique_id,orcid,researcher_id,author,id_autor) 
+                    # SELECT unique_id,orcid,researcher_id,author,id_autor::int FROM (values (%s,%s,%s,%s,%s)) v(unique_id,orcid,researcher_id,author,id_autor) 
+                    # WHERE NOT EXISTS  (SELECT FROM public.wos_autors AS d where (d.unique_id = v.unique_id) and (d.author = v.author)) 
+                    # on conflict do nothing returning "id_autor";""",(data[0],author_orcid ,author_r_id,author,author_id_hnure))
+            else: 
+                wos_dbase.update_note((data[9],data[0]))
+                # cursor.execute("""UPDATE public.wos AS s SET note = %s, data_update = now()
+                #                     WHERE  s.unique_id = %s 
+                #                     RETURNING  s.unique_id;""",(data[9],data[0]))
+                # Id_Aticl=cursor.fetchone()[0]
+            print (id_article)
+            # return
+    
+
+            # update_wos(db_conect,One_Autor)            
+
+        return True
+
+    if current_user.get_id() != '1':
+        flash('Авторизуйтесь как admin','error')
+        return  redirect(url_for('login',next=request.full_path))
+    
+    if request.method == 'GET':
+        flash("Статьи не обновлены! Повторите процедуру обновления.", "error")
+        return redirect('index') 
+    
+    files =  request.files.getlist('wos_load_files[]')
+    for file in files:
+        file.save('./wos/wosData/' + secure_filename(file.filename))
+
+    for file_ in files:
+        file_filename=secure_filename(file_.filename)
+        file :TextIOBase = open('./wos/wosData/' + file_filename,encoding='utf-8')    
+        if (file_filename[-3:] == 'bib') and ('savedrecs' in file_filename):
+            if not wos_update_bib(file): 
+                 flash(f"Файл '{file_filename}': ошибка обработки", "error")
+                 file.close()
+                 return redirect('index') 
+            
+        # elif file_filename[-3:]== 'csv':
+        #     if not sc_update_csv(file):
+        #         flash(f"Файл '{file_filename}': ошибка обработки", "error")
+        #         file.close()                
+        #         return redirect('index') 
+        # else:
+        #     flash(f"Файл '{file_filename}' не соответствует формату", "error")
+        #     continue
+        
+        file.close()
+        # if os.path.exists('./wos/wosData/'+ file_filename):
+        #     os.remove('./wos/wosData/'+ file_filename)        
+
+    flash("Вы успешно обновили статьи БД WOS", "success")
+    return redirect('index') 

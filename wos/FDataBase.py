@@ -39,16 +39,16 @@ class FDataBase:
                                 ORDER BY tsh."FIO") as res
                                 where res.works = true and res.id_depatment ="""
         
-    def __read_execute(self,_SQL_query:str):
+    def __read_execute(self,_SQL_query:str,data:tuple=None):
             try:            
-                self.__cur.execute(_SQL_query)
+                self.__cur.execute(_SQL_query,data)
                 return self.__cur.fetchall()
             except (Exception,Error) as error:
                 print("Ошибка при чтении БД:", error)
         
-    def __update_execute(self,_sql_query:str):
+    def __update_execute(self,_sql_query:str,data:tuple=None):
             try:
-                self.__cur.execute(_sql_query)
+                self.__cur.execute(_sql_query,data)
                 self.__db.commit()
                 return self.__cur.fetchall()
             except (Exception,Error) as error:

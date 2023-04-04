@@ -41,10 +41,8 @@ class WOS_Dbase(FDataBase):
                                 where  works  
                                 order by "id_Sciencer" """
 
-
-
-    def __read_db(self,SQL_String): 
-        return self._FDataBase__read_execute(SQL_String)
+    def __read_db(self,SQL_String,data:tuple=None): 
+        return self._FDataBase__read_execute(SQL_String,data)
     
     def __read_one_db(self,SQL_String):
         try:            
@@ -55,7 +53,7 @@ class WOS_Dbase(FDataBase):
 #----------------------------------------------------------------
     def get_data_update_wos(self):
         res=self.__read_one_db("select max(w.data_update) from wos w;") 
-        return res[0].strftime("%Y-%m-%d  %H:%M:%S") if res else ''
+        return res[0].strftime("%Y-%m-%d  %H:%M:%S") if res[0] else ''
     
     def get_doc_sum(self):
         return self.__read_one_db("select count(w.unique_id) doc ,sum (w.note::int) from wos w;")
@@ -63,7 +61,7 @@ class WOS_Dbase(FDataBase):
     def get_h_ind(self):
         res=self.__read_one_db("""select count(*) h_ind from (select  foo.sn, row_number() over() c 
         from (select w.note::int sn  from wos w order by sn desc ) foo) res where  res.sn >= res.c ;""") 
-        return res[0] if res else ''
+        return res[0]
     
     def select_authors_by_form(self,form:SC_Form):
         where_=lambda x:f""" and r.doc::int >= {form.sc_input_limit.data} order by r.doc::int desc """ if x else ' order by r.id'               
@@ -134,3 +132,31 @@ class WOS_Dbase(FDataBase):
 	            ({self.__SQL_wos_authors_by_dep}) too
             where  too.sum_note::int > 0
             order  by name_department""")
+    
+    def select_idAuthor_by_orcid(self,id_orcid):
+        return self.__read_db("""SELECT "id_Sciencer" FROM public."Table_Sсience_HNURE" AS tsh WHERE tsh."ORCID_ID" = %s ;""",(id_orcid,))
+    
+    def select_idAuthor_by_latName(self,author:str):
+        return self.__read_db("""SELECT * FROM public.lat_name_hnure AS lnh WHERE lnh.name_lat = %s;""",(author,))
+
+    def insert_article(self,data):
+        sql ="""INSERT INTO public.wos AS t(unique_id,title,journal,year,author,volume,number,pages,doi,note,publisher,document_type) 
+            SELECT * FROM (values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)) v(unique_id,title,journal,year,author,volume,number,pages,doi,note,publisher,document_type) 
+            WHERE NOT EXISTS  (SELECT FROM public.wos AS d where d.unique_id = v.unique_id) 
+            on conflict do nothing returning "unique_id";"""        
+        res=self._FDataBase__update_execute(sql,data)
+        return res[0][0] if res else ''
+    
+    def insert_author_in_table_wosAutors(self,data):
+        sql="""INSERT INTO public.wos_autors AS t(unique_id,orcid,researcher_id,author,id_autor) 
+            SELECT unique_id,orcid,researcher_id,author,id_autor::int FROM (values (%s,%s,%s,%s,%s)) v(unique_id,orcid,researcher_id,author,id_autor) 
+            WHERE NOT EXISTS  (SELECT FROM public.wos_autors AS d where (d.unique_id = v.unique_id) and (d.author = v.author)) 
+            on conflict do nothing returning "id_autor";"""
+        return self._FDataBase__update_execute(sql,data)
+
+    def update_note(self,data):
+        sql="""UPDATE public.wos AS s SET note = %s, data_update = now()
+                            WHERE  s.unique_id = %s 
+                            RETURNING  s.unique_id;"""
+        return self._FDataBase__update_execute(sql,data)
+

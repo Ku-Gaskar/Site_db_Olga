@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, g, request,redirect,flash,current_app,session,send_file,Response,jsonify 
+from flask import Blueprint, render_template, url_for, g, request,redirect,flash,current_app,session,Response 
 from flask_paginate import Pagination, get_page_parameter
 from flask_login import login_required,current_user
 from werkzeug.utils import secure_filename
@@ -145,6 +145,7 @@ def sc_update_DocCitH():
     driver = webdriver.Chrome(chrome_options=chrome_options)
     list_scopus_id=sc_dbase.get_list_scopusID()
     for item in list_scopus_id:
+        item=list(item)
         url=f'https://www.scopus.com/authid/detail.uri?authorId={item[1]}' 
         driver.implicitly_wait(20)  # Установить 20 секунд времени ожидания
         try:
@@ -162,6 +163,9 @@ def sc_update_DocCitH():
         try:
             s1=driver.find_elements(By.CSS_SELECTOR,'span[data-testid="unclickable-count"]')            
             if s1:
+                if item[2] == 'None': item[2] ='0'
+                if item[3] == 'None': item[3] ='0'
+                if item[4] == 'None': item[4] ='0'
                 author={'note':s1[0].text.replace(' ',''),'doc':s1[1].text.replace(' ',''),'h_index':s1[2].text.replace(' ','')}
                 if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4])):
                     str_warning=f"""Предупреждение - данные уменьшены id={item[0]}:
@@ -193,7 +197,7 @@ def export_green_table():
                              'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
     
 
-@scopus.route('/upload', methods=['POST'])
+@scopus.route('/upload', methods=['POST','GET'])
 @login_required 
 def upload_file():
     if current_user.get_id() != '1':
