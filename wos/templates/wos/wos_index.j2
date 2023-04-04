@@ -59,8 +59,8 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#modalIdWos">Обновить базу статей по университету</a></li>
                   {# <li><a class="dropdown-item" href="#">Обновить базу статей по университету</a></li> #}
-                  <li><a class="dropdown-item" href="#">Обновить кол-во док., цитирования, h-индекс по авторам</a></li>
-                  <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+                  {# <li><a class="dropdown-item" href="#">Обновить кол-во док., цитирования, h-индекс по авторам</a></li> #}
+                  <li><a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#modalId_Delete">Очистить таблицы статей WOS</a></li>
                 </ul>
               </div>
                 <div><a href= "./wos_report" class="btn btn-success mx-5">Отчеты</a></div>
@@ -125,7 +125,27 @@
     </div>
   </div>
 </div>
-  
+<!-- Modal  delete------------------------------------------>
+<div class="modal fade modal-lg" id="modalId_Delete" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">Удаление списка статей (документов)</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <h4 style="color:crimson;">Вы уверены в своих действиях?</h4>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+        <a type="button" href="./deteteArticleWOS" class="btn btn-primary" >Да</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ------------------------------------------------ -->  
   
   <style >
   .sr-only {

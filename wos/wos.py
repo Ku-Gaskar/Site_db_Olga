@@ -142,14 +142,8 @@ def upload_file():
     def search_in_table_hnure_for_author(author,orcid):
         if orcid:
             id_author=wos_dbase.select_idAuthor_by_orcid(orcid)
-            if id_author: return  id_author
-            # cursor.execute("""SELECT "id_Sciencer" FROM public."Table_Sсience_HNURE" AS tsh WHERE tsh."ORCID_ID" = %s;""",(orcid,))
-            # res=cursor.fetchall()
-            # if res: return res
-        
+            if id_author: return  id_author        
         return wos_dbase.select_idAuthor_by_latName(author)
-        # cursor.execute("""SELECT * FROM public.lat_name_hnure AS lnh WHERE lnh.name_lat = %s;""",(author,))
-        # return cursor.fetchall()   
     #----------------------------------------------------------------
     def data_preparation(one_autor:str):
         #-- - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - -
@@ -199,22 +193,9 @@ def upload_file():
                         author_id_hnure=None
 
                     wos_dbase.insert_author_in_table_wosAutors((data[0],author_orcid ,author_r_id,author,author_id_hnure)) 
-                    # cursor.execute("""INSERT INTO public.wos_autors AS t(unique_id,orcid,researcher_id,author,id_autor) 
-                    # SELECT unique_id,orcid,researcher_id,author,id_autor::int FROM (values (%s,%s,%s,%s,%s)) v(unique_id,orcid,researcher_id,author,id_autor) 
-                    # WHERE NOT EXISTS  (SELECT FROM public.wos_autors AS d where (d.unique_id = v.unique_id) and (d.author = v.author)) 
-                    # on conflict do nothing returning "id_autor";""",(data[0],author_orcid ,author_r_id,author,author_id_hnure))
             else: 
                 wos_dbase.update_note((data[9],data[0]))
-                # cursor.execute("""UPDATE public.wos AS s SET note = %s, data_update = now()
-                #                     WHERE  s.unique_id = %s 
-                #                     RETURNING  s.unique_id;""",(data[9],data[0]))
-                # Id_Aticl=cursor.fetchone()[0]
-            print (id_article)
-            # return
-    
-
-            # update_wos(db_conect,One_Autor)            
-
+            # print (id_article)
         return True
 
     if current_user.get_id() != '1':
@@ -236,20 +217,20 @@ def upload_file():
             if not wos_update_bib(file): 
                  flash(f"Файл '{file_filename}': ошибка обработки", "error")
                  file.close()
-                 return redirect('index') 
-            
-        # elif file_filename[-3:]== 'csv':
-        #     if not sc_update_csv(file):
-        #         flash(f"Файл '{file_filename}': ошибка обработки", "error")
-        #         file.close()                
-        #         return redirect('index') 
-        # else:
-        #     flash(f"Файл '{file_filename}' не соответствует формату", "error")
-        #     continue
+                 return redirect('index')             
         
         file.close()
-        # if os.path.exists('./wos/wosData/'+ file_filename):
-        #     os.remove('./wos/wosData/'+ file_filename)        
+        if os.path.exists('./wos/wosData/'+ file_filename):
+            os.remove('./wos/wosData/'+ file_filename)        
 
     flash("Вы успешно обновили статьи БД WOS", "success")
+    return redirect('index') 
+
+@wos.route('/deteteArticleWOS')
+@login_required 
+def deteteArticleWOS():
+    if current_user.get_id() != '1':
+        flash('Авторизуйтесь как admin','error')
+    wos_dbase.deleteArticle()
+    flash("Вы успешно удалили статьи БД WOS", "success")
     return redirect('index') 

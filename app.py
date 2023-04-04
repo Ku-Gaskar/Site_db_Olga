@@ -1,15 +1,17 @@
-from flask import Flask, render_template, url_for, g, request, Blueprint,redirect,flash,abort
+from flask import Flask, render_template, url_for, g, request, redirect,flash,abort
 
-from flask_bootstrap import Bootstrap
-from FDataBase import FDataBase
+# from flask_bootstrap import Bootstrap
 import psycopg2
 from flask_paginate import Pagination, get_page_parameter
 from flask_login import LoginManager,login_user,login_required,logout_user, current_user
 from UserLogin import UserLogin
 from werkzeug.security import generate_password_hash , check_password_hash 
+
+from FDataBase import FDataBase
 import forms
 from scopus.scopus import scopus
 from wos.wos import wos
+
 import app_logger
 
 from gevent.pywsgi import WSGIServer
@@ -36,6 +38,7 @@ login_manager.login_message_category = "success"
 app.register_blueprint(scopus,url_prefix="/scopus")
 app.register_blueprint(wos,url_prefix="/wos")
 
+dbase:FDataBase = None
 
 #Bootstrap(app)
 
@@ -95,18 +98,11 @@ def update_db_author(cont,d:forms.EditStruct,id):
 
     return True if a and c else False 
 
-dbase:FDataBase = None
 
 @login_manager.user_loader
 def load_user(user_id):
     return UserLogin().fromDB(user_id,dbase)
 
-
-
-
-# @app.errorhandler(401)
-# def login_error(error):
-#     return redirect('login')
 
 @app.route('/login', methods=['POST','GET'])
 def login():
@@ -119,7 +115,6 @@ def login():
             return redirect(request.args.get("next") or url_for('.KhNURE')) 
         flash('Пароль не верный','error')
     return render_template('login.j2',form=form,content = {'title':'Вход в систему'})    
-
 
 
 @app.before_request
@@ -210,13 +205,6 @@ def edit_author(cur_page):
 
     return render_template ('edit_author.j2', form = edit_form, content=content)
 
-# @app.route("/del_author/<int:id",methods=['GET'])
-# def hiden_author_(id):
-#     a=dbase.hiden_author_by_id(id)
-#     redirect(url_for('/hnure'))
-#     pass   
-
-
 @app.route("/hnure",methods=['GET','POST'])
 @login_required
 def KhNURE():   
@@ -241,7 +229,7 @@ def KhNURE():
     else:
         total_list = dbase.get_nure_list()
         content['nure_current_dep']='Выбор кафедры ( ВСЕ )'
-    
+
     if total_list:
         total = len(total_list)
         content['nure_list'] = total_list[offset:offset+limit]
@@ -249,22 +237,11 @@ def KhNURE():
         content['nure_list'] = 0
         total=0
 
-    content['pagination'] = Pagination(page=page, total=total,outer_window=0,record_name='записей',   #search=False,
+    content['pagination'] = Pagination(page=page, total=total,outer_window=0,record_name='записей',
                                 display_msg="Отображено <b>{start} - {end}</b> {record_name} из всего <b>{total}</b>", 
-                                per_page=limit, bs_version=5)   #,alignment='right')
-    
+                                per_page=limit, bs_version=5)    
     content['title'] = 'Редактор списка сотрудников'
-
     return render_template('hnure.j2', content=content)
-
-
-# @app.route("/wos")
-# def WOS():
-#     return render_template('wos.j2')
-
-# @app.route("/scopus")
-# def Scopus():
-#     return render_template('scopus.j2')
 
 @app.teardown_appcontext
 def close_db(error):
@@ -273,11 +250,10 @@ def close_db(error):
         g.link_db.close()
 
 def my_split(content:str) -> list[str]:
-    if not content:
-        return []
-    return content.split(';')  
+    """Создание пользовательского фильтра для jinja """       
+    return content.split(';') if content else []  
 
-@app.route("/logout")
+@app.route("/logout") # нет перехода на этот маршрут
 @login_required
 def logout():
     logout_user()

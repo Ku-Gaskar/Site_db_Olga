@@ -160,3 +160,6 @@ class WOS_Dbase(FDataBase):
                             RETURNING  s.unique_id;"""
         return self._FDataBase__update_execute(sql,data)
 
+    def deleteArticle(self):
+        self._FDataBase__update_execute('delete from public.wos_autors')
+        self._FDataBase__update_execute('delete from public.wos')
