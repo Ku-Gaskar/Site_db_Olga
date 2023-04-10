@@ -25,16 +25,18 @@
           <hr class="ku-hr">
       </div>
       <div class="container">
-          <div class="row-cols justify-content-center align-items-start g-4">
-              <div class="row">
-              <div class="col-md-4 col-gy-3">
+          <div class="row justify-content-center align-items-start g-4">
+              {# <div class="row"> #}
+              <div class="col-md-4 col-gy-3">                
                   <a id='menu_hnure_1' class="ku-border-base text-decoration-none" href="\hnure">
                   <img src="{{ url_for('static',filename='img/HNURE.jpg') }}" class="p-3 img-fluid" alt="">
                   <p class="fs-3 pt-1 text-center"><strong>ХНУРЕ</strong></p>
-                  <p class="fs-4 text-center">Редактор списка сотрудников</p>
+                  <p class="fs-4 text-center lh-1">Редактор</p>
+                  <p class="fs-4 text-center lh-1">списка сотрудников</p>
                   </a>  
               </div>
               <div class="col-md-4 col-gy-3">
+
                   <a id="menu_scopus_1" class="ku-border-base text-decoration-none text-reset" href="/scopus">
                   <img src="{{ url_for('static',filename='img/Scopus.jpg')}}" class="p-3 img-fluid" alt="">
                   <p class="text-decoration-none fs-3 pt-3 text-center fst-italic" style="color: rgb(255, 145, 0);"><strong> Scopus</strong></p>
@@ -47,7 +49,7 @@
                   <p class="fs-3 pt-5 text-center "><strong> WOS </strong></p>
                   </a> 
               </div>
-              </div>
+              {# </div> #}
           </div>    
       </div>        
     </main>  

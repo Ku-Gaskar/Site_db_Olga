@@ -71,7 +71,8 @@ label{
     margin-right:10%;
     margin-left:10%;
     margin-top: 15%;
-    height: 450px;
+    margin-bottom: 15%;
+    height: 500px;
     border: 2px solid var(--color3);
     background-color: var(--color1);
     border-radius: 20px;

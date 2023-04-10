@@ -79,10 +79,10 @@
             <td class="ku-item-center">{{ author[0] }}</td>
             <td class=""><a id="go_author" class="text-decoration-none" href="hnure/{{ author[0] }}">{{ author[1] }} </a></td>
             <td class="ku-item-center">{{ author[2] }}</td>
-            <td class=""> {% for  sc_id  in  author[3]|my_split %}
+            <td class="text-center"> {% for  sc_id  in  author[3]|my_split %}
                             <a class="text-decoration-none" href="https://www.scopus.com/authid/detail.uri?authorId={{ sc_id }}" target="_blank">{{ sc_id }} </a>
                           {% endfor %}</td>
-            <td class=""><a class="text-decoration-none" href="https://www.orcid.org/{{ author[4]}}" target="_blank">{{ author[4] }}</a></td>
+            <td class="text-center"><a class="text-decoration-none" href="https://www.orcid.org/{{ author[4]}}" target="_blank">{{ author[4] }}</a></td>
             <td class="">{% if author[5] %} {{ author[5] }} {% endif %} </td>
             <td class="">{% if author[6] %} {{ author[6] }} {% endif %}</td>
           </tr>

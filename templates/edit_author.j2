@@ -28,7 +28,7 @@
                   {% else %}
                     <div id="{{ f2_inp }}"  style="display: block;"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
                   {% endif %} 
-                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить</span>  
+                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить поле</span>  
                   <span id="button_del"  class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ f1_inp }},{{ f2_inp }})" >Удалить</span>  
             </div> 
                 {% endif %} 
@@ -56,9 +56,16 @@
 
 {% block main %}
     <main class="content">
-    <form method="post" action="" class="row justify-content-center " id="main_form">
+    <div class="container-fluid">
+    {# <div class="row justify-content-center "> #}
+      <div class="row justify-content-center align-items-center g-2">
+        <div class="col-11 ps-4">
+
+    {# </div> #}
+
+    <form method="post" action=""  id="main_form">
       {{ form.hidden_tag() }} 
-      <div class="col-md-10 mt-4 p-1 border border-primary border-2">  
+      <div class="col-md-12 mt-4 p-1 border border-primary border-2">  
         <div class="container-fluid"> 
         {% for cat, msg in get_flashed_messages(True) %}
           <div class="flash {{cat}} h5">{{msg}}</div>
@@ -114,20 +121,23 @@
           </div>  
         </div>  
         <div class="row mt-1 justify-content-between align-items-center g-2"> 
-          <div class="col-4 p-4" >
+          <div class="col-3 p-4" >
             {{ form.submit_save(class="btn btn-success") }}
           </div>
-          <div class="col-4 p-4" >
+          <div class="col-3 p-4" >
+            <button type="button" id="menu_hnure" class="btn btn-primary">Выход</button>
+          </div>
+
+          <div class="col-3 p-4" >
             {{ form.submit_escape(class="btn btn-secondary") }}
           </div>
-          <div class="col-4 p-4" >
+          <div class="col-3 p-4" >
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Удалить</button>
             {# <a name="help" id="" class="btn btn-danger" href="/delete/{{ content.author[0][0] }}" role="button">Удалить</a>   #}
           </div>
         </div>
       </div>
       </div> 
-  </form>
   <!-- Модальное окно -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -145,6 +155,11 @@
           </div>
         </div>
       </div>
+    </div>
+  </form>
+  </div>
+  </div>
+</div>
 
 
 </main>

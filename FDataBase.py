@@ -88,7 +88,7 @@ class FDataBase:
         return self.__read_execute(one_author_SQL)
 
     def get_nure_total_dep_list(self):
-        return self.__read_execute("""SELECT * FROM departments;""")
+        return self.__read_execute("""SELECT * FROM departments order by name_depat;""")
 
     def get_nure_one_dep_list(self,deportment):
         one_dep_SQL=f"{self.__query_one_dep_nure}{deportment};"
