@@ -59,13 +59,14 @@ def update_db_author(cont,d:forms.EditStruct,id):
         if not id: return False
         cont['author'] =dbase.get_author_by_id(id)
     # удаление автора -----------
-    if d.part_time_worker:
-        a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
-        return True if a else False
     
     # обработка кафедр ----------
     a=dbase.delete_dep_by_id_author(id)
     a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat)
+
+    if d.part_time_worker:
+        a=dbase.insert_dep_by_id_author(id,cont['author'][0][1],d.depat_two)
+        # return True if a else False
 
     # обработка scopus_id
     db_list_scopus=dbase.get_table_author_in_scopus_by_id_author(id)
@@ -86,7 +87,7 @@ def update_db_author(cont,d:forms.EditStruct,id):
     dbase.insert_scopus_id_by_author_id(id,d)
                                           
     if (cont['author'][0][1] != d.name_author) or (cont['author'][0][4] != d.orcid_id
-        ) or (cont['author'][0][5] != d.researcher_id):
+        ) or (cont['author'][0][5] != d.researcher_id) or (cont['author'][0][7] != d.googlescholar_id):
         b=dbase.update_name_orcid_reasearcher_id_by_author_id(d,cont)
     if cont['author'][0][6]!= d.list_lat_name:
         dbase.delete_lat_name_by_id_author(id)
@@ -132,7 +133,7 @@ def index():
 @app.route("/hnure/<int:cur_page>",methods=['GET','POST'])
 @login_required 
 def edit_author(cur_page):
-    def set_form_edit(content:dict={'author':[(None,'','','','','','')]}):
+    def set_form_edit(content:dict={'author':[(None,'','','','','','','')]}):
         if (cur_page!=0):
             edit_form.name_author.data=content['author'][0][1]
             if content['author'][0][3]:
@@ -148,7 +149,8 @@ def edit_author(cur_page):
                 edit_form.depat_two.data=list_dep_author[1][3]
             else:
                 edit_form.depat_two.data=NOT_DEP
-            edit_form.list_lat_name.data=content['author'][0][6] 
+            edit_form.list_lat_name.data=content['author'][0][6]
+            edit_form.googlescholar_id.data=content['author'][0][7] 
         return content
 
     if current_user.get_id() != '1':

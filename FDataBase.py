@@ -13,7 +13,7 @@ class FDataBase:
     def __init__(self, db):
         self.__db = db
         self.__cur=db.cursor()
-        self.__query_all_nure = """select tsh."id_Sciencer",tsh."FIO" ,foo1.dep ,foo2.id_sc,tsh."ORCID_ID" ,tsh."Researcher_ID",foo.name_l from   public."Table_Sсience_HNURE" tsh 
+        self.__query_all_nure = """select tsh."id_Sciencer",tsh."FIO" ,foo1.dep ,foo2.id_sc,tsh."ORCID_ID" ,tsh."Researcher_ID",foo.name_l, googlescholar  from   public."Table_Sсience_HNURE" tsh 
                                     left join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'; ') dep from  public.autors_in_departments aid 
                                     GROUP by aid.id_autors) as foo1
                                     on (tsh."id_Sciencer" = foo1.id_autors )
@@ -26,7 +26,7 @@ class FDataBase:
                                     where tsh.works = True    
                                     ORDER BY tsh."id_Sciencer" """
 
-        self.__query_one_dep_nure = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , foo2.id_sc,tsh."ORCID_ID" ,tsh."Researcher_ID",name_l, aid.id_depatment,tsh.works
+        self.__query_one_dep_nure = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , foo2.id_sc,tsh."ORCID_ID" ,tsh."Researcher_ID",name_l, tsh.googlescholar , aid.id_depatment,tsh.works
                                 from  public.autors_in_departments aid
                                 inner join public."Table_Sсience_HNURE" tsh 
                                 on (tsh."id_Sciencer"=aid.id_autors)
@@ -115,7 +115,8 @@ class FDataBase:
             set                            "FIO" = '{new_id.name_author}',
                              
                                       "ORCID_ID" = '{new_id.orcid_id}',
-                                 "Researcher_ID" = '{new_id.researcher_id}'
+                                 "Researcher_ID" = '{new_id.researcher_id}',
+                                   googlescholar = '{new_id.googlescholar_id}'
         
             where                      tsh."FIO" = '{old_id['author'][0][1]}' and
                                tsh."id_Sciencer" =  {old_id['author'][0][0]}  and 

@@ -198,7 +198,7 @@ class ScopusExportExcel(ExportExcel):
         y_index=3
         for item in records:
             for x_index,data_cell in enumerate(item,1):
-                x = x_index if x_index < 11 else  x_index + 1 if 11 <= x_index < 13  else x_index + 5
+                x = x_index if x_index < 11 else  x_index + 1 if 11 <= x_index < 14  else x_index + 4
                 address = get_column_letter(x)+str(y_index)
                 
                 if x_index == 3 and data_cell:
@@ -207,6 +207,10 @@ class ScopusExportExcel(ExportExcel):
                 elif x_index == 4 and  data_cell:
                     self.ws[address].hyperlink = f'https://www.scopus.com/authid/detail.uri?authorId={data_cell}'
                     self.ws[address].font= Font(color=Color(BLUE))
+                elif x_index == 13 and  data_cell:
+                    self.ws[address].hyperlink = f'https://scholar.google.com.ua/citations?user={data_cell}&hl=ru'
+                    self.ws[address].font= Font(color=Color(BLUE))
+
                 elif x_index == 12:
                     data_cell = 'Да' if data_cell else 'Нет'                
 
@@ -214,7 +218,7 @@ class ScopusExportExcel(ExportExcel):
 
                 # форматирование таблицы--------------------------------------------
 
-                if 2 < x_index < 13 :
+                if 2 < x_index < 14 :
                     self.ws[address].alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
                 else:
                     self.ws[address].alignment = Alignment(vertical='center',wrap_text=True)

@@ -2,7 +2,7 @@
 {% macro input(field,text,class1,class2,field1="",field2="",f1_inp="1",f2_inp="1") -%}
         <div class="row m-2 justify-content-start align-items-center g-2">
           <div class="col-md-1">{{ field.label(class='form-label') }}</div>
-          <div class="{{ class1 }} ps-4"> 
+           <div class="{{ class1 }} ps-4"> 
             <div class="input-group">
               <span class="input-group-text">{{ text }}</span>
                 {% if field.errors or field1.errors|default(none) or field2.errors|default(none)  %} 
@@ -84,9 +84,10 @@
               {{ form.name_author(class="form-control") }}
           </div>  
         </div>
-        {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_1,'sc_f1_inp','sc_f2_inp') }}
+        {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_2,'sc_f1_inp','sc_f2_inp') }}
         {{ input (form.orcid_id,'www.orcid.org/','col-md-10','col-md-3',form.orcid_id_1, form.orcid_id_2, 'orc_f1_inp', 'orc_f2_inp') }} 
         {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1, form.researcher_id_2, 're_f1_inp','re_f2_inp')}}
+        {{ input (form.googlescholar_id,'G_ID','col-md-10','col-md-2',form.googlescholar_id_1, form.googlescholar_id_2, 'google_f1_inp','google_f2_inp')}}
         <div class="row m-2 justify-content-start align-items-top g-2">
           <div class="col-md-3 p-2">
             {{ form.depat.label(class='form-label')}}

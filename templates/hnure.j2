@@ -45,7 +45,7 @@
 {% for cat, msg in get_flashed_messages(True) %}
   <div class="flash {{cat}} h5">{{msg}}</div>
 {% endfor %} 
-    <table class="table 
+    <table  class="table 
     table-sm 
     table-bordered
     border border-2
@@ -53,23 +53,25 @@
     table-light
     align-middle">
     <colgroup>
-        <col width="4.0%">
-        <col width="23.2%">
-        <col width="8.1%">
-        <col width="7.8%">
-        <col width="15.0%">
-        <col width="10.1%">
-        <col width="31.8%">
+        <col width="3.5%">
+        <col width="18%">
+        <col width="8%">
+        <col width="7%">
+        <col width="16%">
+        <col width="10%">
+        <col width="10%">
+        <col width="29.5%">
       </colgroup>     
     <thead class="table-info table-bordered border-primary">
-      <tr style="height:auto; ">
-        <th class="">ID<br>Автора</th>
-        <th class="">ФИО</th>
-        <th class="">Кафедра</th>
-        <th class=""> ID Scopus</th>
-        <th class="">ID ORCID</th>
-        <th class="">Researcher_ID</th>
-        <th class="">ФИО (латиница)</th>
+      <tr style="height:auto; " class="arrow-cursor">
+        <th>ID<br>Автора</th>
+        <th>ФИО</th>
+        <th>Кафедра</th>
+        <th>ID Scopus</th>
+        <th>ID ORCID</th>
+        <th>Researcher_ID</th>
+        <th>Googlescholar</th>
+        <th>ФИО (латиница)</th>
       </tr>
     </thead>
       <tbody class="table-group-divider">
@@ -77,14 +79,19 @@
         {% for author in content.nure_list-%}
           <tr>
             <td class="ku-item-center">{{ author[0] }}</td>
-            <td class=""><a id="go_author" class="text-decoration-none" href="hnure/{{ author[0] }}">{{ author[1] }} </a></td>
+            <td><a id="go_author" class="text-decoration-none" href="hnure/{{ author[0] }}">{{ author[1] }} </a></td>
             <td class="ku-item-center">{{ author[2] }}</td>
             <td class="text-center"> {% for  sc_id  in  author[3]|my_split %}
                             <a class="text-decoration-none" href="https://www.scopus.com/authid/detail.uri?authorId={{ sc_id }}" target="_blank">{{ sc_id }} </a>
                           {% endfor %}</td>
             <td class="text-center"><a class="text-decoration-none" href="https://www.orcid.org/{{ author[4]}}" target="_blank">{{ author[4] }}</a></td>
-            <td class="">{% if author[5] %} {{ author[5] }} {% endif %} </td>
-            <td class="">{% if author[6] %} {{ author[6] }} {% endif %}</td>
+            <td class="text-center">{% if author[5] %} <a class="text-decoration-none" 
+                href="https://www.webofscience.com/wos/author/rid/{{ author[5]}}" target="_blank">{{ author[5] }}</a> {% endif %}
+            </td>
+            <td class="text-center">{% if author[7] %} <a class="text-decoration-none" 
+                href="https://scholar.google.com.ua/citations?user={{ author[7]}}&hl=ru" target="_blank">{{ author[7] }}</a> {% endif %}
+            </td>
+            <td>{% if author[6] %} {{ author[6] }} {% endif %}</td>
           </tr>
         {% endfor %}
       <!-- {% endif %}     -->
@@ -107,20 +114,64 @@
 
 
 
+const savedScrollPosition = localStorage['positionOverflow'];
+
+if (savedScrollPosition !== null) {
+  window.scrollTo({
+    top: savedScrollPosition,
+    behavior: 'smooth',
+  });
+
+  // очищаем сохраненную позицию
+  localStorage.removeItem('positionOverflow');
+}
+
+
+
 
   window.addEventListener('click', filter, false)
   function filter(e){
     if (e.target.id === 'go_author'){ // провека что кликнули на ссылку
 //      alert(e.target.id);  // получаем URL адрес ссылки
       e.preventDefault();          // отменяем переход 
-      localStorage['href_hnure']=JSON.stringify(window.location.href)    
-      /*  реализуете свою логику  */
+      localStorage['href_hnure']=JSON.stringify(window.location.href)
+      localStorage['positionOverflow']=window.scrollY
 
       window.location.href = e.target.href; // переходите по ссылке
     }
   }
 
 
+// сортировка таблицы
+
+const table = document.querySelector('table');
+const headersTable = table.querySelectorAll('th');
+
+function sortTable(column, direction) {
+  const rows = Array.from(table.querySelectorAll('tr')).slice(1);
+  const headersArray = Array.from(headersTable);
+  const index = headersArray.indexOf(column);
+  rows.sort((a, b) => {
+    const aText = a.querySelector(`td:nth-child(${index + 1})`).textContent;
+    const bText = b.querySelector(`td:nth-child(${index + 1})`).textContent;
+    if (direction === 'asc') {
+      return aText.localeCompare(bText);
+    } else {
+      return bText.localeCompare(aText);
+    }
+  });
+  table.querySelector('tbody').append(...rows);
+}
+
+
+headersTable.forEach(header => {
+  header.addEventListener('click', () => {
+    const column = header;
+    const direction = header.dataset.direction === 'asc' ? 'desc' : 'asc';
+    header.dataset.direction = direction;
+    sortTable(column, direction);
+  });
+});
 
 
 /*document.getElementById('go_author').click= function() {

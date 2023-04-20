@@ -21,6 +21,9 @@ class EditStruct:
     researcher_id   = None
     researcher_id_1 = None
     researcher_id_2 = None
+    googlescholar_id = None
+    googlescholar_id_1 = None
+    googlescholar_id_2 = None
     depat=None
     list_lat_name=None
     one_lat_name=None
@@ -47,6 +50,10 @@ class EditForm(FlaskForm):
     researcher_id   = StringField('Researcher_ID',validators=[Optional(),Regexp('^[A-Za-z]{1,}-[0-9]{3,}-[0-9]{4}$',message='Формат: A(AAA)-XXX(XXX)-XXXX')])#,Length(min=10, max=16)])
     researcher_id_1 = StringField('Researcher_ID',validators=[Optional(),Regexp('^[A-Za-z]{1,}-[0-9]{3,}-[0-9]{4}$',message='Формат: A(AAA)-XXX(XXX)-XXXX')])#,Length(min=10, max=16)])
     researcher_id_2 = StringField('Researcher_ID',validators=[Optional(),Regexp('^[A-Za-z]{1,}-[0-9]{3,}-[0-9]{4}$',message='Формат: A(AAA)-XXX(XXX)-XXXX')])#,Length(min=10, max=16)])
+
+    googlescholar_id   = StringField('Googlescholar',validators=[Optional(),Length(min=12, max=12)])
+    googlescholar_id_1 = StringField('Googlescholar') #,validators=[Optional(),Regexp('^[A-Za-z]{1,}-[0-9]{3,}-[0-9]{4}$',message='Формат: A(AAA)-XXX(XXX)-XXXX')])#,Length(min=10, max=16)])
+    googlescholar_id_2 = StringField('Googlescholar') #,validators=[Optional(),Regexp('^[A-Za-z]{1,}-[0-9]{3,}-[0-9]{4}$',message='Формат: A(AAA)-XXX(XXX)-XXXX')])#,Length(min=10, max=16)])
     
     depat=SelectField('Кафедра',coerce= int)
     

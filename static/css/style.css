@@ -106,3 +106,7 @@ th, .ku-item-center {
 	border: 1px solid #FF4343;
 	background: #FF9C9C;
 }
+
+.arrow-cursor {
+    cursor: url(../img/sort_icon_143693.png) 15 15, pointer;
+  }

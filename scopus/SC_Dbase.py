@@ -16,13 +16,23 @@ class SC_Dbase(FDataBase):
     #                              where tsh.works 
     #                              order by tsh ."id_Sciencer" """ 
 
-
+# редакция Изменено!!!!!
+    # __SQL_sc_article_select = """SELECT DISTINCT /*on (title)*/  title, s.author, aid.name_autor, aid.name_department, "year", aid.id_depatment ,tsh.works, s.eid, document_type,journal
+    #                     FROM public.scopus  s
+    #                     full join public.scopus_autors sa on (sa.eid = s.eid  )
+    #                     left join public."Table_Sсience_HNURE" tsh on (sa.id_sc_autor = tsh."ID_Scopus_Author")
+    #                     left join public.autors_in_departments aid on (aid.id_autors = tsh."id_Sciencer"  )
+    #                     order by "eid" """
+    
+# Изменено на это:
     __SQL_sc_article_select = """SELECT DISTINCT /*on (title)*/  title, s.author, aid.name_autor, aid.name_department, "year", aid.id_depatment ,tsh.works, s.eid, document_type,journal
                         FROM public.scopus  s
-                        full join public.scopus_autors sa on (sa.eid = s.eid  )
-                        left join public."Table_Sсience_HNURE" tsh on (sa.id_sc_autor = tsh."ID_Scopus_Author")
+                        full join public.scopus_autors sa on (sa.eid = s.eid  )                        
+                        left join public.author_in_scopus ais on (sa.id_sc_autor = ais.id_scopus )                        
+                        left join public."Table_Sсience_HNURE" tsh on (ais.id_author = tsh."id_Sciencer")                                                
                         left join public.autors_in_departments aid on (aid.id_autors = tsh."id_Sciencer"  )
                         order by "eid" """
+                                
 
     __SQL_sc_authors_by_dep = """select DISTINCT * from (select tsh."id_Sciencer" id,tsh."FIO" ,aid.name_department , ais.id_scopus ,ais.doc ,ais.note,ais.h_ind , aid.id_depatment,tsh.works
                                 from  public.autors_in_departments aid
@@ -40,7 +50,7 @@ class SC_Dbase(FDataBase):
                         where id_scopus = id_sc_autor and works  
                         order by "id_Sciencer" """
     
-    __SQL_full_data_green_table = """select tsh."id_Sciencer" id,tsh."FIO" ,tsh."ORCID_ID" ,ais.id_scopus, ais.doc ,ais.note ,ais.h_ind ,wos_sum.doc,wos_sum.sum_note,wos_sum.h_ind, foo1.dep ,works, name_l  from public."Table_Sсience_HNURE" tsh 
+    __SQL_full_data_green_table = """select tsh."id_Sciencer" id,tsh."FIO" ,tsh."ORCID_ID" ,ais.id_scopus, ais.doc ,ais.note ,ais.h_ind ,wos_sum.doc,wos_sum.sum_note,wos_sum.h_ind, foo1.dep ,works, tsh.googlescholar,name_l  from public."Table_Sсience_HNURE" tsh 
                                 full join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'; ') dep from  public.autors_in_departments aid 
                                 GROUP by aid.id_autors) as foo1
                                 on (tsh."id_Sciencer"=foo1.id_autors)
