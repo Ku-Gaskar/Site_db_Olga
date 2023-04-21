@@ -136,7 +136,7 @@ class SC_Dbase(FDataBase):
 
     def get_limit_all_article(self,offset,limit,my_form:DataScForm):
         w_ty=self.__set_where_sc_SQL_type_year(my_form)    
-        return self.__read_db(f""" select  eid , title , author , "year" , document_type , journal , works from ({self.__SQL_sc_article_select}) art
+        return self.__read_db(f""" select DISTINCT eid , title , author , "year" , document_type , journal , works from ({self.__SQL_sc_article_select}) art
                                     {w_ty} {f"{self.and_str(w_ty)} works" if my_form['sc_select_dep']!=ALL_DEP else ""}
                                       offset {offset} limit {limit}""")    
 

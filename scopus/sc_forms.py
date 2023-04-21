@@ -25,6 +25,7 @@ class DataScForm:
     sc_rep_article=None
     sc_rep_authors=None
     sc_rep_sum=None
+    sc_rep_authors_with_stat=None
 
 
 
@@ -48,5 +49,6 @@ class SC_Form(FlaskForm):
     sc_buttons_ok=SubmitField('Применить')
 
     sc_rep_article=SubmitField('Публикации с авторами (с учетом фильтра)')
+    sc_rep_authors_with_stat = SubmitField('Авторы + Док. + Цит. + H_инд. (с учетом фильтра)')
     sc_rep_authors=SubmitField('Авторы со статьями (с учетом фильтра)')
     sc_rep_sum=SubmitField('Cумма цитирований авторов по кафедрам (без учета фильтра)')

@@ -108,6 +108,11 @@
                 {% else %}
                   <li>{{ form.sc_rep_authors(class="dropdown-item fw-weight-bold",onclick="set_spinner()", disabled = disabled) }}</li>
                 {% endif %}
+                {% if form.sc_radio_auth_atcl.data == 'article' %}
+                  <li>{{ form.sc_rep_authors_with_stat(class="dropdown-item fw-weight-bold",onclick="set_spinner()",disabled = disabled) }}</li>
+                {% else %}
+                  <li>{{ form.sc_rep_authors_with_stat(class="dropdown-item fw-weight-bold",onclick="set_spinner()" ) }}</li>
+                {% endif %}   
                 <li>{{ form.sc_rep_sum(class="dropdown-item fw-weight-bold",onclick="set_spinner()") }}</li>
               </ul>
             </div>

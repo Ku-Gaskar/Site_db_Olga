@@ -3,6 +3,7 @@
 
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
+from io import BytesIO
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.utils import get_column_letter
 from openpyxl.styles import PatternFill, Border, Side, Alignment,Font,Color
@@ -228,3 +229,40 @@ class ScopusExportExcel(ExportExcel):
             y_index+=1    
 
         return save_virtual_workbook(self.wb) 
+    
+    def create_report_authors_with_stat(self,list_export,wos=False):
+        self.ws.title ='Authors_with_statistics'
+        widthColumn = (8,45,15,20,15,15,15)  if not wos else (8,45,15,20,15,15,15,15)
+        list_range_merge=('A1:A2','B1:B2','C1:C2','D1:D2','E1:G1') if not wos else ('A1:A2','B1:B2','C1:C2','D1:D2','E1:E2','F1:H1')
+        title_1=('№ п\п ','Прізвище ім`я та по батькові','Кафедра','ID Scopus', 'Scopus') if not wos else ('№ п\п ','Прізвище ім`я та по батькові','Кафедра','ID Orcid', 'Reseacher','WOS')
+        title_2=('','','','','Документи','Цитування','H-Index') if not wos else ('','','','','','Документи','Цитування','H-Index')         
+        self.set_Width(widthColumn)
+        for range_merge in list_range_merge:
+            self.ws.merge_cells(range_merge)
+        self.set_Header(1,title_1)
+        self.set_Header(2,title_2)
+        y_index=3
+        for item in list_export:
+            for x_index,data_cell in enumerate(item,1):
+                
+                if x_index > 7 and not wos: 
+                    continue                
+                elif x_index > 8 and wos:
+                    continue    
+                address = get_column_letter(x_index)+str(y_index)                
+                if x_index == 4 and data_cell:
+                    self.ws[address].hyperlink = f'https://www.scopus.com/authid/detail.uri?authorId={data_cell}'
+                    self.ws[address].font= Font(color=Color(BLUE))
+                                
+                self.ws[address] = data_cell if x_index != 1 else y_index - 2
+                self.ws[address].border = Border(left=self.bl, top=self.bl, right=self.bl, bottom=self.bl)
+                if  x_index != 2 :
+                    self.ws[address].alignment = Alignment(horizontal='center',vertical='center',wrap_text=True)
+                else:
+                    self.ws[address].alignment = Alignment(vertical='center',wrap_text=True)
+
+            y_index+=1  
+        
+        output = BytesIO()
+        self.wb.save(output)
+        return output.getvalue()

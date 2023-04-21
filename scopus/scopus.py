@@ -100,6 +100,13 @@ def scopusReport():
             return Response(sc_exporter.create_report_article(list_export),
                             headers={'Content-Disposition': f'attachment; filename={fm}',
                                      'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})            
+        elif my_sc.sc_rep_authors_with_stat:
+            sc_exporter:ScopusExportExcel = ScopusExportExcel()
+            list_export=sc_dbase.select_authors_by_form(form)
+            fm=f"sc_report_author_{date.today()}.xlsx"
+            return Response(sc_exporter.create_report_authors_with_stat(list_export),
+                            headers={'Content-Disposition': f'attachment; filename={fm}',
+                                     'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})            
         elif my_sc.sc_rep_authors:
             sc_exporter:ScopusExportExcel = ScopusExportExcel()
             dd=form.data

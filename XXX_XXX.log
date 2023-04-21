@@ -1,0 +1,38 @@
+2023-03-29 21:38:44,243 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(171) - ѕредупреждение  данные уменьшены id=51: цитировани€  5 -> 5;  
+                                                                        документов: 8 -> 7;
+                                                                        h-index: 1 -> 1 
+2023-03-29 22:00:53,035 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(171) - ѕредупреждение  данные уменьшены id=942: цитировани€  20 -> 0;  
+                                                                        документов: 10 -> 1;
+                                                                        h-index: 30 -> 0 
+2023-04-01 10:41:23,361 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(160) - —траница не загружена: id_author=46; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57196299108'
+2023-04-03 11:34:12,806 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(177) - «апись не обновлена: id_author=295; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57264521900'
+2023-04-03 11:39:23,124 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(171) - ѕредупреждение - данные уменьшены id=548:
+                                                             цитировани€: 483 -> 475;  
+                                                              документов: 117 -> 116;
+                                                                 h-index: 12 -> 12 
+2023-04-03 13:16:00,291 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(177) - «апись не обновлена: id_author=295; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57264521900'
+2023-04-03 13:21:34,401 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(171) - ѕредупреждение - данные уменьшены id=548:
+                                                             цитировани€: 483 -> 475;  
+                                                              документов: 117 -> 116;
+                                                                 h-index: 12 -> 12 
+2023-04-04 11:36:22,026 - [WARNING] - wos.wos - (wos.py).wos_update_bib(192) - ERROR: more than 1 -> 2 :
+WOS:A1973P548700020 --> [(660, 'Stoyan, YG'), (660, 'STOYAN, YG')]
+2023-04-08 22:49:39,013 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - —траница не загружена: id_author=943; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-04-15 18:58:13,729 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - —траница не загружена: id_author=454; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=85149409212'
+2023-04-15 19:39:35,136 - [WARNING] - wos.wos - (wos.py).wos_update_bib(186) - ERROR: more than 1 -> 2 :
+WOS:000593848900001 --> [(144,), (479,)]
+2023-04-15 19:39:39,559 - [WARNING] - wos.wos - (wos.py).wos_update_bib(186) - ERROR: more than 1 -> 2 :
+WOS:000502830500032 --> [(144,), (479,)]
+2023-04-15 19:39:45,971 - [WARNING] - wos.wos - (wos.py).wos_update_bib(186) - ERROR: more than 1 -> 2 :
+WOS:000502830500033 --> [(144,), (479,)]
+2023-04-15 20:12:56,503 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - —траница не загружена: id_author=454; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=85149409212'
+2023-04-15 20:30:41,407 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(175) - ѕредупреждение - данные уменьшены id=526:
+                                                             цитировани€: 115 -> 114;  
+                                                              документов: 25 -> 25;
+                                                                 h-index: 7 -> 7 
+2023-04-15 20:30:41,408 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(175) - ѕредупреждение - данные уменьшены id=526:
+                                                             цитировани€: 115 -> 114;  
+                                                              документов: 25 -> 25;
+                                                                 h-index: 7 -> 7 
+2023-04-15 20:46:27,569 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - —траница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-04-15 20:46:37,663 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - —траница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
