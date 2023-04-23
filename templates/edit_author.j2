@@ -1,5 +1,5 @@
 {% extends 'index.j2' %}
-{% macro input(field,text,class1,class2,field1="",field2="",f1_inp="1",f2_inp="1") -%}
+{% macro input(field,text,class1,class2,field1="",field2="",f1_inp="1",f2_inp="1",YesButton=true) -%}
         <div class="row m-2 justify-content-start align-items-center g-2">
           <div class="col-md-1">{{ field.label(class='form-label') }}</div>
            <div class="{{ class1 }} ps-4"> 
@@ -28,8 +28,10 @@
                   {% else %}
                     <div id="{{ f2_inp }}"  style="display: block;"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
                   {% endif %} 
-                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить поле</span>  
-                  <span id="button_del"  class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ f1_inp }},{{ f2_inp }})" >Удалить</span>  
+                  {% if YesButton  %}
+                    <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить поле</span>  
+                    <span id="button_del"  class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ f1_inp }},{{ f2_inp }})" >Удалить</span>  
+                  {% endif %}
             </div> 
                 {% endif %} 
         </div>
@@ -85,9 +87,9 @@
           </div>  
         </div>
         {{ input (form.scopus_id,'www.scopus/...','col-md-10','col-md-2',form.scopus_id_1,form.scopus_id_2,'sc_f1_inp','sc_f2_inp') }}
-        {{ input (form.orcid_id,'www.orcid.org/','col-md-10','col-md-3',form.orcid_id_1, form.orcid_id_2, 'orc_f1_inp', 'orc_f2_inp') }} 
-        {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1, form.researcher_id_2, 're_f1_inp','re_f2_inp')}}
-        {{ input (form.googlescholar_id,'G_ID','col-md-10','col-md-2',form.googlescholar_id_1, form.googlescholar_id_2, 'google_f1_inp','google_f2_inp')}}
+        {{ input (form.orcid_id,'www.orcid.org/','col-md-10','col-md-3',form.orcid_id_1, form.orcid_id_2, 'orc_f1_inp', 'orc_f2_inp',YesButton=false) }} 
+        {{ input (form.researcher_id,'R_ID','col-md-10','col-md-2',form.researcher_id_1, form.researcher_id_2, 're_f1_inp','re_f2_inp',YesButton=false)}}
+        {{ input (form.googlescholar_id,'G_ID','col-md-10','col-md-2',form.googlescholar_id_1, form.googlescholar_id_2, 'google_f1_inp','google_f2_inp',YesButton=false)}}
         <div class="row m-2 justify-content-start align-items-top g-2">
           <div class="col-md-3 p-2">
             {{ form.depat.label(class='form-label')}}
