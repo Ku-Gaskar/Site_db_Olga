@@ -110,3 +110,14 @@ th, .ku-item-center {
 .arrow-cursor {
     cursor: url(../img/sort_icon_143693.png) 15 15, pointer;
   }
+
+.isDisabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  a[aria-disabled="true"] {
+    color: currentColor;
+    display: inline-block;  /* For IE11/ MS Edge bug */
+    pointer-events: none;
+    text-decoration: none;
+  }  

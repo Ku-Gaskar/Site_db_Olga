@@ -1,56 +1,60 @@
-from flask import Flask, render_template, url_for, g, request, redirect,flash,abort
+from flask import render_template, url_for, g, request, redirect,flash,abort
 
 # from flask_bootstrap import Bootstrap
-import psycopg2
+# import psycopg2
 from flask_paginate import Pagination, get_page_parameter
-from flask_login import LoginManager,login_user,login_required,logout_user, current_user
+from flask_login import login_user,login_required,logout_user, current_user
 from UserLogin import UserLogin
 from werkzeug.security import generate_password_hash , check_password_hash 
 
 from FDataBase import FDataBase
 import forms
-from scopus.scopus import scopus
-from wos.wos import wos
 
 import app_logger
 
-from gevent.pywsgi import WSGIServer
+# from gevent.pywsgi import WSGIServer
 
 
-
-
-DATABASE='localhost'
-PORT = '5432'
+# DATABASE='localhost'
+# PORT = '5432'
 DEBUG=True
-SECRET_KEY='fa85ab790e11c98bc7b81685ea4a29992f20b45a'
 
 PER_PAGE=100     # записей на одной странице nure
 NOT_DEP=10000    # id кафедры которой нет
 
-app = Flask(__name__)
-app.config.from_object(__name__)
+#************** изменения в коде (перенос в init_app ) **********************
+from init_app import create_app,login_manager, dbase, get_db
+# from init_app import socketio
 
-login_manager=LoginManager(app)
-login_manager.login_view='login'
-login_manager.login_message = "Авторизуйтесь для доступа к закрытым страницам"
-login_manager.login_message_category = "success"
+# from flask import Flask
+# from flask_login import LoginManager
+# from scopus.scopus import scopus
+# from wos.wos import wos
+# SECRET_KEY='fa85ab790e11c98bc7b81685ea4a29992f20b45a'
+# app = Flask(__name__)
+# app.config.from_object(__name__)
 
-app.register_blueprint(scopus,url_prefix="/scopus")
-app.register_blueprint(wos,url_prefix="/wos")
+# login_manager=LoginManager(app)
+# login_manager.login_view='login'
+# login_manager.login_message = "Авторизуйтесь для доступа к закрытым страницам"
+# login_manager.login_message_category = "success"
 
-dbase:FDataBase = None
+# app.register_blueprint(scopus,url_prefix="/scopus")
+# app.register_blueprint(wos,url_prefix="/wos")
+#-------------------------------------------------------------------------------
+# dbase:FDataBase = None
 
-#Bootstrap(app)
+app = create_app(True)
 
-def connect_db():
-    conn = psycopg2.connect( host=DATABASE, port=PORT, user="postgres", password="postgress")
-    return conn
+# def connect_db():
+#     conn = psycopg2.connect( host=DATABASE, port=PORT, user="postgres", password="postgress")
+#     return conn
 
-def get_db():
-    '''Соединение с БД, если оно еще не установлено'''
-    if not hasattr(g, 'link_db'):
-        g.link_db = connect_db()
-    return g.link_db
+# def get_db():
+#     '''Соединение с БД, если оно еще не установлено'''
+#     if not hasattr(g, 'link_db'):
+#         g.link_db = connect_db()
+#     return g.link_db
 
 def update_db_author(cont,d:forms.EditStruct,id):
     a,c = True, True 
@@ -268,7 +272,8 @@ if __name__ == "__main__":
    logger.info("Программа стартует") 
  
    app.jinja_env.filters['my_split'] = my_split
-   app.run('192.168.1.102',debug=True) 
+   app.run('192.168.1.102', debug = DEBUG) 
+#    socketio.run(app, host='192.168.1.102', port=5000, debug=True) 
     
     
 

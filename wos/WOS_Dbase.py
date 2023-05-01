@@ -27,7 +27,7 @@ class WOS_Dbase(FDataBase):
             order by w.unique_id  """
 
 
-    __SQL_wos_export_article="""  SELECT  distinct w.unique_id  id ,w.title,aid.name_autor, w.author , "year", w.document_type, w.journal , aid.name_department, aid.id_depatment ,tsh.works
+    __SQL_wos_export_article="""  SELECT  distinct w.unique_id ,w.title,aid.name_autor, w.author , "year", w.document_type, w.journal , aid.name_department, aid.id_depatment ,tsh.works
             FROM public.wos w 
             left join public.wos_autors wa on (wa.unique_id  = w.unique_id )
             left join public."Table_Sсience_HNURE" tsh on (wa.id_autor  = tsh."id_Sciencer")

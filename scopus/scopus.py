@@ -2,9 +2,16 @@ from flask import Blueprint, render_template, url_for, g, request,redirect,flash
 from flask_paginate import Pagination, get_page_parameter
 from flask_login import login_required,current_user
 from werkzeug.utils import secure_filename
-from werkzeug.datastructures import FileStorage 
+# from werkzeug.datastructures import FileStorage 
 
-from io import TextIOBase  
+from io import TextIOBase 
+
+# from flask_socketio import emit
+# from init_app import socketio
+from init_app import get_db
+
+
+
 
 import os
 import csv
@@ -31,6 +38,23 @@ PER_PAGE=100
 
 logger=app_logger.get_logger(__name__)
 
+#??????????????????????????????????????????????????????????
+# socketio = SocketIO()
+
+# def init_socketio(app):
+#     socketio.init_app(app)
+
+# # Обработчик события SocketIO для Blueprint'а
+# @socketio.on('update_database', namespace='/my_namespace')
+# def handle_my_event(data):
+#     print('Received data: {}'.format(data))
+#     emit('update_progress', {'data': 'Response data'}, namespace='/my_namespace')
+
+
+# # Регистрируем обработчики событий в Blueprint'е
+# socketio.on('update_database', namespace='/my_namespace')(handle_my_event)
+
+#??????????????????????????????????????????????????????????
 
 @scopus.before_request
 def before_request():
@@ -138,20 +162,62 @@ def scopusReport():
     content['table_data'] = total_list
     return render_template('scopus/sc_report.j2',content = content,form = form, enumerate=enumerate)
 
+# @socketio.on('update_database',namespace='/update_database')
+# def handle_update_database():
+#     import time
+#     for i in range(1, 101):
+#         time.sleep(0.1)  # Имитация длительной работы
+#         emit('update_progress', {'progress': i,'textProgress':"ПРивет  "+str(i)}, namespace='/update_database')
+
+
+# словарь для прогресс бара
+# scUpdateDocCitH={'start':False, 'max':0, 'min':0, 'curent':0, 'authorName':None, 'data':{}}
+
+
+# @scopus.route('/progressUpdate', methods=['GET', 'POST'])
+# def progress_update():
+#     global scUpdateDocCitH
+#     return scUpdateDocCitH
+
+
 
 @scopus.route('/sc_update_DocCitH')
+# @socketio.on('update_database',namespace='/update_database')
 @login_required 
 def sc_update_DocCitH():
+    # global scUpdateDocCitH
+    #test-----------------------
+    # import time
+    # for i in range(1, 101):
+    #     time.sleep(0.1)  # Имитация длительной работы
+    #     socketio.emit('update_progress', {'progress': i,'textProgress':"ПРивет  "+str(i)}, namespace='/update_database')
+    
+    # flash("Вы успешно обновили данные авторов БД Scopus", "success")
+    # return redirect('./') 
+    #test-----------------------
+
+
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
-        return  redirect(url_for('login',next=request.full_path))
+        return  redirect(url_for('login',next='./'))
+    # global sc_dbase
+    # db=get_db()
+    # sc_dbase = SC_Dbase(db)
+
     content={}
     content['title']='Scopus - Update'
     chrome_options = Options()
     chrome_options.add_argument("--disable-extensions")
     driver = webdriver.Chrome(chrome_options=chrome_options)
     list_scopus_id=sc_dbase.get_list_scopusID()
-    for item in list_scopus_id:
+    if not list_scopus_id:
+        flash("Ошибка обновления БД Scopus.Нет данных БД ХНУРЕ", "error")
+        return redirect('./') 
+    
+    # scUpdateDocCitH['start']=True
+    # scUpdateDocCitH['max']=len(list_scopus_id)
+
+    for count_i,item in enumerate(list_scopus_id):
         item=list(item)
         url=f'https://www.scopus.com/authid/detail.uri?authorId={item[1]}' 
         driver.implicitly_wait(20)  # Установить 20 секунд времени ожидания
@@ -174,6 +240,15 @@ def sc_update_DocCitH():
                 if item[3] == 'None': item[3] ='0'
                 if item[4] == 'None': item[4] ='0'
                 author={'note':s1[0].text.replace(' ',''),'doc':s1[1].text.replace(' ',''),'h_index':s1[2].text.replace(' ','')}
+                # scUpdateDocCitH['curent']=count_i
+                # scUpdateDocCitH['data']=author
+                
+
+                # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+                # emit('update_progress', {'progress': int((count_i*100)/len(list_scopus_id)),'textProgress':
+                #                          f"id={item[0]}: документов:{author['doc']} цитирования:{author['note']} h-index:{author['h_index']}"}, namespace='/update_database')
+                # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
                 if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4])):
                     str_warning=f"""Предупреждение - данные уменьшены id={item[0]}:
                                                              цитирования: {item[3]} -> {author['note']};  
@@ -190,7 +265,8 @@ def sc_update_DocCitH():
             continue             
     driver.close()
     flash("Вы успешно обновили данные авторов БД Scopus", "success")
-    return redirect('index') 
+    # scUpdateDocCitH['start']=False
+    return redirect('./') 
 
 
 @scopus.route('/export_green_table')
