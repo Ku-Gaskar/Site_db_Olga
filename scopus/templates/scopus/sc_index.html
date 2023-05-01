@@ -58,7 +58,7 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#modalId">Обновить базу статей по университету</a></li>
                   <li><a class="dropdown-item" role="button" data-bs-toggle="modal" data-bs-target="#modalId_Delete">Очистить таблицы статей Scopus</a></li>
-                  <li><a class="dropdown-item" href="./sc_update_DocCitH">Обновить кол-во док., цитирования, h-индекс по авторам</a></li>
+                  <li><a class="dropdown-item" id="buttonStartUpdate" href="./sc_update_DocCitH">Обновить кол-во док., цитирования, h-индекс по авторам</a></li>
                   <!-- <li><a class="dropdown-item" style="cursor: pointer;" id="buttonStartUpdate" onclick="startProgress()" >Обновить кол-во док., цитирования, h-индекс по авторам</a></li> -->
                   <li><a class="dropdown-item" role="button"  onclick="getGreenTable()" >Экспорт "зеленой" таблицы</a></li>
                   <!-- href="./export_green_table"  "  -->
@@ -75,6 +75,7 @@
                   <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
                       style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
               </div>
+            <button type="button" onclick="startProgress()" class="btn btn-primary">Обновить</button>  
         </div>
         </div>
       </div>  
@@ -215,33 +216,82 @@
     //   }
     // }); 
     
-    // function startProgress() {   
-    //     progressScopus.hidden=false;
-    //     timer = setInterval(
-    //         function()
-    //         {
-    //           disableLink( buttonStartUpdate);
-    //           fetch('/scopus/progressUpdate').then(response =>{
-    //                     if (!response.ok){
-    //                         throw new Error('Network response was not ok');
-    //                     }
-    //                     return response.json();
-    //             })
-    //             .then(data => { 
-    //                         document.getElementById('progress').innerHTML = (data.curent/data.max)*100 + '%';
-    //                         document.querySelector('div.progress-bar').style.width = data.progress + '%';
-    //                         document.querySelector('div.progress-bar').innerHTML = data.progress + '%';
-    //                         if (+data.progress >= 100 ){
-    //                             clearInterval(timer);
-    //                             enableLink(buttonStartUpdate)
-    //                         }
-    //             }).catch(error =>{
-    //                 console.error(error);               
-    //            });
-    //         },
-    //         500);
-    //         window.location.href = location.href+'sc_update_DocCitH'
-          // };
+    buttonStartUpdate.addEventListener('click', function(event) {
+      // Отменяем стандартное поведение ссылки, чтобы не было перехода до выполнения функции
+      event.preventDefault();
+      
+      progressScopus.hidden=false;
+      
+      // Выполняем функцию
+      // myFunction();
+      
+      // Переходим по ссылке
+      window.location.href = this.href;
+    });
+    
+    // function myFunction() {
+    //   console.log('Функция выполнена');
+    // }
+    
+    
+    function startProgress() { 
+      
+      fetch('./progressUpdate').then(response =>{
+                        if (!response.ok){
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                })
+                .then(data => { 
+                            document.getElementById('progress').innerHTML = (data.curent/data.max)*100 + '%';
+                            document.querySelector('div.progress-bar').style.width = data.progress + '%';
+                            document.querySelector('div.progress-bar').innerHTML = data.progress + '%';
+                            // if (+data.progress >= 100 ){
+                            //     clearInterval(timer);
+                            //     // enableLink(buttonStartUpdate);
+                            // };
+                }).catch(error =>{
+                    console.error(error);               
+               }); 
+              };
+
+
+
+
+    
+   
+   
+   
+   
+   
+      // disableLink( buttonStartUpdate);
+      //   window.location.href = location.href+'sc_update_DocCitH';
+      // };
+
+      //   // timer = setInterval(
+      //       function()
+      //       {
+      //         fetch('./progressUpdate').then(response =>{
+      //                   if (!response.ok){
+      //                       throw new Error('Network response was not ok');
+      //                   }
+      //                   return response.json();
+      //           })
+      //           .then(data => { 
+      //                       document.getElementById('progress').innerHTML = (data.curent/data.max)*100 + '%';
+      //                       document.querySelector('div.progress-bar').style.width = data.progress + '%';
+      //                       document.querySelector('div.progress-bar').innerHTML = data.progress + '%';
+      //                       if (+data.progress >= 100 ){
+      //                           clearInterval(timer);
+      //                           // enableLink(buttonStartUpdate);
+      //                       };
+      //           }).catch(error =>{
+      //               console.error(error);               
+      //          });
+      //       // },
+      //       // 1000);
+      //       window.location.href = location.href+'sc_update_DocCitH';
+      //     };
    
 
       // progressScopus.hidden=false;

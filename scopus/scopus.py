@@ -10,7 +10,7 @@ from io import TextIOBase
 # from init_app import socketio
 from init_app import get_db
 
-
+import json
 
 
 import os
@@ -26,6 +26,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
+
 
 from scopus.SC_Dbase import SC_Dbase
 from scopus.sc_forms import SC_Form,DataScForm
@@ -171,13 +172,14 @@ def scopusReport():
 
 
 # словарь для прогресс бара
-# scUpdateDocCitH={'start':False, 'max':0, 'min':0, 'curent':0, 'authorName':None, 'data':{}}
+scUpdateDocCitH={'start':False, 'max':0, 'min':0, 'curent':0, 'authorName':None, 'data':{}}
 
 
-# @scopus.route('/progressUpdate', methods=['GET', 'POST'])
-# def progress_update():
-#     global scUpdateDocCitH
-#     return scUpdateDocCitH
+@scopus.route('/progressUpdate', methods=['GET', 'POST'])
+def progress_update():
+    global scUpdateDocCitH
+    json_data = json.dumps(scUpdateDocCitH)
+    return Response(json_data, status=200, mimetype='application/json')
 
 
 
@@ -185,7 +187,7 @@ def scopusReport():
 # @socketio.on('update_database',namespace='/update_database')
 @login_required 
 def sc_update_DocCitH():
-    # global scUpdateDocCitH
+    global scUpdateDocCitH
     #test-----------------------
     # import time
     # for i in range(1, 101):
@@ -196,6 +198,7 @@ def sc_update_DocCitH():
     # return redirect('./') 
     #test-----------------------
 
+    list_scopus_id=sc_dbase.get_list_scopusID()
 
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
@@ -209,13 +212,12 @@ def sc_update_DocCitH():
     chrome_options = Options()
     chrome_options.add_argument("--disable-extensions")
     driver = webdriver.Chrome(chrome_options=chrome_options)
-    list_scopus_id=sc_dbase.get_list_scopusID()
     if not list_scopus_id:
         flash("Ошибка обновления БД Scopus.Нет данных БД ХНУРЕ", "error")
         return redirect('./') 
     
-    # scUpdateDocCitH['start']=True
-    # scUpdateDocCitH['max']=len(list_scopus_id)
+    scUpdateDocCitH['start']=True
+    scUpdateDocCitH['max']=len(list_scopus_id)
 
     for count_i,item in enumerate(list_scopus_id):
         item=list(item)
@@ -240,8 +242,8 @@ def sc_update_DocCitH():
                 if item[3] == 'None': item[3] ='0'
                 if item[4] == 'None': item[4] ='0'
                 author={'note':s1[0].text.replace(' ',''),'doc':s1[1].text.replace(' ',''),'h_index':s1[2].text.replace(' ','')}
-                # scUpdateDocCitH['curent']=count_i
-                # scUpdateDocCitH['data']=author
+                scUpdateDocCitH['curent']=count_i
+                scUpdateDocCitH['data']=author
                 
 
                 # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -265,7 +267,7 @@ def sc_update_DocCitH():
             continue             
     driver.close()
     flash("Вы успешно обновили данные авторов БД Scopus", "success")
-    # scUpdateDocCitH['start']=False
+    scUpdateDocCitH['start']=False
     return redirect('./') 
 
 
