@@ -39,6 +39,8 @@ PER_PAGE=100
 
 logger=app_logger.get_logger(__name__)
 
+# словарь для прогресс бара
+scUpdateDocCitH={'start':False, 'id_current':None,'max':0, 'min':0, 'curent':0, 'authorName':None, 'data':{}}
 #??????????????????????????????????????????????????????????
 # socketio = SocketIO()
 
@@ -60,8 +62,8 @@ logger=app_logger.get_logger(__name__)
 @scopus.before_request
 def before_request():
     global sc_dbase
-    db=g.get('link_db')
-    sc_dbase = SC_Dbase(db)
+    # db=g.get('link_db')
+    sc_dbase = SC_Dbase(get_db())
 
 
 @scopus.route('/', methods=['GET', 'POST'])
@@ -69,7 +71,8 @@ def before_request():
 def index():
     content={}
     content['title']='Scopus'
-    content['data_up'] =sc_dbase.get_data_update_scopus()
+    content['data_up'] = sc_dbase.get_data_update_scopus()
+    content['progress'] = scUpdateDocCitH
     doc_sum=sc_dbase.get_doc_sum()
     if doc_sum[0]: 
         content['doc_sum']=(f'{doc_sum[0]:,d}'.replace(',',' '),f'{doc_sum[1]:,d}'.replace(',',' '))
@@ -171,13 +174,16 @@ def scopusReport():
 #         emit('update_progress', {'progress': i,'textProgress':"ПРивет  "+str(i)}, namespace='/update_database')
 
 
-# словарь для прогресс бара
-scUpdateDocCitH={'start':False, 'max':0, 'min':0, 'curent':0, 'authorName':None, 'data':{}}
 
 
 @scopus.route('/progressUpdate', methods=['GET', 'POST'])
 def progress_update():
     global scUpdateDocCitH
+    author=None
+    if scUpdateDocCitH['id_current']:
+        author=sc_dbase.get_author_by_id(scUpdateDocCitH['id_current'])
+    if author:
+        scUpdateDocCitH['authorName']=author[0][1]   
     json_data = json.dumps(scUpdateDocCitH)
     return Response(json_data, status=200, mimetype='application/json')
 
@@ -185,17 +191,20 @@ def progress_update():
 
 @scopus.route('/sc_update_DocCitH')
 # @socketio.on('update_database',namespace='/update_database')
-@login_required 
+# @login_required 
 def sc_update_DocCitH():
     global scUpdateDocCitH
+    global sc_dbase
+    if scUpdateDocCitH['start']:
+        flash("Процесс обновления авторов БД Scopus уже запущен", "info")
+        return redirect('./') 
+
     #test-----------------------
     # import time
     # for i in range(1, 101):
     #     time.sleep(0.1)  # Имитация длительной работы
     #     socketio.emit('update_progress', {'progress': i,'textProgress':"ПРивет  "+str(i)}, namespace='/update_database')
     
-    # flash("Вы успешно обновили данные авторов БД Scopus", "success")
-    # return redirect('./') 
     #test-----------------------
 
     list_scopus_id=sc_dbase.get_list_scopusID()
@@ -216,7 +225,7 @@ def sc_update_DocCitH():
         flash("Ошибка обновления БД Scopus.Нет данных БД ХНУРЕ", "error")
         return redirect('./') 
     
-    scUpdateDocCitH['start']=True
+    scUpdateDocCitH['start'] = True
     scUpdateDocCitH['max']=len(list_scopus_id)
 
     for count_i,item in enumerate(list_scopus_id):
@@ -230,7 +239,7 @@ def sc_update_DocCitH():
             logger.warning(f"URL недействителен  id_author={item[0]}; URL---> '{url}'")
             continue  
         try:
-            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,'highcharts-information-region-1'))) 
+            WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,'authorDetailsPage'))) 
         except:
             print (f"Страница не загружена: {url}")
             logger.warning(f"Страница не загружена: id_author={item[0]}; URL---> '{url}'")
@@ -242,6 +251,7 @@ def sc_update_DocCitH():
                 if item[3] == 'None': item[3] ='0'
                 if item[4] == 'None': item[4] ='0'
                 author={'note':s1[0].text.replace(' ',''),'doc':s1[1].text.replace(' ',''),'h_index':s1[2].text.replace(' ','')}
+                scUpdateDocCitH['id_current']=item[0]
                 scUpdateDocCitH['curent']=count_i
                 scUpdateDocCitH['data']=author
                 
@@ -260,6 +270,7 @@ def sc_update_DocCitH():
                     print (str_warning)
                 elif (int(author['note']) == int(item[3])) and (int(author['doc']) == int(item[2])) and (int(author['h_index']) == int(item[4])):
                     continue
+                sc_dbase = SC_Dbase(get_db())
                 sc_dbase.update_cit_doc_hIndex(author,item[0])
         except:  
             logger.warning(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
@@ -283,11 +294,11 @@ def export_green_table():
     
 
 @scopus.route('/upload', methods=['POST','GET'])
-@login_required 
+# @login_required 
 def upload_file():
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
-        return  redirect(url_for('login',next=request.full_path))
+        return  redirect(url_for('login',next='./'))  #request.full_path))
     
     def data_preparation(one_autor):
         data=['']*12

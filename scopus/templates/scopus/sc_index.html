@@ -75,13 +75,68 @@
                   <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
                       style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
               </div>
-            <button type="button" onclick="startProgress()" class="btn btn-primary">Обновить</button>  
+            <!-- <button type="button" onclick="startProgress()" class="btn btn-primary">Обновить</button>   -->
         </div>
         </div>
       </div>  
     </div>
   </div>
-  {% endblock  main %}
+
+
+<script>
+  
+  var flag_startProgress= {{ content['progress'].start |lower }};
+    console.log(flag_startProgress);
+  if (flag_startProgress){
+    setUpdateProgress()
+  }  
+
+
+    function setUpdateProgress() {  
+      progressScopus.hidden=false;      
+      timer = setInterval(startProgress,1500);
+    
+    };
+
+    buttonStartUpdate.addEventListener('click', function(event) {
+      setUpdateProgress()
+      // Отменяем стандартное поведение ссылки, чтобы не было перехода до выполнения функции
+      // event.preventDefault();
+      
+      // Выполняем функцию
+      // myFunction();
+      
+      // Переходим по ссылке
+      // window.location.href = this.href;
+    });
+    
+    // function myFunction() {
+      //   console.log('Функция выполнена');
+    // }
+    
+
+    function startProgress() { 
+      fetch('./progressUpdate')
+      .then(response=>{
+        if (!response.ok){
+          throw new Error('Network response was not ok');
+        }
+        return response.json()})
+      .then(data => {
+        console.log(data);
+        textProgress.innerHTML = data.authorName + " --> Док: " + data.data.doc+', Цитир: ' + data.data.note + ', Н-инд: '+ data.data.h_index;
+        let prog = Math.round((data.curent/data.max)*100); 
+        // document.getElementById('progress').innerHTML = prog + '%';
+        document.querySelector('div.progress-bar').style.width = prog + '%';
+        document.querySelector('div.progress-bar').innerHTML = prog + '%';
+        if (!data.start && prog >= 100){
+              clearInterval(timer);
+        };   
+      
+      }).catch(error => console.assert(error));
+    };
+</script>
+
 
 
 
@@ -153,6 +208,8 @@
   </div>
 </div>
 
+{# 
+
 <!-- 
   <script>
     var modalId = document.getElementById('modalId');
@@ -169,14 +226,6 @@
    -->
   
    
-
-  {% block footer%}
-    <footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top">
-        <div class="col-md-4 d-flex align-items-center">
-          <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
-        </div>
-    </footer>        
-  {% endblock footer %}
 
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js" integrity="sha512-xbQU0+iHqhVt7VIXi6vBJKPh3IQBF5B84sSHdjKiSccyX/1ZI7Vnkt2/8y8uruj63/DVmCxfUNohPNruthTEQA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
   
@@ -216,53 +265,59 @@
     //   }
     // }); 
     
-    buttonStartUpdate.addEventListener('click', function(event) {
-      // Отменяем стандартное поведение ссылки, чтобы не было перехода до выполнения функции
-      event.preventDefault();
-      
-      progressScopus.hidden=false;
-      
-      // Выполняем функцию
-      // myFunction();
-      
-      // Переходим по ссылке
-      window.location.href = this.href;
-    });
-    
-    // function myFunction() {
-    //   console.log('Функция выполнена');
-    // }
-    
-    
-    function startProgress() { 
-      
-      fetch('./progressUpdate').then(response =>{
-                        if (!response.ok){
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                })
-                .then(data => { 
-                            document.getElementById('progress').innerHTML = (data.curent/data.max)*100 + '%';
-                            document.querySelector('div.progress-bar').style.width = data.progress + '%';
-                            document.querySelector('div.progress-bar').innerHTML = data.progress + '%';
-                            // if (+data.progress >= 100 ){
-                            //     clearInterval(timer);
-                            //     // enableLink(buttonStartUpdate);
-                            // };
-                }).catch(error =>{
-                    console.error(error);               
-               }); 
-              };
-
 
 
 
     
-   
-   
-   
-   
+    // fetch('./progressUpdate').then(response =>{
+      //                   if (!response.ok){
+      //                       throw new Error('Network response was not ok');
+      //                   }
+      //                   return response.json()
+      //           // })
+      //           .then(data => ({data})); 
+      //         })
+      //           .then (({data}) =>{                         
+      //                       document.getElementById('progress').innerHTML = (data.curent/data.max)*100 + '%';
+      //                       document.querySelector('div.progress-bar').style.width = data.progress + '%';
+      //                       document.querySelector('div.progress-bar').innerHTML = data.progress + '%';
+      //                       // if (+data.progress >= 100 ){
+      //                       //     clearInterval(timer);
+      //                       //     // enableLink(buttonStartUpdate);
+      //                       // };
+      //           })
+      //           .catch(error =>{
+      //               console.error(error);               
+      //         });
+      //        }
+              
+
+  //   fetch('./export_green_table')
+  //     .then(response => {
+  //       // получаем заголовки ответа
+  //       // if (response.ok){
+    //         const headers = response.headers;
+  //         // извлекаем имя файла из заголовков ответа
+  //         const filename = headers.get('content-disposition').split('filename=')[1];
+  //         // считываем содержимое файла в виде Blob
+  //       return response.blob()
+  //     .then(blob => ({ blob, filename }));
+  //     // } 
+  //   })
+  //   .then(({ blob, filename }) => {
+  //     // создаем ссылку для скачивания файла
+  //     const link = document.createElement('a');
+  //     link.href = URL.createObjectURL(blob);
+  //     link.download = filename;
+  //     document.body.appendChild(link);
+  //     // кликаем по ссылке, чтобы начать скачивание файла
+  //     link.click();
+  //     document.body.removeChild(link);
+  //     exp_sp.hidden=true;
+  //   })
+  // .catch(error => console.error(error));
+  // }
+
    
       // disableLink( buttonStartUpdate);
       //   window.location.href = location.href+'sc_update_DocCitH';
@@ -311,10 +366,10 @@
     //   document.querySelector('div.progress-bar').style.width = data.progress + '%';
     //   document.querySelector('div.progress-bar').innerHTML = data.progress + '%';
     // });
-  </script>
+  </script> #}
 
   <script>
-  // function sendFiles(){
+  {# // function sendFiles(){
   //   let fileInput = document.getElementById('fileInput');
   //   let files = fileInput.files;
   //   let formData = new FormData();
@@ -324,7 +379,8 @@
   //   var xhr = new XMLHttpRequest();
   //   xhr.open('POST', '/upload');
   //   xhr.send(formData);
-  // }
+  // } 
+  #}
 
   const exp_sp=document.getElementById('export_spiner')  
   function goSpinnerWait(){
@@ -361,4 +417,13 @@
   }
       
 </script>  
+{% endblock  main %}
+  
+  {% block footer%}
+    <footer class="d-flex flex-wrap justify-content-between align-items-center p-1 my-0 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-muted">&copy; 2023 KU Company, Inc</span>
+        </div>
+    </footer>        
+  {% endblock footer %}
 {% endblock content_body %} 

@@ -106,6 +106,10 @@ th, .ku-item-center {
 	border: 1px solid #FF4343;
 	background: #FF9C9C;
 }
+.flash.info {
+	border: 1px solid #03b4ab;
+	background: #9cf0ff;
+}
 
 .arrow-cursor {
     cursor: url(../img/sort_icon_143693.png) 15 15, pointer;
