@@ -7,27 +7,19 @@
               <span class="input-group-text">{{ text }}</span>
                 {% if field.errors or field1.errors|default(none) or field2.errors|default(none)  %} 
                   <div class="{{ class2 }}">{{ field(class='border-danger form-control' ) }}</div>
-                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ field1.id }},{{ field2.id }})">Добавить</span>  
-                  <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ field1.id }},{{ field2.id }})" >Отмена</span>  
 
-                  {% if not field1.data %}<div class="{{ class2 }}">{{ field1(class='border-danger form-control ',style="display:block;" ) }}</div>
-                  {% else %}<div class="col-md-2">{{ field1(class='border-danger form-control ',style="display:none;" ) }}</div>  {% endif %}                   
-                  {% if not field2.data %}<div class="{{ class2 }}"> {{ field2(class='border-danger form-control ',style="display:block;" ) }}</div>
-                  {% else %}<div class="{{ class2 }}">{{ field2(class='border-danger form-control ',style="display:none;" ) }}</div>  {% endif %} 
+                  <div style="display:{% if field1.data %} block; {% else %} none; {% endif %}" id="{{ f1_inp }}" class="{{ class2 }}">{{ field1(class='border-danger form-control ') }}</div>
+                  <div style="display:{% if field2.data %} block; {% else %} none; {% endif %}" id="{{ f2_inp }}" class="{{ class2 }}">{{ field2(class='border-danger form-control ') }}</div>
+
+                  <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить</span>  
+                  <span class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ f1_inp }},{{ f2_inp }})" >Отмена</span>  
             </div>         
                   <p class="ps-1" style="font-style: italic;font-size:small;color:brown"> {{ field.errors[0]|default('')}} {{field1.errors[0]|default('')}} {{field2.errors[0]|default('')}}</p>
                 {% else %}    
                    <div class="{{ class2 }}">{{ field(class='form-control ') }}</div>
-                    {% if not field1.data  %}
-                      <div  id="{{ f1_inp }}"  style="display: none;" class="{{ class2 }}">{{ field1(class='form-control') }}</div>
-                    {% else %}  
-                      <div id="{{ f1_inp }}"  style="display: block;"  class="{{ class2 }}">{{ field1(class='form-control') }}</div>
-                    {% endif %} 
-                  {% if not field2.data %} 
-                    <div id="{{ f2_inp }}"  style="display: none;"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
-                  {% else %}
-                    <div id="{{ f2_inp }}"  style="display: block;"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
-                  {% endif %} 
+
+                    <div id="{{ f1_inp }}"  style="display:{% if field1.data %} block; {% else %} none;{% endif %}"  class="{{ class2 }}">{{ field1(class='form-control') }}</div>
+                    <div id="{{ f2_inp }}"  style="display:{% if field2.data %} block; {% else %} none;{% endif %}"  class="{{ class2 }}">{{ field2(class='form-control') }}</div>
                   {% if YesButton  %}
                     <span class="btn btn-sm btn-info border border-primary ms-1 my-1" onClick="add_input_ps({{ f1_inp }},{{ f2_inp }})">Добавить поле</span>  
                     <span id="button_del"  class="btn btn-sm btn-secondary border border-dark mx-1 my-1" onClick="del_input_ps({{ f1_inp }},{{ f2_inp }})" >Удалить</span>  
@@ -35,22 +27,14 @@
             </div> 
                 {% endif %} 
         </div>
-
-
-
-
-
-          {# </div>   #}
         </div>
 {% endmacro %}
-{# <div class="content"> #}
 
 {% block headers  %}
     <a href="https://nure.ua/?s={{ content.author[0][1] }}" target="_blank" class="d-flex align-items-center px-2 mb-2 mb-md-0 me-md-auto text-decoration-none">
         <img class="bi me-2" width="60" height="60" src="{{ url_for('static',filename='img/44069009-0.jpeg') }}" />
         <span class="fs-2 ku_header"><strong>{{ content.author[0][1] }}</strong></span> 
     </a> 
-    <!-- {{ super() }} -->
     {% block menu_header %}
     {{ super() }}
     {% endblock menu_header %}
@@ -59,11 +43,8 @@
 {% block main %}
     <main class="content">
     <div class="container-fluid">
-    {# <div class="row justify-content-center "> #}
       <div class="row justify-content-center align-items-center g-2">
         <div class="col-11 ps-4">
-
-    {# </div> #}
 
     <form method="post" action=""  id="main_form">
       {{ form.hidden_tag() }} 
@@ -200,13 +181,13 @@
     if (input_2.style.display === 'block')  {
       input_2.style.display='none';
       cde=input_2.value;
-      input_2.value='';
+      input_2.querySelector('input').value='';
     } 
     else{
         if (input_1.style.display ==='block') {
           input_1.style.display='none';
           abc=input_1.value;
-          input_1.value='';
+          input_1.querySelector('input').value='';
           }
     }
   };

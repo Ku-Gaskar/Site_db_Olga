@@ -174,8 +174,6 @@ def scopusReport():
 #         emit('update_progress', {'progress': i,'textProgress':"ПРивет  "+str(i)}, namespace='/update_database')
 
 
-
-
 @scopus.route('/progressUpdate', methods=['GET', 'POST'])
 def progress_update():
     global scUpdateDocCitH
@@ -186,7 +184,6 @@ def progress_update():
         scUpdateDocCitH['authorName']=author[0][1]   
     json_data = json.dumps(scUpdateDocCitH)
     return Response(json_data, status=200, mimetype='application/json')
-
 
 
 @scopus.route('/sc_update_DocCitH')
@@ -211,7 +208,7 @@ def sc_update_DocCitH():
 
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
-        return  redirect(url_for('login',next='./'))
+        return  redirect(url_for('login',next='/scopus/'))
     # global sc_dbase
     # db=get_db()
     # sc_dbase = SC_Dbase(db)
@@ -290,15 +287,15 @@ def export_green_table():
     fm=f"Table_Green_{date.today()}.xlsx"
     return Response(sc_exporter.create_green_table(list_export),
                     headers={'Content-Disposition': f'attachment; filename={fm}',
-                             'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
-    
+                             'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})    
+
 
 @scopus.route('/upload', methods=['POST','GET'])
 # @login_required 
 def upload_file():
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
-        return  redirect(url_for('login',next='./'))  #request.full_path))
+        return  redirect(url_for('login',next='/scopus/'))  #request.full_path))
     
     def data_preparation(one_autor):
         data=['']*12
@@ -374,10 +371,12 @@ def upload_file():
 
 
 @scopus.route('/deteteArticleScopus')
-@login_required 
+# @login_required 
 def deteteArticleScopus ():
     if current_user.get_id() != '1':
         flash('Авторизуйтесь как admin','error')
+        return  redirect(url_for('login',next='/scopus/'))  #request.full_path))
+
     sc_dbase.deleteArticle()
     flash("Вы успешно удалили статьи БД Scopus", "success")
     return redirect('index') 
