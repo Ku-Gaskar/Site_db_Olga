@@ -182,7 +182,7 @@
         return response.json()})
       .then(data => {
 //        console.log(data);
-        if (data.authorName != 'None'){
+        if (data.authorName){
           textProgress.innerHTML = data.authorName + " --> Док: " + data.data.doc+', Цитир: ' + data.data.note + ', Н-инд: '+ data.data.h_index;
           let prog = Math.round((data.curent/data.max)*100); 
           document.querySelector('div.progress-bar').style.width = prog + '%';

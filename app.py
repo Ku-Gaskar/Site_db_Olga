@@ -12,12 +12,12 @@ import forms
 
 import app_logger
 
-# from gevent.pywsgi import WSGIServer
+from gevent.pywsgi import WSGIServer
 
 
 # DATABASE='localhost'
 # PORT = '5432'
-DEBUG=True
+DEBUG=False
 
 PER_PAGE=100     # записей на одной странице nure
 NOT_DEP=10000    # id кафедры которой нет
@@ -266,13 +266,13 @@ def logout():
     return redirect(url_for('index'))   
 
 if __name__ == "__main__":
-    # http_server = WSGIServer(('192.168.1.102',5000), app)
-    # http_server.serve_forever()
    logger = app_logger.get_logger(__name__)
    logger.info("Программа стартует") 
  
    app.jinja_env.filters['my_split'] = my_split
    app.run('192.168.1.102', debug = DEBUG) 
+#    http_server = WSGIServer(('192.168.1.102',5000), app)
+#    http_server.serve_forever()
 #    socketio.run(app, host='192.168.1.102', port=5000, debug=True) 
     
     
