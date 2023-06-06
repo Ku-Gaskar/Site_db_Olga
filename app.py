@@ -270,9 +270,9 @@ if __name__ == "__main__":
    logger.info("Программа стартует") 
  
    app.jinja_env.filters['my_split'] = my_split
-   app.run('192.168.1.102', debug = DEBUG) 
-#    http_server = WSGIServer(('192.168.1.102',5000), app)
-#    http_server.serve_forever()
+#    app.run('192.168.1.102', debug = DEBUG) 
+   http_server = WSGIServer(('192.168.1.102',5000), app)
+   http_server.serve_forever()
 #    socketio.run(app, host='192.168.1.102', port=5000, debug=True) 
     
     
