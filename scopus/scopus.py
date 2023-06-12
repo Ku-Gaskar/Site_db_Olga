@@ -82,6 +82,13 @@ def index():
     else:
          content['doc_sum']=('0','0')
          content['h_ind'] ='0'
+    if current_user.is_authenticated:
+        content['login']= current_user._UserLogin__user['name'] +'/выход'
+        content['login_href'] = url_for('logout',next='/scopus/')
+    else:
+        content['login']= 'Авторизация'
+        content['login_href'] = url_for('login',next='/scopus/')        
+     
     return render_template('scopus/sc_index.html',content = content)
 
 

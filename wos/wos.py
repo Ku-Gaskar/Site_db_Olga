@@ -39,6 +39,14 @@ def before_request():
 @wos.route('/index', methods=['GET', 'POST'])
 def index():
     content={}
+    
+    if current_user.is_authenticated:
+        content['login']= current_user._UserLogin__user['name'] +'/выход'
+        content['login_href'] = url_for('logout',next='/wos/')
+    else:
+        content['login']= 'Авторизация'
+        content['login_href'] = url_for('login',next='/wos/') 
+
     content['title']='Web of Seince'
     content['data_up'] =wos_dbase.get_data_update_wos()
     doc_sum=wos_dbase.get_doc_sum()

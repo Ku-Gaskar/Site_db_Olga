@@ -15,7 +15,7 @@
         <li class="nav-item"><a id='menu_hnure' href="/hnure" class="nav-link">ХНУРЕ</a></li>
         <li class="nav-item"><a id='menu_scopus' href="/scopus" class="nav-link">Scopus</a></li>
         <li class="nav-item"><a id="menu_wos" href="/wos" class="nav-link">WOS</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Вопросы</a></li>
+        <li class="nav-item"><a href="{{ content.login_href }}" class="nav-link">{{ content.login }}</a></li>
       </ul>
       {% endblock menu_header %}
   {% endblock headers %}
@@ -160,15 +160,17 @@
   // создание прогресс бара при обновлении скопуса
 
   var flag_startProgress = {{ content['progress'].start |lower }};
-//    console.log(flag_startProgress);
+  console.log(flag_startProgress);
+
   if (flag_startProgress){
     setUpdateProgress();
   };  
 
     function setUpdateProgress() {  
-      progressScopus.hidden=false;      
-      timer = setInterval(startProgress,1500);
-    
+      if (flag_startProgress){
+        progressScopus.hidden=false;      
+        timer = setInterval(startProgress,1500);
+      };
     };
 
     buttonStartUpdate.addEventListener('click', setUpdateProgress);

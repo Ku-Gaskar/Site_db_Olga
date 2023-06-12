@@ -117,7 +117,7 @@ def login():
         if user and check_password_hash(user['psw'],request.form['password']):
             userLogin=UserLogin().create(user)
             login_user(userLogin)
-            return redirect(request.args.get("next") or url_for('.KhNURE')) 
+            return redirect(request.args.get("next") or url_for('.index')) 
         flash('Пароль не верный','error')
     return render_template('login.j2',form=form,content = {'title':'Вход в систему'})    
 
@@ -131,7 +131,15 @@ def before_request():
 @app.route("/index")
 @app.route("/")
 def index():
-    return render_template('index.j2',content = {'title':'Генератор отчетов'})
+    content={'title':'Генератор отчетов'}
+    if current_user.is_authenticated:
+        content['login']= current_user._UserLogin__user['name'] +'/выход'
+        content['login_href'] = url_for('.logout')
+    else:
+        content['login']= 'Авторизация'
+        content['login_href'] = url_for('.login')        
+        # return  redirect(url_for('login',next=request.full_path))
+    return render_template('index.j2',content = content)
 
 
 @app.route("/hnure/<int:cur_page>",methods=['GET','POST'])
@@ -259,11 +267,10 @@ def my_split(content:str) -> list[str]:
     """Создание пользовательского фильтра для jinja """       
     return content.split(';') if content else []  
 
-@app.route("/logout") # нет перехода на этот маршрут
-@login_required
+@app.route("/logout") 
 def logout():
     logout_user()
-    return redirect(url_for('index'))   
+    return redirect(request.args.get('next') or url_for('index'))   
 
 if __name__ == "__main__":
    logger = app_logger.get_logger(__name__)
