@@ -17,7 +17,7 @@ from gevent.pywsgi import WSGIServer
 
 # DATABASE='localhost'
 # PORT = '5432'
-DEBUG=False
+DEBUG=True
 
 PER_PAGE=100     # записей на одной странице nure
 NOT_DEP=10000    # id кафедры которой нет
@@ -61,7 +61,7 @@ def update_db_author(cont,d:forms.EditStruct,id):
     if id == 0:
         id=dbase.insert_new_author(d)
         if not id: return False
-        cont['author'] =dbase.get_author_by_id(id)
+        cont['author'] = dbase.get_author_by_id(id)
     # удаление автора -----------
     
     # обработка кафедр ----------
@@ -111,7 +111,7 @@ def load_user(user_id):
 
 @app.route('/login', methods=['POST','GET'])
 def login():
-    form=forms.LoginForm()
+    form:forms.LoginForm = forms.LoginForm()
     if form.validate_on_submit():
         user=dbase.getUserByName(request.form['username'])
         if user and check_password_hash(user['psw'],request.form['password']):
@@ -169,15 +169,18 @@ def edit_author(cur_page):
         flash('Авторизуйтесь как admin','error')
         return  redirect(url_for('login',next=request.full_path))
     
-    edit_form=forms.EditForm()    
+    edit_form:forms.EditForm = forms.EditForm()    
     list_all_dep=dbase.get_nure_total_dep_list()
     edit_form.depat.choices=list_all_dep
     edit_form.depat_two.choices=list_all_dep
     content={}
     if cur_page != 0:
         content['author'] =dbase.get_author_by_id(int(cur_page))
+        # print(content['author']) 
+        content['title'] =content['author'][0][1]
     else:
         content=set_form_edit()
+        content['title']="Создание нового автора"
 
     if request.method == 'POST':
         if edit_form.submit_delete.data:
@@ -277,9 +280,9 @@ if __name__ == "__main__":
    logger.info("Программа стартует") 
  
    app.jinja_env.filters['my_split'] = my_split
-#    app.run('192.168.1.102', debug = DEBUG) 
-   http_server = WSGIServer(('192.168.1.102',5000), app)
-   http_server.serve_forever()
+   app.run('192.168.1.102', debug = DEBUG) 
+#    http_server = WSGIServer(('192.168.1.102',5000), app)
+#    http_server.serve_forever()
 #    socketio.run(app, host='192.168.1.102', port=5000, debug=True) 
     
     

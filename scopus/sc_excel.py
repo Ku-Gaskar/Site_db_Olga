@@ -41,10 +41,10 @@ class ExportExcel():
     def __init__(self):
         self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0)
         self.mas_note=(20.0, 12.0, 60.0, 12)
-        self.mas_aut_=(4,45,10,90,10)
+        self.mas_aut_=(4,45,10,20,80,19)
         self.title_note=('Кафедра','Сумма','ФИО','Цитирования')
         self.all_title=('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра')
-        self.title_aut_=('#','Автор','Кафедра','Название статьи','год')
+        self.title_aut_=('#','Прізвище, ім’я, по батькові працівника ЗВО','Кафедра','ID працівника','Назва та реквізити публікації(посилання)','Назва наукометричної бази')
         self.bd = Side(style='thick', color="000000")
         self.bl = Side(style='thin', color="000000")
 
@@ -151,7 +151,7 @@ class ScopusExportExcel(ExportExcel):
         self.ws.title ='Авторы со статьями по кафедрам'
         self.set_Width(self.mas_aut_)
         self.set_Header(1,self.title_aut_)
-        i_index=1
+        i_index=2
         fist_aut='-1'
         count_aut=1
         count=1
@@ -164,18 +164,37 @@ class ScopusExportExcel(ExportExcel):
                     continue
                 else: 
                     id_Limit=None
-                i_index+=2
+                # i_index+=2
                 fist_aut = record[0]
                 self.ws['A'+str(i_index)]=count_aut
                 self.ws['B'+str(i_index)]=record[1]
                 self.ws['C'+str(i_index)]=record[4]
+                self.ws['D'+str(i_index)]=record[12]
+                self.ws['F'+str(i_index)]="Scopus"
+
+
                 count=1
                 count_aut+=1
             # else: 
-            i_index+=1                    
-            self.ws['C'+str(i_index)]=count
-            self.ws['D'+str(i_index)]=record[2]
-            self.ws['E'+str(i_index)]=record[3]
+            str_to_write=""                    
+            if record[8] :
+                    str_to_write=f'{record[8]}'
+            if record[9] :
+                    str_to_write+=f'({record[9]})'
+            if record[10]:
+                if str_to_write :
+                    str_to_write+=f':{record[10]};'
+                else:
+                    str_to_write+=f' p.{record[10]};'
+            elif str_to_write:
+                    str_to_write+=';'
+            
+
+
+            self.ws['E'+str(i_index)]=f'{count}. {record[6]}; {record[2]}; {record[7]}; {record[3]}; {str_to_write} {"DOI:" + record[11] if record[11] else ""}'
+            # self.ws['D'+str(i_index)]=record[2]
+            # self.ws['E'+str(i_index)]=record[3]
+            i_index+=1
             count+=1       
         
         return save_virtual_workbook(self.wb) 
