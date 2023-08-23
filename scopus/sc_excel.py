@@ -2,7 +2,7 @@
 
 
 from openpyxl import Workbook
-from openpyxl.writer.excel import save_virtual_workbook
+# from openpyxl.writer.excel import save_virtual_workbook
 from io import BytesIO
 from openpyxl.worksheet.worksheet import Worksheet
 from openpyxl.utils import get_column_letter
@@ -39,17 +39,18 @@ from scopus.sc_forms import DataScForm
 class ExportExcel():
    
     def __init__(self):
-        self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0)
+        self.mas_Doc=(4.0, 80.0, 10.0, 10, 55.0, 13.0,10.0)
         self.mas_note=(20.0, 12.0, 60.0, 12)
         self.mas_aut_=(4,45,10,20,80,19)
         self.title_note=('Кафедра','Сумма','ФИО','Цитирования')
-        self.all_title=('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра')
+        self.all_title=('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра','Цитир.')
         self.title_aut_=('#','Прізвище, ім’я, по батькові працівника ЗВО','Кафедра','ID працівника','Назва та реквізити публікації(посилання)','Назва наукометричної бази')
         self.bd = Side(style='thick', color="000000")
         self.bl = Side(style='thin', color="000000")
 
         self.wb : Workbook  = Workbook()
         self.ws : Worksheet = self.wb.active
+        self.output: BytesIO = BytesIO()
  
     def set_Header(self,i_row,Doc_Name):
      for i_col,val in enumerate(Doc_Name):        
@@ -78,15 +79,22 @@ class ScopusExportExcel(ExportExcel):
         self.set_Header(1,self.all_title)
         fist_aticle='-1'
         i_index=1
-        count=1 
+        count=1
+        summ_note = 0 
         for record in total_list:
-            if fist_aticle != record[7]:   #('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра')
+            if fist_aticle != record[7]:   #('#','Название статьи',"Год","Тип публ.",'Авторы/Автор','Кафедра','цитирования')
                 i_index+=1
                 self.ws['A'+str(i_index)]=count
                 self.ws['B'+str(i_index)]=record[0]
                 self.ws['C'+str(i_index)]=record[4]
                 self.ws['D'+str(i_index)]=record[8]
                 self.ws['E'+str(i_index)]=record[1]
+                if record[10].isdigit(): 
+                    self.ws['G'+str(i_index)]=int(record[10])
+                    summ_note += int(record[10])             
+                else:
+                    self.ws['G'+str(i_index)]=record[10]
+
                 i_index+=1
                 count+=1
                 if (fist_aticle != record[7]) and (not record[2]) and (not record[3]):
@@ -97,11 +105,15 @@ class ScopusExportExcel(ExportExcel):
             self.ws['E'+str(i_index)]=record[2]
             self.ws['F'+str(i_index)]=record[3]
             i_index+=1
+        self.ws['G'+str(i_index)] = summ_note
 
 
     def create_report_article(self, total_list):
         self.write_full_aticl(total_list)
-        return save_virtual_workbook(self.wb)  
+        # output = BytesIO()
+        self.wb.save(self.output)
+        return self.output.getvalue()
+        # return save_virtual_workbook(self.wb)  
 
     def create_report_author(self, total_list):
         pass
@@ -136,8 +148,12 @@ class ScopusExportExcel(ExportExcel):
                 self.ws['D'+str(i_index)]=record[2]
                 count+=int(record[2])
         
-        self.ws['B'+str(dep_ind)]=count                    
-        return save_virtual_workbook(self.wb) 
+        self.ws['B'+str(dep_ind)]=count
+
+        output = BytesIO()
+        self.wb.save(output)
+        return output.getvalue()                            
+        # return save_virtual_workbook(self.wb) 
     
     def create_author_with_article(self,list_export,dd:DataScForm):
         def count_limit(dd:DataScForm,id):
@@ -197,7 +213,10 @@ class ScopusExportExcel(ExportExcel):
             i_index+=1
             count+=1       
         
-        return save_virtual_workbook(self.wb) 
+        # output = BytesIO()
+        self.wb.save(self.output)
+        return self.output.getvalue()        
+        # return save_virtual_workbook(self.wb) 
     
 
     def create_green_table(self,records):
@@ -247,7 +266,11 @@ class ScopusExportExcel(ExportExcel):
                 self.ws[address].fill = PatternFill('solid',fgColor='66FF66') 
             y_index+=1    
 
-        return save_virtual_workbook(self.wb) 
+        # output = BytesIO()
+        self.wb.save(self.output)
+        return self.output.getvalue()
+
+        # return save_virtual_workbook(self.wb) 
     
     def create_report_authors_with_stat(self,list_export,wos=False):
         self.ws.title ='Authors_with_statistics'
@@ -282,6 +305,6 @@ class ScopusExportExcel(ExportExcel):
 
             y_index+=1  
         
-        output = BytesIO()
-        self.wb.save(output)
-        return output.getvalue()
+        # output = BytesIO()
+        self.wb.save(self.output)
+        return self.output.getvalue()

@@ -25,7 +25,7 @@ class SC_Dbase(FDataBase):
     #                     order by "eid" """
     
 # Изменено на это:
-    __SQL_sc_article_select = """SELECT DISTINCT /*on (title)*/  title, s.author, aid.name_autor, aid.name_department, "year", aid.id_depatment ,tsh.works, s.eid, document_type,journal
+    __SQL_sc_article_select = """SELECT DISTINCT /*on (title)*/  title, s.author, aid.name_autor, aid.name_department, "year", aid.id_depatment ,tsh.works, s.eid, document_type,journal,s.note
                         FROM public.scopus  s
                         full join public.scopus_autors sa on (sa.eid = s.eid  )                        
                         left join public.author_in_scopus ais on (sa.id_sc_autor = ais.id_scopus )                        
@@ -173,7 +173,7 @@ class SC_Dbase(FDataBase):
         return self.__read_db("select * from author_in_scopus order by id_author;")
 
     def update_cit_doc_hIndex(self,author:dict,id):
-        sql = f""" update author_in_scopus set doc = '{author['doc']}', note = '{author['note']}', h_ind = '{author['h_index']}' where id_author = {id} RETURNING id_author"""
+        sql = f""" update author_in_scopus set doc = '{author['doc']}', note = '{author['note']}', h_ind = '{author['h_index']}' where id_author = {id[0]} and id_scopus = '{id[1]}'  RETURNING id_author"""
         return self._FDataBase__update_execute(sql)
         
     def get_full_data_export(self):

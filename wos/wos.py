@@ -50,12 +50,17 @@ def index():
     content['title']='Web of Seince'
     content['data_up'] =wos_dbase.get_data_update_wos()
     doc_sum=wos_dbase.get_doc_sum()
-    if doc_sum[0]: 
-        content['doc_sum']=(f'{doc_sum[0]:,d}'.replace(',',' '),f'{doc_sum[1]:,d}'.replace(',',' '))
-        content['h_ind'] = wos_dbase.get_h_ind()
+    if doc_sum:
+        if doc_sum[0]:             
+            content['doc_sum']=(f'{doc_sum[0]:,d}'.replace(',',' '),f'{doc_sum[1]:,d}'.replace(',',' '))
+            content['h_ind'] = wos_dbase.get_h_ind()
+        else:
+            content['doc_sum']=('0','0')
+            content['h_ind'] ='0'
     else:
          content['doc_sum']=('0','0')
          content['h_ind'] ='0'
+         
     return render_template('wos/wos_index.j2',content = content)
 
 
@@ -187,8 +192,8 @@ def upload_file():
 
     def wos_update_bib(file:TextIOBase):
         buff=file.read()
-        for One_Autor in buff.split("@"):
-            if len(One_Autor)<40: continue
+        for One_Autor in buff.split("\n@"):
+            if len(One_Autor)<200: continue
             data1=data_preparation(One_Autor)
             data, r_id, r_orcid = data1
             id_article=wos_dbase.insert_article(data)

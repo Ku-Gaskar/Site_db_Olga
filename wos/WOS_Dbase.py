@@ -27,7 +27,7 @@ class WOS_Dbase(FDataBase):
             order by w.unique_id  """
 
 
-    __SQL_wos_export_article="""  SELECT  distinct w.unique_id ,w.title,aid.name_autor, w.author , "year", w.document_type, w.journal , aid.name_department, aid.id_depatment ,tsh.works
+    __SQL_wos_export_article="""  SELECT  distinct w.unique_id ,w.title,aid.name_autor, w.author , "year", w.document_type, w.journal , aid.name_department, aid.id_depatment ,tsh.works, w.note
             FROM public.wos w 
             left join public.wos_autors wa on (wa.unique_id  = w.unique_id )
             left join public."Table_Sсience_HNURE" tsh on (wa.id_autor  = tsh."id_Sciencer")
@@ -117,7 +117,7 @@ class WOS_Dbase(FDataBase):
     
     def get_articles_export(self,my_form:SC_Form):
         w_ty=self.__set_where_sc_SQL_type_year(my_form)
-        strSQLquery=f"""select title,author,name_autor,name_department,"year", id_depatment, works, unique_id, document_type, journal from ({self.__SQL_wos_export_article}) res
+        strSQLquery=f"""select title,author,name_autor,name_department,"year", id_depatment, works, unique_id, document_type, journal, note from ({self.__SQL_wos_export_article}) res
                         {w_ty} {f"{self.and_str(w_ty)} works" if my_form['sc_select_dep']!=ALL_DEP else ""} """
         return self.__read_db(strSQLquery)
 

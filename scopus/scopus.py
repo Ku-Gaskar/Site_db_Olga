@@ -239,32 +239,42 @@ def update_database(app):
                 logger.warning(f"Страница не загружена: id_author={item[0]}; URL---> '{url}'")
                 continue          
             try:
-                s1=driver.find_elements(By.CSS_SELECTOR,'span[data-testid="unclickable-count"]')            
-                if s1:
+                #
+                s1_citir=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-citations-count"] span[data-testid="unclickable-count"]')            
+                author={}
+                if s1_citir:
                     if item[2] == 'None': item[2] ='0'
+                    author['note'] = s1_citir.text.replace(' ','')
+                s1_doc=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-document-count"] span[data-testid="unclickable-count"]')            
+                if s1_doc:
                     if item[3] == 'None': item[3] ='0'
+                    author['doc'] = s1_doc.text.replace(' ','')
+
+                s1_h_index=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-h-index"] span[data-testid="unclickable-count"]')            
+                if s1_h_index:
                     if item[4] == 'None': item[4] ='0'
-                    author={'note':s1[0].text.replace(' ',''),'doc':s1[1].text.replace(' ',''),'h_index':s1[2].text.replace(' ','')}
-                    scUpdateDocCitH['id_current']=item[0]
-                    scUpdateDocCitH['curent']=count_i
-                    scUpdateDocCitH['data']=author
+                    author['h_index']=s1_h_index.text.replace(' ','')
+
+                scUpdateDocCitH['id_current']=item[0]
+                scUpdateDocCitH['curent']=count_i
+                scUpdateDocCitH['data']=author
                     
                     # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
                     # emit('update_progress', {'progress': int((count_i*100)/len(list_scopus_id)),'textProgress':
                     #                          f"id={item[0]}: документов:{author['doc']} цитирования:{author['note']} h-index:{author['h_index']}"}, namespace='/update_database')
                     # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
                     
-                    if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4])):
+                if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4].split(".")[0])):
                         str_warning=f"""Предупреждение - данные уменьшены id={item[0]}:
                                                                 цитирования: {item[3]} -> {author['note']};  
                                                                 документов: {item[2]} -> {author['doc']};
                                                                     h-index: {item[4]} -> {author['h_index']} """
                         logger.warning(str_warning)
                         print (str_warning)
-                    elif (int(author['note']) == int(item[3])) and (int(author['doc']) == int(item[2])) and (int(author['h_index']) == int(item[4])):
+                elif (int(author['note']) == int(item[3])) and (int(author['doc']) == int(item[2])) and (int(author['h_index']) == int(item[4].split('.')[0])):
                         continue
-                    sc_dbase = SC_Dbase(get_db())
-                    sc_dbase.update_cit_doc_hIndex(author,item[0])
+                sc_dbase = SC_Dbase(get_db())
+                sc_dbase.update_cit_doc_hIndex(author,item)
             except:  
                 logger.warning(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
                 print(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
