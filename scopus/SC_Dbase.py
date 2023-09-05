@@ -42,7 +42,7 @@ class SC_Dbase(FDataBase):
                                 on (tsh."id_Sciencer" = ais.id_author )
                                 ORDER BY tsh."FIO") as res
                                 where res.works """  
-    __SQL_sc_author_with_article ="""select distinct  tsh ."id_Sciencer" id ,tsh ."FIO",s.title ,s."year" , aid.name_department , aid.id_depatment , s.author , s.journal , s.volume, s.number, s.pages , s.doi , ais.id_scopus from  "Table_Sсience_HNURE" tsh 
+    __SQL_sc_author_with_article ="""select distinct  tsh ."id_Sciencer" id ,tsh ."FIO",s.title ,s."year" , aid.name_department , aid.id_depatment , s.author , s.journal , s.volume, s.number, s.pages , s.doi , ais.id_scopus, wa.id_autor from  "Table_Sсience_HNURE" tsh 
                                 left join author_in_scopus ais on (tsh."id_Sciencer"  = ais.id_author)
                                 inner join  scopus_autors sa  on (ais.id_scopus  = sa.id_sc_autor) 
                                 inner join  scopus s on (s.eid = sa.eid)
@@ -165,7 +165,7 @@ class SC_Dbase(FDataBase):
             order  by name_department""")
     
     def get_sc_author_with_article(self,myform:DataScForm):
-        sql = f"""select {f'DISTINCT ON (id,"FIO",title) ' if myform['sc_select_dep'] == ALL_DEP else ""} id ,"FIO",title ,"year" ,name_department , id_depatment , author , journal , volume, number, pages , doi , id_scopus from ({self.__SQL_sc_author_with_article}) 
+        sql = f"""select {f'DISTINCT ON (id,"FIO",title) ' if myform['sc_select_dep'] == ALL_DEP else ""} id ,"FIO",title ,"year" ,name_department , id_depatment , author , journal , volume, number, pages , doi , id_autor from ({self.__SQL_sc_author_with_article}) 
                     as a  {f'where id_depatment = {myform["sc_select_dep"]}' if myform['sc_select_dep'] != ALL_DEP else ""}  order by a.id """
         return self.__read_db(sql)
     

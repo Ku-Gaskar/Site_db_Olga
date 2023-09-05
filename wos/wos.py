@@ -122,7 +122,7 @@ def scopusReport():
             dd=form.data
             list_export=wos_dbase.get_sc_author_with_article(dd)   
             fm=f"wos_author_{date.today()}.xlsx"
-            return Response(sc_exporter.create_author_with_article(list_export,dd),
+            return Response(sc_exporter.create_author_with_article(list_export,dd,wos=True),
                             headers={'Content-Disposition': f'attachment; filename={fm}',
                                      'Content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})            
         elif my_sc.sc_rep_sum:

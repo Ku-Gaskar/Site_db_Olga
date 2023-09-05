@@ -155,7 +155,7 @@ class ScopusExportExcel(ExportExcel):
         return output.getvalue()                            
         # return save_virtual_workbook(self.wb) 
     
-    def create_author_with_article(self,list_export,dd:DataScForm):
+    def create_author_with_article(self,list_export,dd:DataScForm,wos=False):
         def count_limit(dd:DataScForm,id):
             if not dd['sc_bool_limit']: return False
             count = 0
@@ -186,8 +186,10 @@ class ScopusExportExcel(ExportExcel):
                 self.ws['B'+str(i_index)]=record[1]
                 self.ws['C'+str(i_index)]=record[4]
                 self.ws['D'+str(i_index)]=record[12]
-                self.ws['F'+str(i_index)]="Scopus"
-
+                if wos:
+                    self.ws['F'+str(i_index)]="WOS"
+                else: 
+                    self.ws['F'+str(i_index)]="Scopus"
 
                 count=1
                 count_aut+=1

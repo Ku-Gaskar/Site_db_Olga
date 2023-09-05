@@ -34,7 +34,7 @@ class WOS_Dbase(FDataBase):
             left join public.autors_in_departments aid on (aid.id_autors = tsh."id_Sciencer"  )
             order by w.unique_id  """
 
-    __SQL_wos_export_author_with_article="""select distinct  tsh ."id_Sciencer" id ,tsh ."FIO",w.title ,w."year" , aid.name_department , aid.id_depatment from  "Table_Sсience_HNURE" tsh 
+    __SQL_wos_export_author_with_article="""select distinct  tsh ."id_Sciencer" id ,tsh ."FIO",w.title ,w."year" , aid.name_department , aid.id_depatment, w.author, w.journal, w.volume, w.number,w.pages,w.doi, wa.id_autor from  "Table_Sсience_HNURE" tsh 
                                 left join wos_autors wa  on (tsh."id_Sciencer"  = wa.id_autor)
                                 inner join  wos w  on (w.unique_id  = wa.unique_id)
                                 inner join  autors_in_departments aid on (tsh."id_Sciencer"  = aid.id_autors)	 
@@ -123,7 +123,7 @@ class WOS_Dbase(FDataBase):
 
         
     def get_sc_author_with_article(self,myform:SC_Form):
-        sql = f"""select {f'DISTINCT ON (id,"FIO",title) ' if myform['sc_select_dep'] == ALL_DEP else ""} id ,"FIO",title ,"year" ,name_department , id_depatment from ({self.__SQL_wos_export_author_with_article}) 
+        sql = f"""select {f'DISTINCT ON (id,"FIO",title) ' if myform['sc_select_dep'] == ALL_DEP else ""} id ,"FIO",title ,"year" ,name_department , id_depatment, author , journal , volume, number, pages , doi , id_autor from ({self.__SQL_wos_export_author_with_article}) 
                     as a  {f'where id_depatment = {myform["sc_select_dep"]}' if myform['sc_select_dep'] != ALL_DEP else ""}  order by a.id """
         return self.__read_db(sql)        
 
