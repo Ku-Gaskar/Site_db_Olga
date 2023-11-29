@@ -31,6 +31,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
 
+from chromedriver_py import binary_path # this will get you the path variable
+
+
+
 from scopus.SC_Dbase import SC_Dbase
 from scopus.sc_forms import SC_Form,DataScForm
 from scopus.sc_excel import ScopusExportExcel
@@ -213,9 +217,21 @@ def update_database(app):
 
         content={}
         content['title']='Scopus - Update'
-        chrome_options = Options()
-        chrome_options.add_argument("--disable-extensions")
-        driver = webdriver.Chrome(chrome_options=chrome_options)
+
+     # ver. == 4.8.0
+        # chrome_options = Options()
+        # chrome_options.add_argument("--disable-extensions")
+        # driver = webdriver.ChromeOptions(chrome_options=chrome_options) 
+    # ver. == 4.8.0
+        
+    # ver. == 4.15.2
+        svc = webdriver.ChromeService(executable_path=binary_path)
+        driver = webdriver.Chrome(service=svc)
+
+        # driver = webdriver.Chrome()
+    # ver. == 4.15.2
+        
+        
         if not list_scopus_id:
             flash("Ошибка обновления БД Scopus.Нет данных БД ХНУРЕ", "error")
             return redirect('./') 
