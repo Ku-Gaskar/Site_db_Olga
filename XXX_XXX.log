@@ -34,5 +34,1135 @@ WOS:000502830500033 --> [(144,), (479,)]
                                                              цитирования: 115 -> 114;  
                                                               документов: 25 -> 25;
                                                                  h-index: 7 -> 7 
-2023-04-15 20:46:27,569 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
-2023-04-15 20:46:37,663 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(161) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-05-04 19:40:10,763 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(269) - Предупреждение - данные уменьшены id=361:
+                                                             цитирования: 11 -> 3;  
+                                                              документов: 3 -> 2;
+                                                                 h-index: 2 -> 1 
+2023-05-04 19:47:13,668 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(269) - Предупреждение - данные уменьшены id=655:
+                                                             цитирования: 12 -> 0;  
+                                                              документов: 3 -> 1;
+                                                                 h-index: 2 -> 0 
+2023-05-04 19:50:14,504 - [WARNING] - scopus.scopus - (scopus.py).sc_update_DocCitH(269) - Предупреждение - данные уменьшены id=756:
+                                                             цитирования: 39 -> 2;  
+                                                              документов: 8 -> 1;
+                                                                 h-index: 4 -> 1 
+2023-05-26 19:25:38,838 - [WARNING] - scopus.scopus - (scopus.py).update_database(256) - Предупреждение - данные уменьшены id=184:
+                                                                цитирования: 36664 -> 36837;  
+                                                                документов: 878 -> 877;
+                                                                    h-index: 91 -> 91 
+2023-05-26 19:27:56,349 - [WARNING] - scopus.scopus - (scopus.py).update_database(256) - Предупреждение - данные уменьшены id=265:
+                                                                цитирования: 52 -> 52;  
+                                                                документов: 17 -> 16;
+                                                                    h-index: 5 -> 5 
+2023-05-26 19:30:39,405 - [WARNING] - scopus.scopus - (scopus.py).update_database(256) - Предупреждение - данные уменьшены id=361:
+                                                                цитирования: 13 -> 3;  
+                                                                документов: 3 -> 2;
+                                                                    h-index: 2 -> 1 
+2023-05-26 19:38:03,960 - [WARNING] - scopus.scopus - (scopus.py).update_database(256) - Предупреждение - данные уменьшены id=655:
+                                                                цитирования: 12 -> 0;  
+                                                                документов: 3 -> 1;
+                                                                    h-index: 2 -> 0 
+2023-05-26 19:39:30,430 - [WARNING] - scopus.scopus - (scopus.py).update_database(232) - Страница не загружена: id_author=697; URL---> 'https://www.scopus.com/authid/detail.uri?authorId='
+2023-05-26 19:43:03,157 - [WARNING] - scopus.scopus - (scopus.py).update_database(256) - Предупреждение - данные уменьшены id=830:
+                                                                цитирования: 9 -> 7;  
+                                                                документов: 9 -> 6;
+                                                                    h-index: 2 -> 2 
+2023-05-26 19:46:20,390 - [WARNING] - scopus.scopus - (scopus.py).update_database(232) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-06-05 23:59:57,042 - [WARNING] - scopus.scopus - (scopus.py).update_database(255) - Предупреждение - данные уменьшены id=698:
+                                                                цитирования: 226 -> 225;  
+                                                                документов: 49 -> 49;
+                                                                    h-index: 7 -> 7 
+2023-06-06 00:06:56,443 - [WARNING] - scopus.scopus - (scopus.py).update_database(232) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-07-01 13:30:37,463 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=2:
+                                                                цитирования: 1155 -> 26;  
+                                                                документов: 126 -> 8;
+                                                                    h-index: 21 -> 0.461 
+2023-07-01 13:30:40,342 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=3:
+                                                                цитирования: 391 -> 391;  
+                                                                документов: 77 -> 76;
+                                                                    h-index: 12 -> 12 
+2023-07-01 13:30:43,158 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=4:
+                                                                цитирования: 851 -> 840;  
+                                                                документов: 66 -> 66;
+                                                                    h-index: 18 -> 18 
+2023-07-01 13:31:04,273 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=13:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 15 -> 15;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:31:29,526 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=32:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 6 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:31:32,474 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=34:
+                                                                цитирования: 64 -> 63;  
+                                                                документов: 65 -> 65;
+                                                                    h-index: 5 -> 4 
+2023-07-01 13:31:40,962 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=38:
+                                                                цитирования: 2 -> 2;  
+                                                                документов: 5 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:31:54,867 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=46:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:32:02,740 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=51:
+                                                                цитирования: 5 -> 5;  
+                                                                документов: 8 -> 7;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:32:21,864 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=60:
+                                                                цитирования: 19 -> 18;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:32:50,659 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=72:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:32:56,519 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=79:
+                                                                цитирования: 267 -> 2;  
+                                                                документов: 16 -> 18;
+                                                                    h-index: 9 -> 3.587 
+2023-07-01 13:32:58,966 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=81:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:33:16,857 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=91:
+                                                                цитирования: 608 -> 577;  
+                                                                документов: 189 -> 188;
+                                                                    h-index: 11 -> 11 
+2023-07-01 13:34:24,057 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=124:
+                                                                цитирования: 18 -> 17;  
+                                                                документов: 18 -> 17;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:34:32,587 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=130:
+                                                                цитирования: 13 -> 12;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:34:49,116 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=136:
+                                                                цитирования: 18 -> 12;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 3 -> 3 
+2023-07-01 13:35:10,101 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=145:
+                                                                цитирования: 12 -> 11;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:35:39,262 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=156:
+                                                                цитирования: 24 -> 18;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 3 -> 2 
+2023-07-01 13:35:42,234 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=158:
+                                                                цитирования: 16 -> 0;  
+                                                                документов: 8 -> 0;
+                                                                    h-index: 3 -> 0 
+2023-07-01 13:35:44,950 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=159:
+                                                                цитирования: 12 -> 0;  
+                                                                документов: 7 -> 0;
+                                                                    h-index: 2 -> 0 
+2023-07-01 13:35:50,805 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=163:
+                                                                цитирования: 11 -> 10;  
+                                                                документов: 4 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:36:12,059 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=174:
+                                                                цитирования: 3 -> 2;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:36:25,236 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=184:
+                                                                цитирования: 37051 -> 20;  
+                                                                документов: 877 -> 2;
+                                                                    h-index: 91 -> 0.102 
+2023-07-01 13:36:41,987 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=196:
+                                                                цитирования: 12 -> 0;  
+                                                                документов: 1 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:36:47,463 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=200:
+                                                                цитирования: 257 -> 241;  
+                                                                документов: 75 -> 73;
+                                                                    h-index: 9 -> 9 
+2023-07-01 13:37:02,313 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=211:
+                                                                цитирования: 38 -> 37;  
+                                                                документов: 21 -> 21;
+                                                                    h-index: 4 -> 4 
+2023-07-01 13:37:13,916 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=216:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:37:40,435 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=234:
+                                                                цитирования: 9 -> 7;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:37:51,663 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=239:
+                                                                цитирования: 11 -> 10;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:37:54,707 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=241:
+                                                                цитирования: 89 -> 2;  
+                                                                документов: 16 -> 1;
+                                                                    h-index: 7 -> 0.073 
+2023-07-01 13:37:57,194 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=242:
+                                                                цитирования: 121 -> 119;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 3 -> 3 
+2023-07-01 13:37:59,990 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=243:
+                                                                цитирования: 13 -> 12;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:38:18,284 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=251:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 2 -> 1;
+                                                                    h-index: 0 -> 0 
+2023-07-01 13:40:44,192 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=331:
+                                                                цитирования: 6 -> 5;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:40:54,644 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=338:
+                                                                цитирования: 9 -> 8;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:41:51,817 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=363:
+                                                                цитирования: 861 -> 101;  
+                                                                документов: 133 -> 7;
+                                                                    h-index: 17 -> 1.419 
+2023-07-01 13:42:37,644 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=384:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:42:43,412 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=389:
+                                                                цитирования: 9 -> 8;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:43:10,501 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=404:
+                                                                цитирования: 5 -> 4;  
+                                                                документов: 5 -> 1;
+                                                                    h-index: 1 -> 0.101 
+2023-07-01 13:43:27,497 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=412:
+                                                                цитирования: 125 -> 122;  
+                                                                документов: 18 -> 18;
+                                                                    h-index: 8 -> 8 
+2023-07-01 13:44:09,843 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=435:
+                                                                цитирования: 10 -> 9;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:44:20,607 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=440:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 2 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-07-01 13:44:26,160 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=442:
+                                                                цитирования: 50 -> 0;  
+                                                                документов: 7 -> 0;
+                                                                    h-index: 4 -> 0 
+2023-07-01 13:44:51,956 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=453:
+                                                                цитирования: 5 -> 4;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:45:15,585 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=465:
+                                                                цитирования: 198 -> 14;  
+                                                                документов: 39 -> 6;
+                                                                    h-index: 7 -> 1.953 
+2023-07-01 13:45:23,206 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=474:
+                                                                цитирования: 51 -> 50;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:45:34,041 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=479:
+                                                                цитирования: 25 -> 24;  
+                                                                документов: 13 -> 13;
+                                                                    h-index: 3 -> 3 
+2023-07-01 13:45:41,661 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=485:
+                                                                цитирования: 252 -> 1;  
+                                                                документов: 19 -> 0;
+                                                                    h-index: 7 -> 0 
+2023-07-01 13:45:46,696 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=487:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 1 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-07-01 13:46:04,123 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=499:
+                                                                цитирования: 5 -> 2;  
+                                                                документов: 8 -> 7;
+                                                                    h-index: 2 -> 1 
+2023-07-01 13:46:43,024 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=522:
+                                                                цитирования: 10 -> 10;  
+                                                                документов: 22 -> 21;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:46:48,438 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=526:
+                                                                цитирования: 115 -> 114;  
+                                                                документов: 26 -> 25;
+                                                                    h-index: 7 -> 7 
+2023-07-01 13:46:56,718 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=529:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:47:26,470 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=545:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:47:34,884 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=549:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 0.545 
+2023-07-01 13:47:55,244 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=558:
+                                                                цитирования: 739 -> 735;  
+                                                                документов: 72 -> 72;
+                                                                    h-index: 18 -> 18 
+2023-07-01 13:48:17,238 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=566:
+                                                                цитирования: 41 -> 41;  
+                                                                документов: 9 -> 8;
+                                                                    h-index: 4 -> 4 
+2023-07-01 13:48:22,785 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=569:
+                                                                цитирования: 12 -> 0;  
+                                                                документов: 9 -> 0;
+                                                                    h-index: 2 -> 0 
+2023-07-01 13:48:39,590 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=577:
+                                                                цитирования: 2 -> 0;  
+                                                                документов: 3 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:48:50,431 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=581:
+                                                                цитирования: 41 -> 40;  
+                                                                документов: 11 -> 11;
+                                                                    h-index: 4 -> 4 
+2023-07-01 13:49:00,561 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=585:
+                                                                цитирования: 131 -> 1;  
+                                                                документов: 35 -> 1;
+                                                                    h-index: 7 -> 0.19 
+2023-07-01 13:49:29,474 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=602:
+                                                                цитирования: 35 -> 33;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:49:36,743 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=607:
+                                                                цитирования: 4 -> 0;  
+                                                                документов: 3 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:49:43,067 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=610:
+                                                                цитирования: 156 -> 152;  
+                                                                документов: 53 -> 53;
+                                                                    h-index: 7 -> 7 
+2023-07-01 13:49:48,298 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=616:
+                                                                цитирования: 10 -> 10;  
+                                                                документов: 12 -> 7;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:50:02,193 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=627:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:50:41,086 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=650:
+                                                                цитирования: 32 -> 31;  
+                                                                документов: 21 -> 21;
+                                                                    h-index: 4 -> 4 
+2023-07-01 13:51:01,314 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=661:
+                                                                цитирования: 14 -> 13;  
+                                                                документов: 16 -> 16;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:51:24,164 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=673:
+                                                                цитирования: 98 -> 2;  
+                                                                документов: 15 -> 2;
+                                                                    h-index: 4 -> 4.525 
+2023-07-01 13:52:22,285 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=698:
+                                                                цитирования: 225 -> 215;  
+                                                                документов: 49 -> 49;
+                                                                    h-index: 7 -> 6 
+2023-07-01 13:52:35,547 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=707:
+                                                                цитирования: 2 -> 0;  
+                                                                документов: 3 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:52:54,859 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=714:
+                                                                цитирования: 24 -> 9;  
+                                                                документов: 24 -> 20;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:54:09,476 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=745:
+                                                                цитирования: 26 -> 19;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:54:12,107 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=746:
+                                                                цитирования: 8 -> 7;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:54:20,485 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=750:
+                                                                цитирования: 14 -> 6;  
+                                                                документов: 12 -> 2;
+                                                                    h-index: 2 -> 0.79 
+2023-07-01 13:55:19,640 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=782:
+                                                                цитирования: 10 -> 0;  
+                                                                документов: 6 -> 0;
+                                                                    h-index: 2 -> 0 
+2023-07-01 13:55:30,235 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=788:
+                                                                цитирования: 3 -> 2;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:56:14,953 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=805:
+                                                                цитирования: 1 -> 1;  
+                                                                документов: 2 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:56:26,750 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=809:
+                                                                цитирования: 6 -> 5;  
+                                                                документов: 9 -> 9;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:56:29,396 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=810:
+                                                                цитирования: 2 -> 0;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:57:17,024 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=832:
+                                                                цитирования: 14 -> 13;  
+                                                                документов: 9 -> 9;
+                                                                    h-index: 3 -> 2 
+2023-07-01 13:57:30,164 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=837:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 4 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:57:38,559 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=840:
+                                                                цитирования: 1859 -> 2;  
+                                                                документов: 101 -> 10;
+                                                                    h-index: 26 -> 0.354 
+2023-07-01 13:57:52,049 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=845:
+                                                                цитирования: 21 -> 18;  
+                                                                документов: 17 -> 16;
+                                                                    h-index: 3 -> 3 
+2023-07-01 13:57:54,518 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=846:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 0 
+2023-07-01 13:58:18,763 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=855:
+                                                                цитирования: 49 -> 41;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 4 -> 3 
+2023-07-01 13:58:28,577 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=860:
+                                                                цитирования: 15 -> 14;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 2 
+2023-07-01 13:58:34,041 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=862:
+                                                                цитирования: 17 -> 16;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 3 -> 3 
+2023-07-01 13:58:42,592 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=865:
+                                                                цитирования: 9 -> 1;  
+                                                                документов: 8 -> 0;
+                                                                    h-index: 2 -> 0 
+2023-07-01 13:59:44,454 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=888:
+                                                                цитирования: 30 -> 29;  
+                                                                документов: 11 -> 11;
+                                                                    h-index: 1 -> 1 
+2023-07-01 13:59:47,292 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=889:
+                                                                цитирования: 87 -> 83;  
+                                                                документов: 17 -> 16;
+                                                                    h-index: 4 -> 4 
+2023-07-01 13:59:50,194 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=890:
+                                                                цитирования: 7 -> 6;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 1 
+2023-07-01 14:00:01,434 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=902:
+                                                                цитирования: 0 -> 1;  
+                                                                документов: 1 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-07-01 14:00:17,617 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=912:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 0 
+2023-07-01 14:00:20,217 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=920:
+                                                                цитирования: 106 -> 103;  
+                                                                документов: 8 -> 8;
+                                                                    h-index: 4 -> 4 
+2023-07-01 14:00:57,309 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=936:
+                                                                цитирования: 93 -> 92;  
+                                                                документов: 26 -> 26;
+                                                                    h-index: 5 -> 5 
+2023-07-01 14:01:04,619 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=939:
+                                                                цитирования: 2 -> 0;  
+                                                                документов: 4 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-07-01 14:01:35,243 - [WARNING] - scopus.scopus - (scopus.py).update_database(239) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-07-01 14:24:36,309 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-07-01 14:26:49,367 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=79:
+                                                                цитирования: 2 -> 270;  
+                                                                документов: 18 -> 16;
+                                                                    h-index: 3.587 -> 9 
+2023-07-01 14:27:52,984 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=113:
+                                                                цитирования: 91 -> 84;  
+                                                                документов: 18 -> 16;
+                                                                    h-index: 6 -> 6 
+2023-07-01 14:30:09,309 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=184; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=7004105880'
+2023-07-01 14:31:32,550 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=241; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6602558899'
+2023-07-01 14:35:10,849 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=363; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=24479782800'
+2023-07-01 14:36:22,306 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=404; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57210358838'
+2023-07-01 14:38:06,334 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=460:
+                                                                цитирования: 16 -> 16;  
+                                                                документов: 15 -> 14;
+                                                                    h-index: 2 -> 2 
+2023-07-01 14:38:16,430 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=465; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57189386760'
+2023-07-01 14:40:20,558 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=548:
+                                                                цитирования: 483 -> 477;  
+                                                                документов: 117 -> 116;
+                                                                    h-index: 12 -> 12 
+2023-07-01 14:40:23,013 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=549; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57208907089'
+2023-07-01 14:41:40,587 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=585; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6507534086'
+2023-07-01 14:42:26,804 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=616:
+                                                                цитирования: 10 -> 12;  
+                                                                документов: 7 -> 6;
+                                                                    h-index: 2 -> 2 
+2023-07-01 14:43:54,725 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=672:
+                                                                цитирования: 864 -> 863;  
+                                                                документов: 206 -> 206;
+                                                                    h-index: 16 -> 16 
+2023-07-01 14:43:57,195 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=673; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57188571542'
+2023-07-01 14:46:40,148 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=750; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=36021627200'
+2023-07-01 14:49:08,767 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=830:
+                                                                цитирования: 9 -> 7;  
+                                                                документов: 9 -> 6;
+                                                                    h-index: 2 -> 2 
+2023-07-01 14:49:35,617 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=840; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6603607401'
+2023-07-01 14:51:48,357 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=902:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 0 -> 1;
+                                                                    h-index: 0 -> 0 
+2023-07-01 14:53:19,506 - [WARNING] - scopus.scopus - (scopus.py).update_database(239) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-08-15 17:10:45,488 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-08-15 17:10:49,036 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=3:
+                                                                цитирования: 392 -> 395;  
+                                                                документов: 77 -> 76;
+                                                                    h-index: 12 -> 12 
+2023-08-15 17:10:55,820 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=5:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 1 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-08-15 17:13:13,178 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=73:
+                                                                цитирования: 6 -> 5;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 2 -> 2 
+2023-08-15 17:13:45,701 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=94:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 2 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-08-15 17:16:38,566 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=184; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=7004105880'
+2023-08-15 17:17:08,724 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=205:
+                                                                цитирования: 5 -> 3;  
+                                                                документов: 5 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-08-15 17:18:15,628 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=241; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6602558899'
+2023-08-15 17:18:44,325 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=252:
+                                                                цитирования: 14 -> 0;  
+                                                                документов: 7 -> 0;
+                                                                    h-index: 2 -> 0 
+2023-08-15 17:19:08,782 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=266:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 2 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-08-15 17:21:09,702 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=331:
+                                                                цитирования: 6 -> 0;  
+                                                                документов: 7 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-08-15 17:22:19,781 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=363; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=24479782800'
+2023-08-15 17:24:03,435 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=404; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57210358838'
+2023-08-15 17:24:06,373 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=405:
+                                                                цитирования: 25 -> 0;  
+                                                                документов: 4 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-08-15 17:26:16,877 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=465; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57189386760'
+2023-08-15 17:26:20,229 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=466:
+                                                                цитирования: 38 -> 34;  
+                                                                документов: 51 -> 50;
+                                                                    h-index: 4 -> 3 
+2023-08-15 17:28:49,248 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=549; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57208907089'
+2023-08-15 17:30:24,659 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=585; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6507534086'
+2023-08-15 17:33:02,310 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=673; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57188571542'
+2023-08-15 17:33:28,918 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=683:
+                                                                цитирования: 338 -> 0;  
+                                                                документов: 21 -> 0;
+                                                                    h-index: 5 -> 0 
+2023-08-15 17:33:34,350 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=685:
+                                                                цитирования: 476 -> 5;  
+                                                                документов: 181 -> 0;
+                                                                    h-index: 10 -> 0 
+2023-08-15 17:34:18,015 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=707:
+                                                                цитирования: 3 -> 0;  
+                                                                документов: 3 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-08-15 17:34:37,142 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=714:
+                                                                цитирования: 24 -> 12;  
+                                                                документов: 24 -> 24;
+                                                                    h-index: 2 -> 2 
+2023-08-15 17:35:24,616 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=733:
+                                                                цитирования: 508 -> 70;  
+                                                                документов: 190 -> 3;
+                                                                    h-index: 12 -> 0.938 
+2023-08-15 17:36:02,089 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=750; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=36021627200'
+2023-08-15 17:37:15,697 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=787:
+                                                                цитирования: 3 -> 3;  
+                                                                документов: 6 -> 5;
+                                                                    h-index: 1 -> 1 
+2023-08-15 17:38:51,502 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=827:
+                                                                цитирования: 13 -> 3;  
+                                                                документов: 9 -> 8;
+                                                                    h-index: 1 -> 1 
+2023-08-15 17:38:56,204 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=829:
+                                                                цитирования: 142 -> 2;  
+                                                                документов: 22 -> 1;
+                                                                    h-index: 5 -> 0.193 
+2023-08-15 17:39:23,360 - [WARNING] - scopus.scopus - (scopus.py).update_database(269) - Запись не обновлена: id_author=840; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6603607401'
+2023-08-15 17:40:04,600 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=857:
+                                                                цитирования: 2 -> 0;  
+                                                                документов: 2 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-08-15 17:40:21,561 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=865:
+                                                                цитирования: 9 -> 6;  
+                                                                документов: 8 -> 7;
+                                                                    h-index: 2 -> 2 
+2023-08-15 17:40:24,124 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=866:
+                                                                цитирования: 2 -> 2;  
+                                                                документов: 7 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-08-15 17:40:47,211 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=875:
+                                                                цитирования: 17 -> 0;  
+                                                                документов: 10 -> 0;
+                                                                    h-index: 2 -> 0 
+2023-08-15 17:41:53,695 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=924:
+                                                                цитирования: 2 -> 0;  
+                                                                документов: 2 -> 0;
+                                                                    h-index: 1 -> 0 
+2023-08-15 17:42:21,732 - [WARNING] - scopus.scopus - (scopus.py).update_database(262) - Предупреждение - данные уменьшены id=935:
+                                                                цитирования: 0 -> 0;  
+                                                                документов: 1 -> 0;
+                                                                    h-index: 0 -> 0 
+2023-08-15 17:43:03,613 - [WARNING] - scopus.scopus - (scopus.py).update_database(239) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-08-15 18:33:43,427 - [WARNING] - scopus.scopus - (scopus.py).update_database(279) - Запись не обновлена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-08-15 18:36:23,997 - [WARNING] - scopus.scopus - (scopus.py).update_database(279) - Запись не обновлена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-08-15 18:51:19,842 - [WARNING] - scopus.scopus - (scopus.py).update_database(279) - Запись не обновлена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-08-15 18:51:23,138 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=3:
+                                                                цитирования: 395 -> 395;  
+                                                                документов: 77 -> 76;
+                                                                    h-index: 12 -> 12 
+2023-08-15 18:54:20,502 - [WARNING] - scopus.scopus - (scopus.py).update_database(279) - Запись не обновлена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-08-15 18:54:26,563 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=4:
+                                                                цитирования: 882 -> 881;  
+                                                                документов: 66 -> 66;
+                                                                    h-index: 19 -> 19 
+2023-08-15 19:24:32,385 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=835:
+                                                                цитирования: 54 -> 53;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 2 -> 2 
+2023-08-15 19:28:12,252 - [WARNING] - scopus.scopus - (scopus.py).update_database(239) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-08-16 21:46:05,575 - [WARNING] - scopus.scopus - (scopus.py).update_database(239) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-08-16 21:57:04,002 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=2:
+                                                                цитирования: 1172 -> 1170;  
+                                                                документов: 127 -> 127;
+                                                                    h-index: 21 -> 21 
+2023-08-16 21:57:07,017 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=3:
+                                                                цитирования: 395 -> 395;  
+                                                                документов: 77 -> 76;
+                                                                    h-index: 12 -> 12 
+2023-08-16 21:57:10,452 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=4:
+                                                                цитирования: 882 -> 881;  
+                                                                документов: 66 -> 66;
+                                                                    h-index: 19 -> 19 
+2023-08-16 21:57:17,075 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=6:
+                                                                цитирования: 59 -> 58;  
+                                                                документов: 15 -> 15;
+                                                                    h-index: 4 -> 4 
+2023-08-16 21:57:19,830 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=7:
+                                                                цитирования: 30 -> 29;  
+                                                                документов: 15 -> 15;
+                                                                    h-index: 3 -> 3 
+2023-08-16 21:57:38,710 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=17:
+                                                                цитирования: 32 -> 31;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 3 -> 3 
+2023-08-16 21:57:50,306 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=24:
+                                                                цитирования: 29 -> 26;  
+                                                                документов: 11 -> 11;
+                                                                    h-index: 4 -> 4 
+2023-08-16 21:57:57,700 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=32:
+                                                                цитирования: 5 -> 4;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:00:55,978 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=2:
+                                                                цитирования: 1172 -> 1170;  
+                                                                документов: 127 -> 127;
+                                                                    h-index: 21 -> 21 
+2023-08-16 22:02:17,958 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=3:
+                                                                цитирования: 395 -> 395;  
+                                                                документов: 77 -> 76;
+                                                                    h-index: 12 -> 12 
+2023-08-16 22:03:25,947 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=2:
+                                                                цитирования: 1172 -> 1170;  
+                                                                документов: 127 -> 127;
+                                                                    h-index: 21 -> 21 
+2023-08-16 22:05:19,562 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=2:
+                                                                цитирования: 1172 -> 1170;  
+                                                                документов: 127 -> 127;
+                                                                    h-index: 21 -> 21 
+2023-08-16 22:06:15,269 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=3:
+                                                                цитирования: 395 -> 395;  
+                                                                документов: 77 -> 76;
+                                                                    h-index: 12 -> 12 
+2023-08-16 22:06:34,230 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=4:
+                                                                цитирования: 882 -> 881;  
+                                                                документов: 66 -> 66;
+                                                                    h-index: 19 -> 19 
+2023-08-16 22:07:21,803 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=6:
+                                                                цитирования: 59 -> 58;  
+                                                                документов: 15 -> 15;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:07:26,050 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=7:
+                                                                цитирования: 30 -> 29;  
+                                                                документов: 15 -> 15;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:07:50,390 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=17:
+                                                                цитирования: 32 -> 31;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:08:04,112 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=24:
+                                                                цитирования: 29 -> 26;  
+                                                                документов: 11 -> 11;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:08:12,920 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=32:
+                                                                цитирования: 5 -> 4;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:09:00,423 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=55:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:09:23,602 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=66:
+                                                                цитирования: 10 -> 9;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:09:44,372 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=79:
+                                                                цитирования: 273 -> 272;  
+                                                                документов: 16 -> 16;
+                                                                    h-index: 9 -> 9 
+2023-08-16 22:10:03,597 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=91:
+                                                                цитирования: 614 -> 611;  
+                                                                документов: 189 -> 189;
+                                                                    h-index: 11 -> 11 
+2023-08-16 22:10:23,194 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=97:
+                                                                цитирования: 17 -> 16;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:10:25,819 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=98:
+                                                                цитирования: 169 -> 167;  
+                                                                документов: 39 -> 39;
+                                                                    h-index: 8 -> 8 
+2023-08-16 22:10:35,706 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=102:
+                                                                цитирования: 26 -> 25;  
+                                                                документов: 12 -> 12;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:10:51,168 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=110:
+                                                                цитирования: 23 -> 20;  
+                                                                документов: 9 -> 9;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:10:56,552 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=113:
+                                                                цитирования: 86 -> 84;  
+                                                                документов: 16 -> 16;
+                                                                    h-index: 6 -> 6 
+2023-08-16 22:11:09,661 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=124:
+                                                                цитирования: 19 -> 19;  
+                                                                документов: 19 -> 18;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:11:17,268 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=130:
+                                                                цитирования: 15 -> 14;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 1 
+2023-08-16 22:11:19,887 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=131:
+                                                                цитирования: 105 -> 104;  
+                                                                документов: 14 -> 14;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:11:28,066 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=134:
+                                                                цитирования: 24 -> 22;  
+                                                                документов: 8 -> 8;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:11:36,132 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=137:
+                                                                цитирования: 358 -> 356;  
+                                                                документов: 36 -> 36;
+                                                                    h-index: 10 -> 10 
+2023-08-16 22:11:55,375 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=146:
+                                                                цитирования: 63 -> 62;  
+                                                                документов: 30 -> 30;
+                                                                    h-index: 5 -> 5 
+2023-08-16 22:11:57,916 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=148:
+                                                                цитирования: 19 -> 18;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:12:08,598 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=152:
+                                                                цитирования: 78 -> 71;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:12:16,620 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=155:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:12:24,490 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=159:
+                                                                цитирования: 13 -> 12;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:12:42,586 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=168:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:12:51,074 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=172:
+                                                                цитирования: 57 -> 51;  
+                                                                документов: 9 -> 9;
+                                                                    h-index: 5 -> 4 
+2023-08-16 22:12:53,835 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=174:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:13:06,927 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=184:
+                                                                цитирования: 38058 -> 38165;  
+                                                                документов: 877 -> 876;
+                                                                    h-index: 92 -> 92 
+2023-08-16 22:13:16,782 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=194:
+                                                                цитирования: 27 -> 26;  
+                                                                документов: 18 -> 18;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:13:26,707 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=200:
+                                                                цитирования: 260 -> 258;  
+                                                                документов: 75 -> 75;
+                                                                    h-index: 9 -> 9 
+2023-08-16 22:25:06,565 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=202:
+                                                                цитирования: 24 -> 23;  
+                                                                документов: 13 -> 13;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:25:17,520 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=209:
+                                                                цитирования: 645 -> 644;  
+                                                                документов: 100 -> 100;
+                                                                    h-index: 15 -> 15 
+2023-08-16 22:25:21,266 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=211:
+                                                                цитирования: 39 -> 38;  
+                                                                документов: 21 -> 21;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:25:28,092 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=213:
+                                                                цитирования: 51 -> 46;  
+                                                                документов: 10 -> 10;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:25:35,673 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=216:
+                                                                цитирования: 3 -> 2;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:25:56,687 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=226:
+                                                                цитирования: 32 -> 31;  
+                                                                документов: 27 -> 27;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:26:23,021 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=239:
+                                                                цитирования: 12 -> 11;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 3 -> 2 
+2023-08-16 22:26:26,326 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=241:
+                                                                цитирования: 90 -> 89;  
+                                                                документов: 16 -> 16;
+                                                                    h-index: 7 -> 7 
+2023-08-16 22:26:29,118 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=242:
+                                                                цитирования: 123 -> 122;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:26:51,041 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=250:
+                                                                цитирования: 2 -> 1;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:27:18,183 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=263:
+                                                                цитирования: 19 -> 18;  
+                                                                документов: 26 -> 26;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:27:27,260 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=267:
+                                                                цитирования: 250 -> 247;  
+                                                                документов: 74 -> 74;
+                                                                    h-index: 8 -> 8 
+2023-08-16 22:27:44,069 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=274:
+                                                                цитирования: 547 -> 546;  
+                                                                документов: 50 -> 50;
+                                                                    h-index: 16 -> 16 
+2023-08-16 22:28:15,198 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=287:
+                                                                цитирования: 180 -> 179;  
+                                                                документов: 57 -> 57;
+                                                                    h-index: 6 -> 6 
+2023-08-16 22:28:37,330 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=298:
+                                                                цитирования: 41 -> 40;  
+                                                                документов: 14 -> 14;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:28:53,211 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=304:
+                                                                цитирования: 6 -> 5;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:29:13,534 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=306:
+                                                                цитирования: 59 -> 58;  
+                                                                документов: 6 -> 6;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:29:27,931 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=310:
+                                                                цитирования: 21 -> 20;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:29:46,569 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=318:
+                                                                цитирования: 18 -> 17;  
+                                                                документов: 14 -> 14;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:29:59,678 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=323:
+                                                                цитирования: 54 -> 53;  
+                                                                документов: 5 -> 5;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:30:23,911 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=332:
+                                                                цитирования: 81 -> 80;  
+                                                                документов: 17 -> 17;
+                                                                    h-index: 7 -> 7 
+2023-08-16 22:30:53,646 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=345:
+                                                                цитирования: 13 -> 12;  
+                                                                документов: 11 -> 11;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:30:57,591 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=346:
+                                                                цитирования: 63 -> 61;  
+                                                                документов: 17 -> 17;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:32:17,592 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=369:
+                                                                цитирования: 6 -> 5;  
+                                                                документов: 4 -> 4;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:32:25,508 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=372:
+                                                                цитирования: 4 -> 3;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:32:40,111 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=376:
+                                                                цитирования: 46 -> 43;  
+                                                                документов: 12 -> 12;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:32:47,420 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=378:
+                                                                цитирования: 8 -> 7;  
+                                                                документов: 12 -> 12;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:33:02,891 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=386:
+                                                                цитирования: 76 -> 75;  
+                                                                документов: 48 -> 48;
+                                                                    h-index: 6 -> 6 
+2023-08-16 22:33:10,128 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=390:
+                                                                цитирования: 13 -> 12;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:33:14,194 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=391:
+                                                                цитирования: 30 -> 29;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:33:18,651 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=392:
+                                                                цитирования: 388 -> 387;  
+                                                                документов: 31 -> 31;
+                                                                    h-index: 10 -> 10 
+2023-08-16 22:34:27,680 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=417:
+                                                                цитирования: 174 -> 172;  
+                                                                документов: 71 -> 71;
+                                                                    h-index: 7 -> 6 
+2023-08-16 22:35:05,856 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=434:
+                                                                цитирования: 13 -> 10;  
+                                                                документов: 12 -> 12;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:35:51,344 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=448:
+                                                                цитирования: 574 -> 572;  
+                                                                документов: 23 -> 23;
+                                                                    h-index: 9 -> 9 
+2023-08-16 22:35:57,331 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=450:
+                                                                цитирования: 27 -> 25;  
+                                                                документов: 1 -> 1;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:36:37,884 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=465:
+                                                                цитирования: 210 -> 207;  
+                                                                документов: 39 -> 39;
+                                                                    h-index: 8 -> 8 
+2023-08-16 22:36:51,364 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=476:
+                                                                цитирования: 3 -> 2;  
+                                                                документов: 9 -> 9;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:37:11,208 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=485:
+                                                                цитирования: 253 -> 252;  
+                                                                документов: 19 -> 19;
+                                                                    h-index: 7 -> 7 
+2023-08-16 22:37:14,954 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=486:
+                                                                цитирования: 61 -> 60;  
+                                                                документов: 21 -> 21;
+                                                                    h-index: 5 -> 5 
+2023-08-16 22:37:28,685 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=493:
+                                                                цитирования: 991 -> 982;  
+                                                                документов: 40 -> 40;
+                                                                    h-index: 10 -> 9 
+2023-08-16 22:38:02,362 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=512:
+                                                                цитирования: 592 -> 586;  
+                                                                документов: 54 -> 54;
+                                                                    h-index: 16 -> 15 
+2023-08-16 22:38:19,866 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=517:
+                                                                цитирования: 21 -> 20;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:38:26,918 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=521:
+                                                                цитирования: 11 -> 9;  
+                                                                документов: 10 -> 10;
+                                                                    h-index: 2 -> 1 
+2023-08-16 22:39:06,054 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=536:
+                                                                цитирования: 28 -> 27;  
+                                                                документов: 8 -> 8;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:39:36,864 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=549:
+                                                                цитирования: 3 -> 2;  
+                                                                документов: 3 -> 3;
+                                                                    h-index: 1 -> 1 
+2023-08-16 22:40:06,071 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=558:
+                                                                цитирования: 762 -> 748;  
+                                                                документов: 72 -> 72;
+                                                                    h-index: 18 -> 18 
+2023-08-16 22:40:21,154 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=562:
+                                                                цитирования: 23 -> 22;  
+                                                                документов: 16 -> 16;
+                                                                    h-index: 3 -> 3 
+2023-08-16 22:40:36,772 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=566:
+                                                                цитирования: 43 -> 42;  
+                                                                документов: 9 -> 9;
+                                                                    h-index: 4 -> 4 
+2023-08-16 22:40:55,275 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=573:
+                                                                цитирования: 970 -> 965;  
+                                                                документов: 81 -> 81;
+                                                                    h-index: 21 -> 21 
+2023-08-16 22:41:09,404 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=578:
+                                                                цитирования: 347 -> 343;  
+                                                                документов: 53 -> 53;
+                                                                    h-index: 14 -> 14 
+2023-08-16 22:41:34,647 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=585:
+                                                                цитирования: 135 -> 133;  
+                                                                документов: 35 -> 35;
+                                                                    h-index: 7 -> 7 
+2023-08-16 22:41:51,952 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=591:
+                                                                цитирования: 9 -> 8;  
+                                                                документов: 8 -> 8;
+                                                                    h-index: 2 -> 1 
+2023-08-16 22:42:12,652 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=602:
+                                                                цитирования: 38 -> 37;  
+                                                                документов: 2 -> 2;
+                                                                    h-index: 2 -> 2 
+2023-08-16 22:42:27,500 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=608:
+                                                                цитирования: 48 -> 47;  
+                                                                документов: 13 -> 13;
+                                                                    h-index: 5 -> 5 
+2023-08-16 22:42:31,093 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=610:
+                                                                цитирования: 159 -> 158;  
+                                                                документов: 53 -> 53;
+                                                                    h-index: 7 -> 7 
+2023-08-16 22:42:33,110 - [WARNING] - scopus.scopus - (scopus.py).update_database(233) - URL недействителен  id_author=613; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57214469857'
+2023-08-16 23:32:45,484 - [WARNING] - wos.wos - (wos.py).wos_update_bib(202) - ERROR: more than 1 -> 115 :
+WOS:001027032000023 --> [(359, ''), (385, ''), (763, ''), (461, ''), (423, ''), (783, ''), (167, ''), (654, ''), (12, ''), (223, ''), (814, ''), (907, ''), (592, ''), (401, ''), (498, ''), (738, ''), (639, ''), (700, ''), (908, ''), (594, ''), (403, ''), (604, ''), (467, ''), (495, ''), (917, ''), (631, ''), (653, ''), (228, ''), (913, ''), (227, ''), (914, ''), (147, ''), (188, ''), (203, ''), (664, ''), (758, ''), (759, ''), (817, ''), (778, ''), (59, ''), (915, ''), (884, ''), (328, ''), (388, ''), (415, ''), (426, ''), (470, ''), (491, ''), (492, ''), (597, ''), (645, ''), (762, ''), (786, ''), (407, ''), (457, ''), (618, ''), (651, ''), (704, ''), (293, ''), (752, ''), (541, ''), (191, ''), (768, ''), (424, ''), (433, ''), (497, ''), (535, ''), (652, ''), (688, ''), (749, ''), (811, ''), (946, ''), (916, ''), (350, ''), (502, ''), (504, ''), (538, ''), (547, ''), (609, ''), (670, ''), (743, ''), (116, ''), (253, ''), (272, ''), (473, ''), (537, ''), (14, ''), (75, ''), (125, ''), (210, ''), (240, ''), (289, ''), (308, ''), (430, ''), (436, ''), (510, ''), (568, ''), (690, ''), (120, ''), (160, ''), (381, ''), (469, ''), (556, ''), (518, ''), (524, ''), (532, ''), (570, ''), (599, ''), (611, ''), (617, ''), (624, ''), (679, ''), (761, ''), (779, ''), (402, '')]
+2023-08-16 23:47:49,609 - [WARNING] - wos.wos - (wos.py).wos_update_bib(207) - ERROR: more than 1 -> 115 :
+WOS:001027032000023 --> [(359, ''), (385, ''), (763, ''), (461, ''), (423, ''), (783, ''), (167, ''), (654, ''), (12, ''), (223, ''), (814, ''), (907, ''), (592, ''), (401, ''), (498, ''), (738, ''), (639, ''), (700, ''), (908, ''), (594, ''), (403, ''), (604, ''), (467, ''), (495, ''), (917, ''), (631, ''), (653, ''), (228, ''), (913, ''), (227, ''), (914, ''), (147, ''), (188, ''), (203, ''), (664, ''), (758, ''), (759, ''), (817, ''), (778, ''), (59, ''), (915, ''), (884, ''), (328, ''), (388, ''), (415, ''), (426, ''), (470, ''), (491, ''), (492, ''), (597, ''), (645, ''), (762, ''), (786, ''), (407, ''), (457, ''), (618, ''), (651, ''), (704, ''), (293, ''), (752, ''), (541, ''), (191, ''), (768, ''), (424, ''), (433, ''), (497, ''), (535, ''), (652, ''), (688, ''), (749, ''), (811, ''), (946, ''), (916, ''), (350, ''), (502, ''), (504, ''), (538, ''), (547, ''), (609, ''), (670, ''), (743, ''), (116, ''), (253, ''), (272, ''), (473, ''), (537, ''), (14, ''), (75, ''), (125, ''), (210, ''), (240, ''), (289, ''), (308, ''), (430, ''), (436, ''), (510, ''), (568, ''), (690, ''), (120, ''), (160, ''), (381, ''), (469, ''), (556, ''), (518, ''), (524, ''), (532, ''), (570, ''), (599, ''), (611, ''), (617, ''), (624, ''), (679, ''), (761, ''), (779, ''), (402, '')]
+2023-08-17 10:20:28,524 - [WARNING] - wos.wos - (wos.py).wos_update_bib(207) - ERROR: more than 1 -> 115 :
+WOS:001027032000023 --> [(359, ''), (385, ''), (763, ''), (461, ''), (423, ''), (783, ''), (167, ''), (654, ''), (12, ''), (223, ''), (814, ''), (907, ''), (592, ''), (401, ''), (498, ''), (738, ''), (639, ''), (700, ''), (908, ''), (594, ''), (403, ''), (604, ''), (467, ''), (495, ''), (917, ''), (631, ''), (653, ''), (228, ''), (913, ''), (227, ''), (914, ''), (147, ''), (188, ''), (203, ''), (664, ''), (758, ''), (759, ''), (817, ''), (778, ''), (59, ''), (915, ''), (884, ''), (328, ''), (388, ''), (415, ''), (426, ''), (470, ''), (491, ''), (492, ''), (597, ''), (645, ''), (762, ''), (786, ''), (407, ''), (457, ''), (618, ''), (651, ''), (704, ''), (293, ''), (752, ''), (541, ''), (191, ''), (768, ''), (424, ''), (433, ''), (497, ''), (535, ''), (652, ''), (688, ''), (749, ''), (811, ''), (946, ''), (916, ''), (350, ''), (502, ''), (504, ''), (538, ''), (547, ''), (609, ''), (670, ''), (743, ''), (116, ''), (253, ''), (272, ''), (473, ''), (537, ''), (14, ''), (75, ''), (125, ''), (210, ''), (240, ''), (289, ''), (308, ''), (430, ''), (436, ''), (510, ''), (568, ''), (690, ''), (120, ''), (160, ''), (381, ''), (469, ''), (556, ''), (518, ''), (524, ''), (532, ''), (570, ''), (599, ''), (611, ''), (617, ''), (624, ''), (679, ''), (761, ''), (779, ''), (402, '')]
+2023-08-17 10:24:36,135 - [WARNING] - wos.wos - (wos.py).wos_update_bib(207) - ERROR: more than 1 -> 115 :
+WOS:001027032000023 --> [(359, ''), (385, ''), (763, ''), (461, ''), (423, ''), (783, ''), (167, ''), (654, ''), (12, ''), (223, ''), (814, ''), (907, ''), (592, ''), (401, ''), (498, ''), (738, ''), (639, ''), (700, ''), (908, ''), (594, ''), (403, ''), (604, ''), (467, ''), (495, ''), (917, ''), (631, ''), (653, ''), (228, ''), (913, ''), (227, ''), (914, ''), (147, ''), (188, ''), (203, ''), (664, ''), (758, ''), (759, ''), (817, ''), (778, ''), (59, ''), (915, ''), (884, ''), (328, ''), (388, ''), (415, ''), (426, ''), (470, ''), (491, ''), (492, ''), (597, ''), (645, ''), (762, ''), (786, ''), (407, ''), (457, ''), (618, ''), (651, ''), (704, ''), (293, ''), (752, ''), (541, ''), (191, ''), (768, ''), (424, ''), (433, ''), (497, ''), (535, ''), (652, ''), (688, ''), (749, ''), (811, ''), (946, ''), (916, ''), (350, ''), (502, ''), (504, ''), (538, ''), (547, ''), (609, ''), (670, ''), (743, ''), (116, ''), (253, ''), (272, ''), (473, ''), (537, ''), (14, ''), (75, ''), (125, ''), (210, ''), (240, ''), (289, ''), (308, ''), (430, ''), (436, ''), (510, ''), (568, ''), (690, ''), (120, ''), (160, ''), (381, ''), (469, ''), (556, ''), (518, ''), (524, ''), (532, ''), (570, ''), (599, ''), (611, ''), (617, ''), (624, ''), (679, ''), (761, ''), (779, ''), (402, '')]
+2023-08-17 10:30:01,273 - [WARNING] - wos.wos - (wos.py).wos_update_bib(207) - ERROR: more than 1 -> 115 :
+WOS:001027032000023 --> [(359, ''), (385, ''), (763, ''), (461, ''), (423, ''), (783, ''), (167, ''), (654, ''), (12, ''), (223, ''), (814, ''), (907, ''), (592, ''), (401, ''), (498, ''), (738, ''), (639, ''), (700, ''), (908, ''), (594, ''), (403, ''), (604, ''), (467, ''), (495, ''), (917, ''), (631, ''), (653, ''), (228, ''), (913, ''), (227, ''), (914, ''), (147, ''), (188, ''), (203, ''), (664, ''), (758, ''), (759, ''), (817, ''), (778, ''), (59, ''), (915, ''), (884, ''), (328, ''), (388, ''), (415, ''), (426, ''), (470, ''), (491, ''), (492, ''), (597, ''), (645, ''), (762, ''), (786, ''), (407, ''), (457, ''), (618, ''), (651, ''), (704, ''), (293, ''), (752, ''), (541, ''), (191, ''), (768, ''), (424, ''), (433, ''), (497, ''), (535, ''), (652, ''), (688, ''), (749, ''), (811, ''), (946, ''), (916, ''), (350, ''), (502, ''), (504, ''), (538, ''), (547, ''), (609, ''), (670, ''), (743, ''), (116, ''), (253, ''), (272, ''), (473, ''), (537, ''), (14, ''), (75, ''), (125, ''), (210, ''), (240, ''), (289, ''), (308, ''), (430, ''), (436, ''), (510, ''), (568, ''), (690, ''), (120, ''), (160, ''), (381, ''), (469, ''), (556, ''), (518, ''), (524, ''), (532, ''), (570, ''), (599, ''), (611, ''), (617, ''), (624, ''), (679, ''), (761, ''), (779, ''), (402, '')]
+2023-08-17 10:31:32,909 - [WARNING] - wos.wos - (wos.py).wos_update_bib(207) - ERROR: more than 1 -> 115 :
+WOS:001027032000023 --> [(359, ''), (385, ''), (763, ''), (461, ''), (423, ''), (783, ''), (167, ''), (654, ''), (12, ''), (223, ''), (814, ''), (907, ''), (592, ''), (401, ''), (498, ''), (738, ''), (639, ''), (700, ''), (908, ''), (594, ''), (403, ''), (604, ''), (467, ''), (495, ''), (917, ''), (631, ''), (653, ''), (228, ''), (913, ''), (227, ''), (914, ''), (147, ''), (188, ''), (203, ''), (664, ''), (758, ''), (759, ''), (817, ''), (778, ''), (59, ''), (915, ''), (884, ''), (328, ''), (388, ''), (415, ''), (426, ''), (470, ''), (491, ''), (492, ''), (597, ''), (645, ''), (762, ''), (786, ''), (407, ''), (457, ''), (618, ''), (651, ''), (704, ''), (293, ''), (752, ''), (541, ''), (191, ''), (768, ''), (424, ''), (433, ''), (497, ''), (535, ''), (652, ''), (688, ''), (749, ''), (811, ''), (946, ''), (916, ''), (350, ''), (502, ''), (504, ''), (538, ''), (547, ''), (609, ''), (670, ''), (743, ''), (116, ''), (253, ''), (272, ''), (473, ''), (537, ''), (14, ''), (75, ''), (125, ''), (210, ''), (240, ''), (289, ''), (308, ''), (430, ''), (436, ''), (510, ''), (568, ''), (690, ''), (120, ''), (160, ''), (381, ''), (469, ''), (556, ''), (518, ''), (524, ''), (532, ''), (570, ''), (599, ''), (611, ''), (617, ''), (624, ''), (679, ''), (761, ''), (779, ''), (402, '')]
+2023-08-17 11:11:17,258 - [WARNING] - scopus.scopus - (scopus.py).update_database(272) - Предупреждение - данные уменьшены id=184:
+                                                                цитирования: 38165 -> 38045;  
+                                                                документов: 876 -> 876;
+                                                                    h-index: 92 -> 92 
+2023-08-17 11:19:19,184 - [WARNING] - scopus.scopus - (scopus.py).update_database(233) - URL недействителен  id_author=298; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57205887139'
+2023-08-17 11:33:03,241 - [WARNING] - scopus.scopus - (scopus.py).update_database(233) - URL недействителен  id_author=739; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57196074877'
+2023-08-17 12:09:24,917 - [WARNING] - scopus.scopus - (scopus.py).update_database(239) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-10-31 22:44:42,657 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=8:
+                                                                цитирования: 30 -> 29;  
+                                                                документов: 7 -> 7;
+                                                                    h-index: 3 -> 3 
+2023-10-31 22:46:50,814 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=89:
+                                                                цитирования: 12 -> 11;  
+                                                                документов: 12 -> 11;
+                                                                    h-index: 2 -> 2 
+2023-10-31 22:46:53,547 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=91:
+                                                                цитирования: 614 -> 618;  
+                                                                документов: 189 -> 187;
+                                                                    h-index: 11 -> 11 
+2023-10-31 22:46:56,274 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=92:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 2 -> 1;
+                                                                    h-index: 1 -> 0 
+2023-10-31 22:47:48,870 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=114:
+                                                                цитирования: 278 -> 279;  
+                                                                документов: 63 -> 62;
+                                                                    h-index: 11 -> 11 
+2023-10-31 22:50:01,541 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=184:
+                                                                цитирования: 38045 -> 38994;  
+                                                                документов: 876 -> 874;
+                                                                    h-index: 92 -> 93 
+2023-10-31 22:55:19,953 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=355:
+                                                                цитирования: 60 -> 56;  
+                                                                документов: 14 -> 10;
+                                                                    h-index: 4 -> 5 
+2023-10-31 22:56:14,853 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=376:
+                                                                цитирования: 47 -> 39;  
+                                                                документов: 12 -> 9;
+                                                                    h-index: 4 -> 4 
+2023-10-31 23:02:59,814 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=579:
+                                                                цитирования: 11 -> 9;  
+                                                                документов: 3 -> 2;
+                                                                    h-index: 2 -> 1 
+2023-10-31 23:06:30,224 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=691:
+                                                                цитирования: 30 -> 16;  
+                                                                документов: 9 -> 4;
+                                                                    h-index: 3 -> 1 
+2023-10-31 23:09:50,006 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=780:
+                                                                цитирования: 1 -> 0;  
+                                                                документов: 6 -> 1;
+                                                                    h-index: 1 -> 0 
+2023-10-31 23:11:29,711 - [WARNING] - scopus.scopus - (scopus.py).update_database(273) - Предупреждение - данные уменьшены id=821:
+                                                                цитирования: 39 -> 31;  
+                                                                документов: 13 -> 8;
+                                                                    h-index: 3 -> 2 
+2023-10-31 23:16:46,268 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-11-11 16:32:33,689 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-11-11 16:32:36,120 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-11-11 16:32:38,548 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=3; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=35298713200'
+2023-11-11 16:32:40,259 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=4; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6507006637'
+2023-11-11 16:32:42,662 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=5; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57215830321'
+2023-11-11 16:32:44,561 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=6; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=24483070600'
+2023-11-11 16:32:46,865 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=7; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=24483001300'
+2023-11-11 16:32:48,912 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=8; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57188762344'
+2023-11-11 16:32:50,852 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=9; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=9532612800'
+2023-11-11 16:32:52,949 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=10; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=54416868900'
+2023-11-11 16:32:54,794 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=11; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57220195350'
+2023-11-11 16:32:56,857 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=13; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=8373554700'
+2023-11-11 16:32:59,079 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=16; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=36633903200'
+2023-11-11 16:33:01,466 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=17; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57208344824'
+2023-11-11 16:33:03,319 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=20; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57224184250'
+2023-11-11 16:33:05,434 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=21; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57201346145'
+2023-11-11 16:33:07,648 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=23; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=36683068200'
+2023-11-11 16:33:08,953 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=24; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57189391408'
+2023-11-11 16:33:11,555 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=28; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=27867503300'
+2023-11-11 16:33:13,966 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=30; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=24482907700'
+2023-11-11 16:33:15,537 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=32; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57190427154'
+2023-11-11 16:33:17,872 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=34; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=15833942400'
+2023-11-11 16:33:20,064 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=35; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57221227175'
+2023-11-11 16:33:22,614 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=37; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57189329509'
+2023-11-11 16:33:24,473 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=38; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6505677339'
+2023-11-11 16:33:26,010 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=39; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57204555787'
+2023-11-11 16:33:28,685 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=40; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57210063511'
+2023-11-11 16:43:53,568 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-11-11 16:43:55,256 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-11-11 16:47:05,329 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-11-11 16:47:06,804 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-11-11 16:47:38,747 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-11-12 12:44:43,556 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-11-12 12:44:46,053 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=2; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6701660322'
+2023-11-12 12:44:48,567 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=3; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=35298713200'
+2023-11-12 12:44:49,891 - [WARNING] - scopus.scopus - (scopus.py).update_database(240) - Страница не загружена: id_author=4; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=6507006637'
+2023-11-12 13:35:55,995 - [WARNING] - scopus.scopus - (scopus.py).update_database(249) - Страница не загружена: id_author=1; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=57200986251'
+2023-11-12 14:11:07,192 - [WARNING] - scopus.scopus - (scopus.py).update_database(256) - Страница не загружена: id_author=944; URL---> 'https://www.scopus.com/authid/detail.uri?authorId=1234567890'
+2023-12-10 22:21:55,793 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=69; ID---> '57216435696'
+2023-12-10 22:22:56,386 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=133; ID---> '57215831724'
+2023-12-10 22:23:18,945 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=149; ID---> '56440231900'
+2023-12-10 22:25:18,253 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=270; ID---> '57201720724'
+2023-12-10 22:30:55,031 - [WARNING] - scopus.scopus - (scopus.py).update_database(306) - Предупреждение - данные уменьшены id=588:
+                                                            цитирования: 16 -> 16;  
+                                                            документов: 6 -> 5;
+                                                                h-index: 3 -> 3 
+2023-12-10 22:31:27,877 - [WARNING] - scopus.scopus - (scopus.py).update_database(306) - Предупреждение - данные уменьшены id=629:
+                                                            цитирования: 0 -> 0;  
+                                                            документов: 5 -> 4;
+                                                                h-index: 0 -> 0 
+2023-12-10 22:32:40,390 - [WARNING] - scopus.scopus - (scopus.py).update_database(306) - Предупреждение - данные уменьшены id=698:
+                                                            цитирования: 246 -> 249;  
+                                                            документов: 51 -> 50;
+                                                                h-index: 7 -> 7 
+2023-12-10 22:34:12,896 - [WARNING] - scopus.scopus - (scopus.py).update_database(306) - Предупреждение - данные уменьшены id=780:
+                                                            цитирования: 0 -> 0;  
+                                                            документов: 2 -> 1;
+                                                                h-index: 0 -> 0 
+2023-12-10 22:34:15,823 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=782; ID---> '57200139266'
+2023-12-10 22:34:46,298 - [WARNING] - scopus.scopus - (scopus.py).update_database(306) - Предупреждение - данные уменьшены id=806:
+                                                            цитирования: 35 -> 35;  
+                                                            документов: 19 -> 18;
+                                                                h-index: 4 -> 4 
+2023-12-10 22:37:27,053 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=942; ID---> '1111111111'
+2023-12-10 22:37:29,915 - [WARNING] - scopus.scopus - (scopus.py).update_database(250) - scopus_id недействителен  id_author=944; ID---> '1234567890'

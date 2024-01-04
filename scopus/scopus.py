@@ -30,6 +30,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
+from .elseveir_read_metrics import process_record, set_config_elsevir
+
 
 from chromedriver_py import binary_path # this will get you the path variable
 
@@ -199,6 +201,34 @@ def progress_update():
     json_data = json.dumps(scUpdateDocCitH)
     return Response(json_data, status=200, mimetype='application/json')
 
+# обновление метрик одного автора
+@scopus.route('/update_metric', methods=['GET','POST'])
+def update_metric():
+    data = {}
+    if 'scopus_id' in request.json:
+        scopus_id = request.json['scopus_id'].strip()
+        author_id = request.json['author_id'].strip()
+    else:
+        data['err'] = 'Нет scopus_id в запросе'
+    if scopus_id:
+        client = set_config_elsevir()
+        read_author , metric = process_record(client, scopus_id)
+        if read_author:
+            data = {'doc': metric['coredata']['document-count'],
+                      'note': metric['coredata']['citation-count'],
+                       'h_index': metric['h-index']
+                       }  
+            try:        
+                sc_dbase.update_cit_doc_hIndex(data,(author_id, scopus_id))
+                data['err'] = None
+            except:
+                data['err'] = 'Ошибка записи в БД'
+        else:
+            data['err'] = 'Ошибка чтения из Elsevir.  scopus_id=' + scopus_id
+    else:
+        data['err'] = 'Scopus_id отсутствует'
+    
+    return Response(json.dumps(data), status=200, mimetype='application/json')
 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -214,6 +244,7 @@ def update_database(app):
         sc_dbase = SC_Dbase(get_db())
 
         list_scopus_id=sc_dbase.get_list_scopusID()
+        client = set_config_elsevir()
 
         content={}
         content['title']='Scopus - Update'
@@ -225,8 +256,8 @@ def update_database(app):
     # ver. == 4.8.0
         
     # ver. == 4.15.2
-        svc = webdriver.ChromeService(executable_path=binary_path)
-        driver = webdriver.Chrome(service=svc)
+        # svc = webdriver.ChromeService(executable_path=binary_path) #изменения 10.12.23 
+        # driver = webdriver.Chrome(service=svc)                     #изменения 10.12.23 
 
         # driver = webdriver.Chrome()
     # ver. == 4.15.2
@@ -241,64 +272,79 @@ def update_database(app):
 
         for count_i,item in enumerate(list_scopus_id):
             item=list(item)
-            url=f'https://www.scopus.com/authid/detail.uri?authorId={item[1]}' 
-            driver.implicitly_wait(20)  # Установить 20 секунд времени ожидания
-            try:
-                driver.get(url)
-            except:
-                print (f"URL недействителен: {url}")
-                logger.warning(f"URL недействителен  id_author={item[0]}; URL---> '{url}'")
-                continue  
-            try:
-                WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,'authorDetailsPage'))) 
-            except:
-                print (f"Страница не загружена: {url}")
-                logger.warning(f"Страница не загружена: id_author={item[0]}; URL---> '{url}'")
-                continue          
-            try:
-                #
-                s1_citir=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-citations-count"] span[data-testid="unclickable-count"]')            
-                author={}
-                if s1_citir:
-                    if item[2] == 'None': item[2] ='0'
-                    author['note'] = s1_citir.text.replace(' ','')
-                s1_doc=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-document-count"] span[data-testid="unclickable-count"]')            
-                if s1_doc:
-                    if item[3] == 'None': item[3] ='0'
-                    author['doc'] = s1_doc.text.replace(' ','')
+            read_author , metric = process_record(client, item[1])
+            if not read_author:
+                print (f"scopus_id недействителен: {item[1]}")
+                logger.warning(f"scopus_id недействителен  id_author={item[0]}; ID---> '{item[1]}'")
+                continue
+            author = {'doc': metric['coredata']['document-count'],
+                      'note': metric['coredata']['citation-count'],
+                       'h_index': metric['h-index']
+                       }    
+            scUpdateDocCitH['id_current'] = item[0]
+            scUpdateDocCitH['curent'] = count_i
+            scUpdateDocCitH['data'] = author
 
-                s1_h_index=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-h-index"] span[data-testid="unclickable-count"]')            
-                if s1_h_index:
-                    if item[4] == 'None': item[4] ='0'
-                    author['h_index']=s1_h_index.text.replace(' ','')
 
-                scUpdateDocCitH['id_current']=item[0]
-                scUpdateDocCitH['curent']=count_i
-                scUpdateDocCitH['data']=author
-                    
-                    # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    # emit('update_progress', {'progress': int((count_i*100)/len(list_scopus_id)),'textProgress':
-                    #                          f"id={item[0]}: документов:{author['doc']} цитирования:{author['note']} h-index:{author['h_index']}"}, namespace='/update_database')
-                    # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    
-                if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4].split(".")[0])):
-                        str_warning=f"""Предупреждение - данные уменьшены id={item[0]}:
-                                                                цитирования: {item[3]} -> {author['note']};  
-                                                                документов: {item[2]} -> {author['doc']};
-                                                                    h-index: {item[4]} -> {author['h_index']} """
-                        logger.warning(str_warning)
-                        print (str_warning)
-                elif (int(author['note']) == int(item[3])) and (int(author['doc']) == int(item[2])) and (int(author['h_index']) == int(item[4].split('.')[0])):
-                        continue
+            # url=f'https://www.scopus.com/authid/detail.uri?authorId={item[1]}' 
+            # driver.implicitly_wait(20)  # Установить 20 секунд времени ожидания
+            # try:
+            #     driver.get(url)
+            # except:
+            #     print (f"URL недействителен: {url}")
+            #     logger.warning(f"URL недействителен  id_author={item[0]}; URL---> '{url}'")
+            #     continue  
+            # try:
+            #     WebDriverWait(driver,20).until(EC.visibility_of_element_located((By.ID,'authorDetailsPage'))) 
+            # except:
+            #     print (f"Страница не загружена: {url}")
+            #     logger.warning(f"Страница не загружена: id_author={item[0]}; URL---> '{url}'")
+            #     continue          
+            # try:
+            #     #
+            #     s1_citir=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-citations-count"] span[data-testid="unclickable-count"]')            
+            #     author={}
+            #     if s1_citir:
+            #         if item[2] == 'None': item[2] ='0'
+            #         author['note'] = s1_citir.text.replace(' ','')
+            #     s1_doc=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-document-count"] span[data-testid="unclickable-count"]')            
+            #     if s1_doc:
+            #         if item[3] == 'None': item[3] ='0'
+            #         author['doc'] = s1_doc.text.replace(' ','')
+
+            #     s1_h_index=driver.find_element(By.CSS_SELECTOR,'div[data-testid="metrics-section-h-index"] span[data-testid="unclickable-count"]')            
+            #     if s1_h_index:
+            #         if item[4] == 'None': item[4] ='0'
+            #         author['h_index']=s1_h_index.text.replace(' ','')
+
+            # scUpdateDocCitH['id_current']=item[0]
+            # scUpdateDocCitH['curent']=count_i
+            # scUpdateDocCitH['data']=author
+                
+                # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+                # emit('update_progress', {'progress': int((count_i*100)/len(list_scopus_id)),'textProgress':
+                #                          f"id={item[0]}: документов:{author['doc']} цитирования:{author['note']} h-index:{author['h_index']}"}, namespace='/update_database')
+                # # !!!!!!!!!!!!!!!!!!!!!!!!!!!
+                
+            if (int(author['note']) < int(item[3])) or (int(author['doc']) < int(item[2])) or (int(author['h_index']) < int(item[4].split(".")[0])):
+                    str_warning=f"""Предупреждение - данные уменьшены id={item[0]}:
+                                                            цитирования: {item[3]} -> {author['note']};  
+                                                            документов: {item[2]} -> {author['doc']};
+                                                                h-index: {item[4]} -> {author['h_index']} """
+                    logger.warning(str_warning)
+                    print (str_warning)
+            elif (int(author['note']) == int(item[3])) and (int(author['doc']) == int(item[2])) and (int(author['h_index']) == int(item[4].split('.')[0])):
+                    continue
+            try:        
                 sc_dbase = SC_Dbase(get_db())
                 sc_dbase.update_cit_doc_hIndex(author,item)
             except:  
-                logger.warning(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
-                print(f"Запись не обновлена: id_author={item[0]}; URL---> '{url}'")
+                logger.warning(f"Ошибка записи в бд: id_author={item[0]}; scopus_id---> '{item[1]}'")
+                print(f"Ошибка записи в бд: id_author={item[0]}; scopus_id---> '{item[1]}'")
                 continue             
-        driver.close()
-        scUpdateDocCitH['start']=False
-        # flash("Вы успешно обновили данные авторов БД Scopus", "success")
+    # driver.close()
+    scUpdateDocCitH['start']=False
+    # flash("Вы успешно обновили данные авторов БД Scopus", "success")
 
 @scopus.route('/sc_update_DocCitH')
 # @socketio.on('update_database',namespace='/update_database')

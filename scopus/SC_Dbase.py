@@ -50,7 +50,7 @@ class SC_Dbase(FDataBase):
                         where id_scopus = id_sc_autor and works  
                         order by "id_Sciencer" """
     
-    __SQL_full_data_green_table = """select tsh."id_Sciencer" id,tsh."FIO" ,tsh."ORCID_ID" ,ais.id_scopus, ais.doc ,ais.note ,ais.h_ind ,wos_sum.doc,wos_sum.sum_note,wos_sum.h_ind, foo1.dep ,works, tsh.googlescholar,name_l  from public."Table_Sсience_HNURE" tsh 
+    __SQL_full_data_green_table = """select tsh."id_Sciencer" id,tsh."FIO" ,tsh."ORCID_ID" ,ais.id_scopus, ais.doc ,ais.note ,ais.h_ind ,wos_sum.doc,wos_sum.sum_note,wos_sum.h_ind, foo1.dep ,works, tsh.googlescholar,name_l, tsh."Researcher_ID"  from public."Table_Sсience_HNURE" tsh 
                                 full join (select aid.id_autors, array_to_string(array_agg(aid.name_department),'; ') dep from  public.autors_in_departments aid 
                                 GROUP by aid.id_autors) as foo1
                                 on (tsh."id_Sciencer"=foo1.id_autors)

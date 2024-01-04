@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='fonts/font-awesome.min.css') }}">
 </head>
 {% macro table_table(tbl,tbl_data) %}
-        <table class="table 
+        <table id='{{ tbl[4] }}' class="table 
         table-striped-columns
         table-hover	
         table-sm 

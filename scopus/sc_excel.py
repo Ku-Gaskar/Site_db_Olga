@@ -223,12 +223,12 @@ class ScopusExportExcel(ExportExcel):
 
     def create_green_table(self,records):
         self.ws.title ='Экспорт_базы_данных'
-        widthColumn=(8,35,20,14,8,11,9,8,11,9,7,12,7,18,9,7,22,100)
+        widthColumn=(8,35,20,14,8,11,9,8,11,9,7,12,7,18,9,7,22,100,18)
         list_range_merge=('A1:A2','B1:B2','C1:C2','D1:D2','E1:G1','H1:J1','K1:K2','L1:L2','M1:M2','N1:P1','Q1:Q2','R1:R2')
         title_1=('Ідентифікатор співробітника','Прізвище ім`я та по батькові','ORCID ID','ID Scopus','Scopus','','',
-                 'Web of Science','','','ElАr KhNURE','Каф','Раб','Googlescholar','','','Профіль на NURE.UA','NameLat')
+                 'Web of Science','','','ElАr KhNURE','Каф','Раб','Googlescholar','','','Профіль на NURE.UA','NameLat','Researcher_ID')
         title_2=('','','','','документи','цитування','індекс Гірша','документи','цитування','індекс Гірша',
-                 '','','','ID','Кількість цитувань','H-Index','','')
+                 '','','','ID','Кількість цитувань','H-Index','','','')
              
         self.set_Width(widthColumn)
         for range_merge in list_range_merge:

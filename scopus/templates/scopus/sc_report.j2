@@ -190,5 +190,84 @@ function swithTable(){
     document.getElementById('sc_buttons_ok').click();
   };
 
+//---------------------------------------------------------
+// организация обновления метрик
+//---------------------------------------------------------
+document.addEventListener('DOMContentLoaded', function () {
+  // Получаем ссылку на таблицу
+  var authorsTable = document.getElementById('author');
+
+  // Проверяем, существует ли таблица
+  if (authorsTable) {
+    // Получаем все строки таблицы, кроме заголовка
+    var rows = authorsTable.getElementsByTagName('tr');
+
+    // Начинаем с 1, чтобы пропустить заголовок
+    for (var i = 1; i < rows.length; i++) {
+      // Получаем ячейку с ID Автора в текущей строке
+      var row = rows[i]
+      var cell = rows[i].getElementsByTagName('td')[0];
+//      var cell2 = rows[i].getElementsByTagName('td')[3];
+      // Получаем значение ID Автора
+      var authorId = cell.textContent;// || cell.innerText;
+//      var scopus_id = cell2.textContent;// || cell2.innerText;
+
+      // Создаем новый элемент "a" (ссылка)
+      var link = document.createElement('a');
+      //link.href = '#'; // Можно установить реальный URL
+      link.textContent = authorId;
+      link.classList.add('text-decoration-none');  
+
+      // Добавляем всплывающую подсказку
+      link.setAttribute('data-tooltip', 'Кликните для обновления метрик автора id='+ authorId);
+
+      // Добавляем обработчик события click для вызова функции с параметром authorId
+      link.addEventListener('click', function (obj) {
+        return function () {
+          updateMetric(obj);
+        };
+      }(row));
+
+      // Очищаем содержимое ячейки
+      cell.innerHTML = '';
+
+      // Вставляем ссылку в ячейку
+      cell.appendChild(link);
+    }
+  }
+});
+
+// Ваша функция, которую нужно вызывать при клике на ID Автора
+function updateMetric(row) {
+  // Ваш код обработки
+  //alert('Вы кликнули на автора с ID ' + authorId + '\n' + 'Scopus_id=' + row );
+  console.log(row);
+  var list_cell = row.getElementsByTagName('td');
+
+  fetch('./update_metric',{
+        method : 'post',
+        body:   JSON.stringify({
+                'scopus_id': list_cell[3].textContent,
+                'author_id': list_cell[0].textContent
+              }),
+        headers: {'content-type': 'application/json'}
+      })
+      .then(response=>{
+        if (!response.ok){
+          throw new Error('Network response was not ok');
+        }
+        return response.json()}).then(data=>{
+        if (data['err']){
+          alert(data.err);
+        }
+        else{
+          alert('Успех! scopus_id='+ list_cell[3].textContent.replace(/[\s]+/g,'') + '\n   Док=' + data.doc + ';  Цитирование=' + data.note + ';  h-index=' + data.h_index );
+          list_cell[4].innerHTML = data.doc;
+          list_cell[5].innerHTML = data.note; 
+          list_cell[6].innerHTML = data.h_index; 
+        }
+//          console.log(data);
+      })
+    }; 
 </script> 
 {% endblock main %}

@@ -125,3 +125,31 @@ th, .ku-item-center {
     pointer-events: none;
     text-decoration: none;
   }  
+
+  [data-tooltip] {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  [data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    top:-40px;  /* -25px;*/
+    left: -30px;
+    width: max-content;
+    text-align: center;
+    background-color: beige;
+    color: #270d83;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #270d83;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  [data-tooltip]:hover:before {
+    opacity: 1;
+    visibility: visible;
+  }
+  
